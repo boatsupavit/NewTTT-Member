@@ -1,0 +1,187 @@
+.abs,
+h2:after,
+.cards .card figcaption,
+.cards .card:after {
+  position: absolute;
+}
+.rel,
+h2,
+h2 strong,
+.cards .card {
+  position: relative;
+}
+.fix {
+  position: fixed;
+}
+.dfix {
+  display: inline;
+}
+.dib {
+  display: inline-block;
+}
+.db {
+  display: block;
+}
+.dn {
+  display: none;
+}
+.df,
+.cards {
+  display: flex;
+}
+.dif {
+  display: inline-flex;
+}
+.dg {
+  display: grid;
+}
+.dig {
+  display: inline-grid;
+}
+.vm,
+h2,
+h2 strong,
+h2 span {
+  vertical-align: middle;
+}
+.wrapper-game-list {
+  padding: 10px;
+  padding-top: 0;
+}
+h2 {
+  font-size: small;
+  padding: 5px;
+  padding-left: 25px;
+  color: #ccc;
+  margin: 0;
+}
+h2 strong {
+  z-index: 2;
+  background: #24282f;
+  padding: 4px 8px;
+}
+h2 span {
+  font-size: 0.7em;
+  color: #aaa;
+  margin-left: 5px;
+}
+h2:after {
+  content: '';
+  z-index: 1;
+  bottom: 50%;
+  margin-bottom: -2px;
+  height: 2px;
+  left: 0;
+  right: 0;
+  background: #373d47;
+}
+.cards {
+  flex-flow: row wrap;
+}
+.cards .card {
+  margin: 5px;
+  /* width: 180px; */
+  /* height: 270px; */
+  /* width: 200px; */
+  /* height: 110px; */
+  width: 110px;
+  height: 70px;
+  overflow: hidden;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.8);
+  transform-origin: center top;
+  transform-style: preserve-3d;
+  transform: translateZ(0);
+  transition: 0.3s;
+}
+.cards .card img {
+  width: 100%;
+  min-height: 100%;
+}
+.cards .card figcaption {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 20px;
+  padding-bottom: 10px;
+  font-size: 12px;
+  background: none;
+  color: #fff;
+  transform: translateY(100%);
+  transition: 0.3s;
+  background: linear-gradient(
+    to top,
+    transparent,
+    rgb(17, 17, 17) 0%,
+    rgba(133, 133, 133, 0.5)
+  );
+}
+.cards .card:after {
+  content: '';
+  z-index: 10;
+  width: 2100%;
+  height: 100%;
+  top: -90%;
+  left: -20px;
+  opacity: 0.1;
+  transform: rotate(45deg);
+  background: linear-gradient(
+    to top,
+    transparent,
+    #fff 15%,
+    rgba(255, 255, 255, 0.5)
+  );
+  transition: 0.3s;
+}
+.cards .card:hover,
+.cards .card:focus,
+.cards .card:active {
+  box-shadow: 0 8px 3px rgba(0, 0, 0, 0.6);
+  transform: translateY(-3px) scale(1.05) rotateX(15deg);
+}
+.cards .card:hover figcaption,
+.cards .card:focus figcaption,
+.cards .card:active figcaption {
+  transform: none;
+}
+.cards .card:hover:after,
+.cards .card:focus:after,
+.cards .card:active:after {
+  transform: rotate(25deg);
+  top: -40%;
+  opacity: 0.15;
+}
+
+@media (min-width: 540px) {
+	.cards .card {
+		margin: 10px;
+		width: 170px;
+		height: 110px;
+	  }
+	  h2 {
+		font-size: x-large;
+	  }
+}
+
+@media (min-width: 960px) {
+  .cards .card {
+    margin: 10px;
+    width: 200px;
+    height: 110px;
+  }
+  h2 {
+	font-size: x-large;
+  }
+}
+
+#btn-back-to-top {
+  position: fixed;
+  bottom: 80px;
+  right: 60px;
+  display: none;
+}
+
+#navmenu {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+}

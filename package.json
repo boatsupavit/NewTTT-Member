@@ -1,0 +1,58 @@
+{
+  "name": "my-member",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@popperjs/core": "^2.11.5",
+    "@rushstack/eslint-patch": "^1.1.3",
+    "@vue/eslint-config-prettier": "^7.0.0",
+    "axios": "^0.27.2",
+    "bootstrap": "^5.1.3",
+    "bootstrap-icons": "^1.8.2",
+    "bootstrap-vue": "^2.22.0",
+    "bootstrap-vue-3": "^0.1.13",
+    "core-js": "^3.8.3",
+    "jquery": "^3.6.0",
+    "popper.js": "^1.16.1",
+    "sweetalert2": "^11.4.17",
+    "swiper": "^8.2.1",
+    "vue": "^3.2.33",
+    "vue-awesome-swiper": "^5.0.1",
+    "vue-router": "^4.0.3",
+    "vue3-marquee": "^3.0.3",
+    "vuex": "^4.0.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.12.16",
+    "@babel/eslint-parser": "^7.12.16",
+    "@vue/cli-plugin-babel": "~5.0.0",
+    "@vue/cli-plugin-eslint": "~5.0.0",
+    "@vue/cli-plugin-router": "~5.0.0",
+    "@vue/cli-plugin-vuex": "~5.0.0",
+    "@vue/cli-service": "~5.0.0",
+    "eslint": "^7.32.0",
+    "eslint-config-prettier": "^8.5.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-vue": "^8.7.1",
+    "prettier": "2.6.2",
+    "stylus": "^0.58.1",
+    "stylus-loader": "^7.0.0"
+  },
+  "description": "## Project setup ``` npm install ```",
+  "main": ".eslintrc.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sodiam-app/ttt-member.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sodiam-app/ttt-member/issues"
+  },
+  "homepage": "https://github.com/sodiam-app/ttt-member#readme"
+}

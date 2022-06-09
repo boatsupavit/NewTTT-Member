@@ -1,0 +1,231 @@
+<template>
+  <div>
+    <div class="alert alert-dark py-1 mb-1 bg-opacity-50 bg-dark text-white">
+      <div class="d-inline-flex w-100">
+        <i class="bi bi-megaphone"></i>
+        <Vue3Marquee :pauseOnHover="true" :duration="20" class="ms-1">
+          <span>
+            นี่คือตัวอย่างอักษรเลื่อน
+            อักษรเลื่อนนี้จะสามารถใส่ตัวอักษรได้ไม่เกิน 300 ตัวอักษร /
+            นี่คือตัวอย่างอักษรเลื่อน
+            อักษรเลื่อนนี้จะสามารถใส่ตัวอักษรได้ไม่เกิน 300 ตัวอักษร
+          </span>
+        </Vue3Marquee>
+      </div>
+    </div>
+    <div class="credit-content pt-3 pb-2 px-3">
+      <div class="container-sm text-white">
+        <div class="row">
+          <div class="col">
+            <div class="profile-badge-new position-relative">
+              <div
+                class="txt-number-phone rounded-pill bg-white shadow d-flex align-items-center"
+              >
+                {{ this.$store.getters.username }}
+              </div>
+              <div class="member-front shadow">
+                <img
+                  src="./../assets/images/avatars/staff/04.png"
+                  style="width: 3em"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <hr class="mb-2" />
+        <div class="row">
+          <div class="col">
+            <span>สร้างบัญชีเมื่อวันที่ : </span>
+            <span>{{ this.$store.getters.createdate }}</span>
+          </div>
+          <div class="col text-end position-relative">
+            <span class="fs-5 me-2">ยอดเงิน</span>
+            <div
+              class="ms-auto rounded-pill bg-white text-dark px-2"
+              style="width: fit-content; font-size: 2.2em; min-width: 150px"
+            >
+              <strong>{{ this.$store.getters.credit }}</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="member-menubox p-3 mt-2">
+      <div class="container">
+        <div class="row row-cols-3 row-cols-sm-2 row-cols-md-6">
+          <div class="col d-grid gap-2 p-1">
+            <button type="button" class="btn btn-outline-secondary btn-menu">
+              <i class="bi bi-wallet2" style="font-size: 2rem"></i>
+              <p class="m-0"><strong>ฝาก</strong></p>
+            </button>
+          </div>
+          <div class="col d-grid gap-2 p-1">
+            <button type="button" class="btn btn-outline-secondary btn-menu">
+              <i class="bi bi-cash-coin" style="font-size: 2rem"></i>
+              <p class="m-0"><strong>ถอน</strong></p>
+            </button>
+          </div>
+          <div class="col d-grid gap-2 p-1">
+            <button type="button" class="btn btn-outline-secondary btn-menu">
+              <i class="bi bi-card-heading" style="font-size: 2rem"></i>
+              <p class="m-0"><strong>ประวัติ</strong></p>
+            </button>
+          </div>
+          <div class="col d-grid gap-2 p-1">
+            <button type="button" class="btn btn-outline-secondary btn-menu">
+              <i class="bi bi-people-fill" style="font-size: 2rem"></i>
+              <p class="m-0"><strong>แนะนำ</strong></p>
+            </button>
+          </div>
+          <div class="col d-grid gap-2 p-1">
+            <button type="button" class="btn btn-outline-secondary btn-menu">
+              <i class="bi bi-qr-code-scan" style="font-size: 2rem"></i>
+              <p class="m-0"><strong>QR Code</strong></p>
+            </button>
+          </div>
+          <div class="col d-grid gap-2 p-1">
+            <button type="button" class="btn btn-outline-secondary btn-menu">
+              <i class="bi bi-joystick" style="font-size: 2rem"></i>
+              <p class="m-0"><strong>มินิเกมส์</strong></p>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- <div class="member-menubg p-3 mt-2">
+      <div class="container justify-content-center text-center">
+        <p class="h5 text-white">เกมส์ล่าสุด</p>
+        <LastGames />
+      </div>
+    </div> -->
+    <div class="member-menubg p-3 mt-2">
+      <div class="container justify-content-center">
+        <GameCard />
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import { Vue3Marquee } from 'vue3-marquee'
+import 'vue3-marquee/dist/style.css'
+
+import { imgBankSmoothSet as imgBank } from '@/assets/images/banking/th/smooth-corner'
+import { imgSocialMedia as imgSocial } from '@/assets/images/social'
+
+import GameCard from '@/components/GameType.vue'
+// import LastGames from '@/components/GameLasted.vue'
+import axios from 'axios'
+
+export default {
+  name: 'HomeView',
+  components: {
+    Vue3Marquee,
+    GameCard,
+    // LastGames,
+  },
+  data() {
+    return {
+      imgHallArray: [],
+    }
+  },
+  async mounted() {
+    this.importAll(
+      require.context('../assets/images/gameshall/', true, /\.png$/),
+    )
+    if (!!sessionStorage.getItem('token') == false) {
+      this.$router.push('/home')
+    }
+    this.$store.commit('setapiname', 11001)
+    this.$store.commit('setAPI')
+    const token = this.$store.getters.token
+    const headers = { Authorization: 'Bearer ' + token }
+    console.log(headers)
+    console.log(this.$store.getters.API)
+    await axios
+      .post(
+        this.$store.getters.API,
+        {},
+        {
+          headers,
+        },
+      )
+      .then((res) => {
+        console.log(res.data)
+        // ------------------------------------------------------------------------------//
+        this.$store.commit(
+          'setbkacc',
+          res.data.result.profile_mem.banking_account.bank_acct,
+        )
+        this.$store.commit(
+          'setbkname',
+          res.data.result.profile_mem.banking_account.bank_name,
+        )
+        // ------------------------------------------------------------------------------//
+        this.$store.commit(
+          'setphonenumber',
+          res.data.result.profile_mem.profile.tel,
+        )
+        this.$store.commit('setfname', res.data.result.profile_mem.profile.name)
+        this.$store.commit(
+          'setlname',
+          res.data.result.profile_mem.profile.surename,
+        )
+        this.$store.commit('setidline', res.data.result.profile_mem.line_id)
+        this.$store.commit(
+          'setcreatedate',
+          res.data.result.profile_mem.create_date,
+        )
+        this.$store.commit('setusername', res.data.result.profile_mem.username)
+        this.$store.commit('setcredit', res.data.result.profile_mem.PD.credit)
+      })
+      .catch((error) => {
+        console.error(error)
+      })
+  },
+
+  methods: {
+    importAll(r) {
+      r.keys().forEach((key) =>
+        this.imgHallArray.push({ pathLong: r(key), pathShort: key }),
+      )
+    },
+    setgametype(event) {
+      this.$store.commit('setgametype', event.target.id)
+    },
+    async startgamesport(event) {
+      this.$store.commit('preparevalue')
+      this.$store.commit('setapiname', 45004)
+      this.$store.commit('setAPI')
+      const token = this.$store.getters.token
+      const headers = { Authorization: 'Bearer ' + token }
+      console.log(this.$store.getters.token)
+      console.log(headers)
+      await axios
+        .post(
+          this.$store.getters.API,
+          {
+            tab: event.target.id,
+          },
+          {
+            headers,
+          },
+        )
+        .then((response) => {
+          console.log(response.data)
+          this.$store.commit('setgamelink', response.data.uri)
+          console.log(this.$store.getters.gamelink)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    },
+  },
+  setup() {
+    return {
+      imgBank,
+      imgSocial,
+    }
+  },
+}
+</script>
