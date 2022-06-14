@@ -6,7 +6,7 @@
     <hr />
     <div class="mb-2">
       <label for="phoneID" class="form-label mb-1"
-        >เบอร์โทรศัพท์ 0991678334 {{ this.$store.getters.phonenumber }}</label
+        >เบอร์โทรศัพท์ 8888 {{ this.$store.getters.phonenumber }}</label
       >
       <div class="input-group">
         <span class="input-group-text">
@@ -25,7 +25,7 @@
     </div>
     <div class="mb-2">
       <label for="pinID" class="form-label mb-1"
-        >PIN (รหัสลับ 4 ตัว) 123456 {{ this.$store.getters.pin }}</label
+        >PIN (รหัสลับ 4 ตัว) 8888 {{ this.$store.getters.pin }}</label
       >
       <div class="input-group">
         <span class="input-group-text">
@@ -36,8 +36,10 @@
           type="password"
           class="form-control"
           placeholder="XXXX"
+          maxlength="4"
           :value="this.$store.getters.pin"
           @input="SetPasswordValue"
+          @keydown.enter="login"
         />
       </div>
     </div>
@@ -67,6 +69,11 @@ export default {
     },
     SetPasswordValue(event) {
       this.$store.commit('setpin', event.target.value)
+    },
+    login() {
+      setTimeout(function () {
+        document.querySelector('#login').click()
+      }, 50)
     },
   },
 }

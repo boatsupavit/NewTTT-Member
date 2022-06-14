@@ -16,7 +16,14 @@
           <a id="slot" @click="setgametype" href="#">สล็อต</a>
         </li>
         <li class="menu">
-          <a id="casino" @click="setgametype" href="#">ไลฟ์คาสิโน</a>
+          <a
+            id="casino"
+            @click="setgametype"
+            href="#"
+            data-bs-toggle="modal"
+            data-bs-target="#modalspin"
+            >ไลฟ์คาสิโน</a
+          >
         </li>
         <li class="menu">
           <a id="Card" @click="setgametype" href="#">ไพ่</a>
@@ -146,6 +153,7 @@
     tabindex="-1"
     aria-labelledby="modalspin"
     aria-hidden="true"
+    @click="callmodal"
   >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-body">
@@ -185,7 +193,8 @@ export default {
     callmodal() {
       console.log('#')
       setTimeout(function () {
-        document.querySelector('#modalspin').modal('hide')
+        // document.querySelector('#modalspin').modal('hide')
+        this.document.querySelector('#modalspin').modal('hide')
         console.log('###')
       }, 2000)
       // document.querySelector('#modalspin').style.display = 'none'

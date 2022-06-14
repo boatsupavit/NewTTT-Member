@@ -290,6 +290,7 @@
             <div class="d-grid gap-2">
               <button
                 type="button"
+                id="login"
                 class="btn btn-warning"
                 data-bs-dismiss="modal"
                 @click="login"

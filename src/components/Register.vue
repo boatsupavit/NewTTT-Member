@@ -21,7 +21,7 @@
             </span>
             <input
               id="phoneID"
-              type="number"
+              type="text"
               maxlength="10"
               class="form-control"
               placeholder="เบอร์โทรศัพท์"
