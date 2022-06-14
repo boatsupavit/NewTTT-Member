@@ -2,11 +2,13 @@
   <div>
     <section class="hero-section">
       <div class="card1-grid">
-        <router-link
-          to="/member/games"
+        <a
           class="card1"
           id="Sports"
-          @click="setgametype"
+          @click="startgamesport"
+          data-bs-toggle="modal"
+          data-bs-target="#modalGameview"
+          href="#"
         >
           <div
             class="card1__background"
@@ -17,7 +19,7 @@
             <p class="card1__category" id="Sports">Sport</p>
             <h3 class="card1__heading" id="Sports">กีฬา</h3>
           </div>
-        </router-link>
+        </a>
         <router-link
           to="/member/games"
           class="card1"
@@ -98,12 +100,6 @@
             <h3 class="card1__heading" id="keno">คีโน่</h3>
           </div>
         </router-link>
-        <a class="card1">
-          <div class="card1__background"></div>
-          <div class="card1__content">
-            <h3 class="card1__heading">{{ this.$store.getters.gametype }}</h3>
-          </div>
-        </a>
       </div>
     </section>
   </div>
@@ -120,10 +116,12 @@ import content_fishing_1 from '@/assets/images/gamescard/content_fishing_1.png'
 import content_keno_1 from '@/assets/images/gamescard/content_keno_1.png'
 import content_slot_1 from '@/assets/images/gamescard/content_slot_1.png'
 import content_sport_1 from '@/assets/images/gamescard/content_sport_1.png'
+
 import axios from 'axios'
 
 export default {
   name: 'GameType',
+
   setup() {
     return {
       content_card_1: content_card_1,
@@ -145,7 +143,7 @@ export default {
       this.$store.commit('setAPI')
       const token = this.$store.getters.token
       const headers = { Authorization: 'Bearer ' + token }
-      console.log(this.$store.getters.token)
+      console.log(token)
       console.log(headers)
       await axios
         .post(

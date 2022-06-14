@@ -3,7 +3,7 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     token: sessionStorage.getItem('token'),
-    IP: '192.168.1.49',
+    IP: '192.168.1.50',
     apiname: '',
     API: '',
     phonenumber: '',
@@ -21,11 +21,12 @@ export default createStore({
     captcha: '',
     username: 'Anonymous',
     createdate: '-',
-    credit: '0.00',
-    gametype: 'Casino',
+    credit: '0',
+    gametype: '',
     gamelink: '',
     captchaID: '',
     imgcaptcha: '',
+    spin: true,
   },
   getters: {
     token: (state) => state.token,
@@ -38,8 +39,7 @@ export default createStore({
     bankNameth: (state) => state.bankNameth,
     bankid: (state) => state.bankid,
     bankaccount: (state) => state.bankaccount,
-    fname: (state) => state.fname,
-    lname: (state) => state.lname,
+    name: (state) => state.fname + '  ' + state.lname,
     chanel: (state) => state.chanel,
     idline: (state) => state.idline,
     captcha: (state) => state.captcha,
@@ -50,11 +50,13 @@ export default createStore({
     gamelink: (state) => state.gamelink,
     captchaID: (state) => state.captchaID,
     imgcaptcha: (state) => state.imgcaptcha,
+    spin: (state) => state.spin,
   },
   mutations: {
     preparevalue(state) {
       state.gamelink = ''
       state.gametype = ''
+      state.token = sessionStorage.getItem('token')
     },
     clearall(state) {
       state.phonenumber = ''
@@ -77,17 +79,14 @@ export default createStore({
       state.gamelink = ''
       state.captchaID = ''
     },
-    loginUser(state) {
-      state.isLoggedIn = true
-    },
-    logoutUser(state) {
-      state.isLoggedIn = false
-    },
     setphonenumber(state, phonenumber) {
       state.phonenumber = phonenumber
     },
     setpin(state, pin) {
       state.pin = pin
+    },
+    settoken(state, token) {
+      state.token = token
     },
     setbkname(state, bankName) {
       state.bankName = bankName

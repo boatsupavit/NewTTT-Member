@@ -10,10 +10,11 @@
     :options="swiperOption"
   >
     <swiper-slide id="tab1">
-      <br />
       <div class="container">
         <div class="mb-2">
-          <label for="phoneID" class="form-label mb-1">เบอร์โทรศัพท์</label>
+          <label for="phoneID" class="form-label mb-1 mt-4"
+            >เบอร์โทรศัพท์</label
+          >
           <div class="input-group">
             <span class="input-group-text">
               <i class="bi bi-phone-fill"></i>
@@ -21,9 +22,9 @@
             <input
               id="phoneID"
               type="number"
+              maxlength="10"
               class="form-control"
               placeholder="เบอร์โทรศัพท์"
-              maxlength="10"
               :value="this.$store.getters.phonenumber"
               @input="SetmobileNumberValue"
             />
@@ -59,7 +60,7 @@
             </span>
             <input
               id="pinID"
-              type="number"
+              type="text"
               class="form-control"
               placeholder="XXXX"
               maxlength="4"
@@ -72,9 +73,9 @@
           </span>
         </div>
         <br />
-        <div class="modal-footer px-4">
+        <!-- <div class="modal-footer px-4">
           <button type="button" class="btn btn-warning">Next</button>
-        </div>
+        </div> -->
       </div>
     </swiper-slide>
     <swiper-slide id="tab2">
@@ -146,10 +147,10 @@
           />
         </div>
         <br />
-        <div class="modal-footer px-4">
+        <!-- <div class="modal-footer px-4">
           <button type="button" class="btn btn-secondary">Back</button>
           <button type="button" class="btn btn-warning">Next</button>
-        </div>
+        </div> -->
       </div>
     </swiper-slide>
     <swiper-slide
@@ -224,7 +225,7 @@
         <br />
         <br />
         <div class="modal-footer px-4">
-          <button type="button" class="btn btn-secondary">Back</button>
+          <!-- <button type="button" class="btn btn-secondary">Back</button> -->
           <button
             type="button"
             class="btn btn-warning"
@@ -400,7 +401,7 @@ export default {
         this.$store.commit('setAPI')
         console.log(this.$store.getters.API)
         const body = {
-          agent_id: '62820fb1136bc3d37930e439',
+          agent_id: '629e381cb4839cabb5622da1',
           username: '',
           password: this.$store.getters.password,
           tel: this.$store.getters.phonenumber,

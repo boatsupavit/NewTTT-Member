@@ -76,9 +76,9 @@ body {
   transform: scale(1.05) translateZ(0);
 }
 
-.card1-grid:hover > .card1:not(:hover) .card1__background {
+/* .card1-grid:hover > .card1:not(:hover) .card1__background {
   filter: brightness(0.5) saturate(0) contrast(1.2) blur(20px);
-}
+} */
 
 .card1__content {
   left: 0;

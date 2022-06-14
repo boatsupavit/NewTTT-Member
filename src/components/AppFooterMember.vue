@@ -13,7 +13,7 @@
                 <span class="text">หน้าแรก</span>
               </router-link>
             </li>
-            <li class="list">
+            <li class="list" data-bs-toggle="modal" data-bs-target="#modalsoon">
               <a href="#">
                 <span class="icon">
                   <i class="bi bi-card-heading"></i>
@@ -21,7 +21,7 @@
                 <span class="text">ประวัติ</span>
               </a>
             </li>
-            <li class="list">
+            <li class="list" data-bs-toggle="modal" data-bs-target="#modalsoon">
               <a href="#">
                 <span class="icon">
                   <i class="bi bi-person-badge"></i>
@@ -29,7 +29,7 @@
                 <span class="text">ข้อมูลส่วนตัว</span>
               </a>
             </li>
-            <li class="list">
+            <li class="list" data-bs-toggle="modal" data-bs-target="#modalsoon">
               <a href="#">
                 <span class="icon">
                   <i class="bi bi-gift-fill"></i>
@@ -37,7 +37,7 @@
                 <span class="text">โปรโมชั่น</span>
               </a>
             </li>
-            <li class="list d-none d-sm-block">
+            <li class="list">
               <a href="#">
                 <span class="icon">
                   <i class="bi bi-telephone-forward-fill"></i>

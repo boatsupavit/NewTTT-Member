@@ -14,65 +14,244 @@
             style="margin-top: -1px"
           />
         </a> -->
-
-        <!-- Toggle button -->
-        <!-- <button
-          class="navbar-toggler"
-          type="button"
-          data-mdb-toggle="collapse"
-          data-mdb-target="#navbarButtonsExample"
-          aria-controls="navbarButtonsExample"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <i class="bi bi-list"></i>
-        </button> -->
-
-        <!-- Collapsible wrapper -->
-        <!-- <div class="collapse navbar-collapse" id="navbarButtonsExample"> -->
-        <!-- Left links -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
+          <li class="nav-item px-auto">
             <router-link to="/member" class="nav-link" href="#"
               >BANPONG-888</router-link
             >
           </li>
         </ul>
-        <!-- Left links -->
 
-        <div class="d-flex align-items-center">
-          <router-link
-            to="/member"
-            type="button"
-            class="btn btn-link px-2 text-decoration-none link-light"
-          >
-            หน้าบ้าน
-          </router-link>
-          <button
-            type="button"
-            class="btn btn-link px-2 text-decoration-none link-light"
-          >
-            ติดต่อเรา
-          </button>
-          <button
-            type="button"
-            class="btn btn-link px-2 text-decoration-none link-light"
-            data-bs-toggle="modal"
-            data-bs-target="#modalDeposit"
-          >
-            ฝากเงิน
-          </button>
-          <button
-            type="button"
-            class="btn btn-link px-2 text-decoration-none link-light"
-            data-bs-toggle="modal"
-            data-bs-target="#modalWithdraw"
-          >
-            ถอนเงิน
-          </button>
+        <div
+          class="mx-3 ms-auto rounded-pill bg-white text-dark px-2"
+          style="width: fit-content; font-size: 1em; min-width: 50px"
+        >
+          <span>
+            <a
+              class="bi bi-arrow-repeat mx-1"
+              style="font-size: 20px"
+              href="#"
+              @click="refreshprofile"
+            ></a>
+          </span>
+          <span>
+            <strong>ยอดเงิน : {{ this.$store.getters.credit }} ฿ </strong>
+          </span>
+        </div>
+
+        <!-- Toggle button -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasRight"
+          aria-controls="offcanvasRight"
+        >
+          <i class="bi bi-list"></i>
+        </button>
+
+        <!-- Collapsible wrapper -->
+        <div class="navbar-collapse collapse" id="navbar">
+          <!-- Left links -->
+          <div class="navbar-nav ms-auto align-items-center">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <!-- <li class="nav-item">
+              <router-link to="/member" class="nav-link" href="#"
+                >BANPONG-888</router-link
+              >
+            </li> -->
+            </ul>
+            <!-- Left links -->
+            <div class="d-flex align-items-center">
+              <li class="nav-item">
+                <router-link
+                  to="/member"
+                  type="button"
+                  class="btn btn-link px-2 text-decoration-none link-light"
+                >
+                  หน้าบ้าน
+                </router-link>
+              </li>
+              <li class="nav-item">
+                <button
+                  type="button"
+                  class="btn btn-link px-2 text-decoration-none link-light"
+                >
+                  ติดต่อเรา
+                </button>
+              </li>
+              <li class="nav-item">
+                <button
+                  type="button"
+                  class="btn btn-link px-2 text-decoration-none link-light"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalDeposit"
+                >
+                  ฝากเงิน
+                </button>
+              </li>
+              <li class="nav-item">
+                <button
+                  type="button"
+                  class="btn btn-link px-2 text-decoration-none link-light"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalWithdraw"
+                >
+                  ถอนเงิน
+                </button>
+              </li>
+              <button
+                type="button"
+                class="btn btn-secondary mx-1"
+                data-bs-toggle="modal"
+                data-bs-target="#modalLoginID"
+                @click="cleartoken"
+              >
+                ออกจากระบบ
+                <i class="bi bi-box-arrow-right"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Collapsible wrapper -->
+      </div>
+      <!-- Container wrapper -->
+    </nav>
+    <!-- Navbar -->
+  </div>
+  <!-- Collapsible offcanvas -->
+  <div
+    class="offcanvas offcanvas-end bg-dark"
+    id="offcanvasRight"
+    aria-labelledby="offcanvasRightLabel"
+  >
+    <!-- Left links -->
+    <div class="offcanvas-header">
+      <li class="nav-item">
+        <h1 class="text-decoration-none link-light" data-bs-dismiss="offcanvas">
+          BANPONG-888
+        </h1>
+      </li>
+
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"
+      ></button>
+    </div>
+    <!-- Left links -->
+    <div class="offcanvas-body">
+      <div class="d-flex align-items-center">
+        <ul data-bs-dismiss="offcanvas">
+          <li class="nav-item">
+            <router-link
+              to="/member"
+              type="button"
+              class="btn btn-link px-2 text-decoration-none link-light"
+            >
+              <i class="bi bi-house mx-3" style="font-size: 2rem"></i>
+              หน้าบ้าน
+            </router-link>
+          </li>
+          <li class="nav-item">
+            <button
+              type="button"
+              class="btn btn-link px-2 text-decoration-none link-light"
+              data-bs-toggle="modal"
+              data-bs-target="#modalDeposit"
+            >
+              <i class="bi bi-wallet2 mx-3" style="font-size: 2rem"></i>
+              ฝากเงิน
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              type="button"
+              class="btn btn-link px-2 text-decoration-none link-light"
+              data-bs-toggle="modal"
+              data-bs-target="#modalWithdraw"
+            >
+              <i class="bi bi-cash-coin mx-3" style="font-size: 2rem"></i>
+              ถอนเงิน
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              type="button"
+              class="btn btn-link px-2 text-decoration-none link-light"
+              data-bs-toggle="modal"
+              data-bs-target="#modalsoon"
+            >
+              <i class="bi bi-card-heading mx-3" style="font-size: 2rem"></i>
+              ประวัติ
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              type="button"
+              class="btn btn-link px-2 text-decoration-none link-light"
+              data-bs-toggle="modal"
+              data-bs-target="#modalsoon"
+            >
+              <i class="bi bi-person-badge mx-3" style="font-size: 2rem"></i>
+              ข้อมูลส่วนตัว
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              type="button"
+              class="btn btn-link px-2 text-decoration-none link-light"
+              data-bs-toggle="modal"
+              data-bs-target="#modalsoon"
+            >
+              <i class="bi bi-people-fill mx-3" style="font-size: 2rem"></i>
+              แนะนำ
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              type="button"
+              class="btn btn-link px-2 text-decoration-none link-light"
+              data-bs-toggle="modal"
+              data-bs-target="#modalsoon"
+            >
+              <i class="bi bi-qr-code-scan mx-3" style="font-size: 2rem"></i>
+              QR Code
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              type="button"
+              class="btn btn-link px-2 text-decoration-none link-light"
+              data-bs-toggle="modal"
+              data-bs-target="#modalsoon"
+            >
+              <i class="bi bi-joystick mx-3" style="font-size: 2rem"></i>
+              มินิเกมส์
+            </button>
+          </li>
+          <li class="nav-item">
+            <button
+              type="button"
+              class="btn btn-link px-2 text-decoration-none link-light"
+              data-bs-toggle="modal"
+              data-bs-target="#modalsoon"
+            >
+              <i class="bi bi-gift-fill mx-3" style="font-size: 2rem"></i>
+              โปรโมชั่น
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="offcanvas-footer">
+        <ul class="text-decoration-none link-light mx-3 my-4">
           <button
             type="button"
             class="btn btn-secondary mx-1"
+            data-bs-dismiss="offcanvas"
             data-bs-toggle="modal"
             data-bs-target="#modalLoginID"
             @click="cleartoken"
@@ -80,13 +259,9 @@
             ออกจากระบบ
             <i class="bi bi-box-arrow-right"></i>
           </button>
-        </div>
-        <!-- </div> -->
-        <!-- Collapsible wrapper -->
+        </ul>
       </div>
-      <!-- Container wrapper -->
-    </nav>
-    <!-- Navbar -->
+    </div>
   </div>
   <!-- Modal - Deposit -->
   <div
@@ -148,6 +323,41 @@
       </div>
     </div>
   </div>
+  <!-- Modal - coming soon -->
+  <div
+    class="modal fade modal"
+    id="modalsoon"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="modalsoon"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content border-2 modal-shadow">
+        <div class="modal-header">
+          <h5 class="modal-title text-white" id="modalsoon">
+            <i class="bi bi-exclamation-circle mx-2"></i>
+            Coming Soon
+          </h5>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <img
+            src="https://d1csarkz8obe9u.cloudfront.net/posterpreviews/opening-soon%2C-coming-soon-design-template-2ad6ecb3bfc0d528a9999c00a642d447_screen.jpg?ts=1593776133"
+            alt="Coming Soon"
+            width="100%"
+            height="100%"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -195,12 +405,120 @@ export default {
       sessionStorage.clear()
       this.$store.commit('clearall')
     },
-    mounted() {
+    async refreshprofile() {
+      this.$store.commit('setcredit', '')
+      this.$store.commit('setapiname', 11001)
+      this.$store.commit('setAPI')
+      const token = this.$store.getters.token
+      const headers = { Authorization: 'Bearer ' + token }
+      console.log(headers)
+      console.log(this.$store.getters.API)
+      await axios
+        .post(
+          this.$store.getters.API,
+          {},
+          {
+            headers,
+          },
+        )
+        .then((res) => {
+          console.log(res.data)
+          // ------------------------------------------------------------------------------//
+          this.$store.commit(
+            'setbkacc',
+            res.data.result.profile_mem.banking_account.bank_acct,
+          )
+          this.$store.commit(
+            'setbkname',
+            res.data.result.profile_mem.banking_account.bank_name,
+          )
+          // ------------------------------------------------------------------------------//
+          this.$store.commit(
+            'setphonenumber',
+            res.data.result.profile_mem.profile.tel,
+          )
+          this.$store.commit(
+            'setfname',
+            res.data.result.profile_mem.profile.name,
+          )
+          this.$store.commit(
+            'setlname',
+            res.data.result.profile_mem.profile.surename,
+          )
+          this.$store.commit('setidline', res.data.result.profile_mem.line_id)
+          this.$store.commit(
+            'setcreatedate',
+            res.data.result.profile_mem.create_date,
+          )
+          this.$store.commit(
+            'setusername',
+            res.data.result.profile_mem.username,
+          )
+          this.$store.commit('setcredit', res.data.result.profile_mem.PD.credit)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    },
+    async mounted() {
       if (this.$store.isLoggedIn == false) {
         this.checker = true
       } else {
         this.checker = false
       }
+      this.$store.commit('setcredit', '')
+      this.$store.commit('setapiname', 11001)
+      this.$store.commit('setAPI')
+      const token = this.$store.getters.token
+      const headers = { Authorization: 'Bearer ' + token }
+      console.log(headers)
+      console.log(this.$store.getters.API)
+      await axios
+        .post(
+          this.$store.getters.API,
+          {},
+          {
+            headers,
+          },
+        )
+        .then((res) => {
+          console.log(res.data)
+          // ------------------------------------------------------------------------------//
+          this.$store.commit(
+            'setbkacc',
+            res.data.result.profile_mem.banking_account.bank_acct,
+          )
+          this.$store.commit(
+            'setbkname',
+            res.data.result.profile_mem.banking_account.bank_name,
+          )
+          // ------------------------------------------------------------------------------//
+          this.$store.commit(
+            'setphonenumber',
+            res.data.result.profile_mem.profile.tel,
+          )
+          this.$store.commit(
+            'setfname',
+            res.data.result.profile_mem.profile.name,
+          )
+          this.$store.commit(
+            'setlname',
+            res.data.result.profile_mem.profile.surename,
+          )
+          this.$store.commit('setidline', res.data.result.profile_mem.line_id)
+          this.$store.commit(
+            'setcreatedate',
+            res.data.result.profile_mem.create_date,
+          )
+          this.$store.commit(
+            'setusername',
+            res.data.result.profile_mem.username,
+          )
+          this.$store.commit('setcredit', res.data.result.profile_mem.PD.credit)
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     },
   },
 }

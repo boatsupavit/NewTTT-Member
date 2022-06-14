@@ -25,7 +25,7 @@
               </div>
               <div class="member-front shadow">
                 <img
-                  src="./../assets/images/avatars/staff/04.png"
+                  src="./../assets/images/avatars/staff/20.png"
                   style="width: 3em"
                 />
               </div>
@@ -33,7 +33,7 @@
           </div>
         </div>
         <hr class="mb-2" />
-        <div class="row">
+        <!-- <div class="row">
           <div class="col">
             <span>สร้างบัญชีเมื่อวันที่ : </span>
             <span>{{ this.$store.getters.createdate }}</span>
@@ -47,44 +47,76 @@
               <strong>{{ this.$store.getters.credit }}</strong>
             </div>
           </div>
-        </div>
+        </div> -->
       </div>
     </div>
     <div class="member-menubox p-3 mt-2">
       <div class="container">
         <div class="row row-cols-3 row-cols-sm-2 row-cols-md-6">
           <div class="col d-grid gap-2 p-1">
-            <button type="button" class="btn btn-outline-secondary btn-menu">
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-menu"
+              data-bs-toggle="modal"
+              data-bs-target="#modalDeposit"
+            >
               <i class="bi bi-wallet2" style="font-size: 2rem"></i>
-              <p class="m-0"><strong>ฝาก</strong></p>
+              <p class="m-0">
+                <strong>ฝาก</strong>
+              </p>
             </button>
           </div>
           <div class="col d-grid gap-2 p-1">
-            <button type="button" class="btn btn-outline-secondary btn-menu">
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-menu"
+              data-bs-toggle="modal"
+              data-bs-target="#modalWithdraw"
+            >
               <i class="bi bi-cash-coin" style="font-size: 2rem"></i>
               <p class="m-0"><strong>ถอน</strong></p>
             </button>
           </div>
           <div class="col d-grid gap-2 p-1">
-            <button type="button" class="btn btn-outline-secondary btn-menu">
+            <button
+              type="button"
+              data-bs-toggle="modal"
+              data-bs-target="#modalsoon"
+              class="btn btn-outline-secondary btn-menu"
+            >
               <i class="bi bi-card-heading" style="font-size: 2rem"></i>
               <p class="m-0"><strong>ประวัติ</strong></p>
             </button>
           </div>
           <div class="col d-grid gap-2 p-1">
-            <button type="button" class="btn btn-outline-secondary btn-menu">
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-menu"
+              data-bs-toggle="modal"
+              data-bs-target="#modalsoon"
+            >
               <i class="bi bi-people-fill" style="font-size: 2rem"></i>
               <p class="m-0"><strong>แนะนำ</strong></p>
             </button>
           </div>
           <div class="col d-grid gap-2 p-1">
-            <button type="button" class="btn btn-outline-secondary btn-menu">
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-menu"
+              data-bs-toggle="modal"
+              data-bs-target="#modalsoon"
+            >
               <i class="bi bi-qr-code-scan" style="font-size: 2rem"></i>
               <p class="m-0"><strong>QR Code</strong></p>
             </button>
           </div>
           <div class="col d-grid gap-2 p-1">
-            <button type="button" class="btn btn-outline-secondary btn-menu">
+            <button
+              type="button"
+              class="btn btn-outline-secondary btn-menu"
+              data-bs-toggle="modal"
+              data-bs-target="#modalsoon"
+            >
               <i class="bi bi-joystick" style="font-size: 2rem"></i>
               <p class="m-0"><strong>มินิเกมส์</strong></p>
             </button>
@@ -104,10 +136,34 @@
       </div>
     </div>
   </div>
+  <!-- Modal - GameView -->
+  <div
+    class="modal fade modal"
+    id="modalGameview"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="modalGameview"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-fullscreen">
+      <div class="modal-content border-2 modal-shadow">
+        <div class="modal-body">
+          <Iframe />
+          <button
+            type="button"
+            data-bs-dismiss="modal"
+            class="btn-close btn-close btn-close-white"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
 import { Vue3Marquee } from 'vue3-marquee'
+import Iframe from './../components/Iframe.vue'
 import 'vue3-marquee/dist/style.css'
 
 import { imgBankSmoothSet as imgBank } from '@/assets/images/banking/th/smooth-corner'
@@ -122,6 +178,7 @@ export default {
   components: {
     Vue3Marquee,
     GameCard,
+    Iframe,
     // LastGames,
   },
   data() {
@@ -130,9 +187,6 @@ export default {
     }
   },
   async mounted() {
-    this.importAll(
-      require.context('../assets/images/gameshall/', true, /\.png$/),
-    )
     if (!!sessionStorage.getItem('token') == false) {
       this.$router.push('/home')
     }
@@ -212,7 +266,7 @@ export default {
           },
         )
         .then((response) => {
-          console.log(response.data)
+          console.log(response)
           this.$store.commit('setgamelink', response.data.uri)
           console.log(this.$store.getters.gamelink)
         })

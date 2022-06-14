@@ -3,7 +3,9 @@
     <div class="container text-content-color">
       <div class="text-center">
         <span class="small"> จำนวนเงินที่ถอนได้ปัจจุบันคือ : </span>
-        <p class="mb-2"><span class="text-warning">รอปรับยอด...</span> บาท</p>
+        <p class="mb-2">
+          <span class="text-warning">{{ this.$store.getters.credit }}</span> บาท
+        </p>
       </div>
       <hr class="mt-1 mb-0" />
       <div class="text-center">
@@ -73,7 +75,7 @@
             type="button"
             class="btn btn-outline-warning btn-sm rounded-pill"
           >
-            ทั้งหมด
+            ทั้งหมด ({{ this.$store.getters.credit }} ฿)
           </button>
         </div>
       </div>
@@ -95,13 +97,17 @@
           <div class="card-body">
             <div class="row justify-content-center">
               <div class="col-auto">
-                <img fluid :src="imgBank.ttb" width="50" class="mb-2" />
+                <img fluid :src="imgBank.kbank" width="50" class="mb-2" />
               </div>
               <div class="col-auto">
-                <p class="fs-6 fw-lighter m-0">ทหารไทยธนชาต</p>
-                <p class="fs-5 lh-1 text-white m-0">ศุภวิชญ์ เจริญถาวรกิจ</p>
+                <p class="fs-6 fw-lighter m-0">
+                  {{ this.$store.getters.bankNameth }}
+                </p>
+                <p class="fs-5 lh-1 text-white m-0">
+                  {{ this.$store.getters.name }}
+                </p>
                 <p class="fs-5 fw-bold fw-bolder lh-1 m-0 text-warning">
-                  1914502255
+                  {{ this.$store.getters.bankaccount }}
                 </p>
               </div>
             </div>

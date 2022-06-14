@@ -14,74 +14,203 @@
             style="margin-top: -1px"
           />
         </a> -->
-
-        <!-- Toggle button -->
-        <!-- <button
-          class="navbar-toggler"
-          type="button"
-          data-mdb-toggle="collapse"
-          data-mdb-target="#navbarButtonsExample"
-          aria-controls="navbarButtonsExample"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <i class="bi bi-list"></i>
-        </button> -->
-
-        <!-- Collapsible wrapper -->
-        <!-- <div class="collapse navbar-collapse" id="navbarButtonsExample"> -->
-        <!-- Left links -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
             <a class="nav-link" href="#">BANPONG-888</a>
           </li>
         </ul>
-        <!-- Left links -->
 
-        <div class="d-flex align-items-center">
-          <button
+        <!-- Toggle button -->
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="offcanvas"
+          data-bs-target="#offcanvasRight"
+          aria-controls="offcanvasRight"
+        >
+          <i class="bi bi-list"></i>
+        </button>
+
+        <!-- Collapsible wrapper -->
+        <div class="navbar-collapse collapse" id="navbar">
+          <!-- Left links -->
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <!-- <li class="nav-item">
+              <a class="nav-link" href="#">BANPONG-888</a>
+            </li> -->
+          </ul>
+          <!-- <button
             type="button"
-            class="btn btn-link px-2 text-decoration-none link-light"
-          >
-            หน้าบ้าน
-          </button>
-          <button
-            type="button"
-            class="btn btn-link px-2 text-decoration-none link-light"
-          >
-            บทความ
-          </button>
-          <button
-            type="button"
-            class="btn btn-link px-2 text-decoration-none link-light"
-          >
-            ติดต่อเรา
-          </button>
-          <button
-            type="button"
-            class="btn btn-warning mx-1"
-            data-bs-toggle="modal"
-            data-bs-target="#modalRegisterID"
-          >
-            <i class="bi bi-person-plus-fill"></i>
-            สมัครสมาชิก
-          </button>
-          <button
-            type="button"
-            class="btn btn-warning mx-1"
-            data-bs-toggle="modal"
-            data-bs-target="#modalLoginID"
-          >
-            <i class="bi bi-box-arrow-in-right"></i>
-            เข้าสู่ระบบ
-          </button>
+            class="btn-close"
+            data-bs-dismiss="offcanvas"
+            aria-label="Close"
+          ></button> -->
+
+          <!-- Left links -->
+          <div class="d-flex align-items-center">
+            <button
+              type="button"
+              class="btn btn-link px-2 text-decoration-none link-light"
+            >
+              หน้าบ้าน
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-link px-2 text-decoration-none link-light"
+            >
+              บทความ
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-link px-2 text-decoration-none link-light"
+            >
+              ติดต่อเรา
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-warning mx-1"
+              data-bs-toggle="modal"
+              data-bs-target="#modalRegisterID"
+            >
+              <i class="bi bi-person-plus-fill"></i>
+              สมัครสมาชิก
+            </button>
+
+            <button
+              type="button"
+              class="btn btn-warning mx-1"
+              data-bs-toggle="modal"
+              data-bs-target="#modalLoginID"
+            >
+              <i class="bi bi-box-arrow-in-right"></i>
+              เข้าสู่ระบบ
+            </button>
+          </div>
         </div>
-        <!-- </div> -->
         <!-- Collapsible wrapper -->
       </div>
       <!-- Container wrapper -->
     </nav>
     <!-- Navbar -->
+  </div>
+
+  <!-- Collapsible offcanvas -->
+  <div
+    class="offcanvas offcanvas-end bg-dark"
+    id="offcanvasRight"
+    aria-labelledby="offcanvasRightLabel"
+  >
+    <!-- Left links -->
+    <div class="offcanvas-header">
+      <li class="nav-item">
+        <h1 class="text-decoration-none link-light" data-bs-dismiss="offcanvas">
+          BANPONG-888
+        </h1>
+      </li>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="offcanvas"
+        aria-label="Close"
+      ></button>
+    </div>
+    <!-- Left links -->
+    <div class="offcanvas-body">
+      <div class="d-flex align-items-center">
+        <ul data-bs-dismiss="offcanvas">
+          <li>
+            <button
+              type="button"
+              class="btn btn-link px-2 text-decoration-none link-light"
+            >
+              <i class="bi bi-house-fill mx-3" style="font-size: 2rem"></i>
+              หน้าบ้าน
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="btn btn-link px-2 text-decoration-none link-light"
+            >
+              <i class="bi bi-book mx-3" style="font-size: 2rem"></i>
+              บทความ
+            </button>
+          </li>
+          <li>
+            <button
+              type="button"
+              class="btn btn-link px-2 text-decoration-none link-light"
+            >
+              <i
+                class="bi bi-telephone-forward-fill mx-3"
+                style="font-size: 2rem"
+              ></i>
+              ติดต่อเรา
+            </button>
+          </li>
+          <li class="mb-3 mt-2">
+            <button
+              type="button"
+              class="btn btn-link px-2 text-decoration-none link-light"
+              data-bs-toggle="modal"
+              data-bs-target="#modalRegisterID"
+            >
+              <i
+                class="bi bi-person-plus-fill mx-3"
+                style="font-size: 2rem"
+              ></i>
+              สมัครสมาชิก
+            </button>
+          </li>
+          <li class="mb-3 mt-2">
+            <button
+              type="button"
+              class="btn btn-link px-2 text-decoration-none link-light"
+              data-bs-toggle="modal"
+              data-bs-target="#modalLoginID"
+            >
+              <i
+                class="bi bi-box-arrow-in-right mx-3"
+                style="font-size: 2rem"
+              ></i>
+              เข้าสู่ระบบ
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div>
+      <div class="offcanvas-footer">
+        <ul class="text-decoration-none link-light mx-3 my-4">
+          <strong>ติดต่อผ่านช่องทางออนไลน์</strong>
+          <p class="mb-3">
+            <a
+              href="https://line.me/ti/p/@BANPONG-888"
+              class="link-warning"
+              data-bs-dismiss="offcanvas"
+            >
+              @BANPONG-888
+            </a>
+          </p>
+          <span>
+            <img fluid :src="imgSocial.facebook" width="50" class="ms-1 me-1" />
+            <img
+              fluid
+              :src="imgSocial.instagram"
+              width="50"
+              class="ms-1 me-1"
+            />
+            <img fluid :src="imgSocial.line" width="50" class="ms-1 me-1" />
+            <img fluid :src="imgSocial.telegram" width="50" class="ms-1 me-1" />
+            <img fluid :src="imgSocial.twitter" width="50" class="ms-1 me-1" />
+            <img fluid :src="imgSocial.youtube" width="50" class="ms-1 me-1" />
+          </span>
+        </ul>
+      </div>
+    </div>
   </div>
 
   <!-- Modal - Register -->
@@ -194,6 +323,7 @@
 </template>
 
 <script>
+import { imgSocialMedia as imgSocial } from '@/assets/images/social'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 import Register from './../components/Register.vue'
@@ -201,6 +331,11 @@ import Login from './../components/Login.vue'
 
 export default {
   name: 'AppHeader',
+  setup() {
+    return {
+      imgSocial,
+    }
+  },
   components: {
     Register,
     Login,
@@ -238,6 +373,7 @@ export default {
             console.log(response.data)
             console.log(response.data.status)
             if (response.data.status == '200') {
+              this.$store.commit('clearall')
               console.log(response.data.result.token)
               sessionStorage.setItem('token', response.data.result.token)
               // ------------------------------------------------------------------------------//

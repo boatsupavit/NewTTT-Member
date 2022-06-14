@@ -58,10 +58,18 @@
               <img
                 src="./../assets/images/banner-slot-01.png"
                 class="card-img-top"
+                data-bs-toggle="modal"
+                data-bs-target="#modalLoginID"
                 alt=""
               />
-              <div class="card-body p-1">
-                <h3 class="card-title"><strong>Slot</strong></h3>
+              <div
+                class="card-body p-1"
+                data-bs-toggle="modal"
+                data-bs-target="#modalLoginID"
+              >
+                <h3 class="card-title">
+                  <strong>Slot</strong>
+                </h3>
               </div>
             </div>
           </div>
@@ -70,9 +78,15 @@
               <img
                 src="./../assets/images/banner-baccarat-01.png"
                 class="card-img-top"
+                data-bs-toggle="modal"
+                data-bs-target="#modalLoginID"
                 alt=""
               />
-              <div class="card-body p-1">
+              <div
+                class="card-body p-1"
+                data-bs-toggle="modal"
+                data-bs-target="#modalLoginID"
+              >
                 <h3 class="card-title"><strong>Baccarat</strong></h3>
               </div>
             </div>
@@ -82,9 +96,15 @@
               <img
                 src="./../assets/images/banner-lotto-01.png"
                 class="card-img-top"
+                data-bs-toggle="modal"
+                data-bs-target="#modalLoginID"
                 alt=""
               />
-              <div class="card-body p-1">
+              <div
+                class="card-body p-1"
+                data-bs-toggle="modal"
+                data-bs-target="#modalLoginID"
+              >
                 <h3 class="card-title"><strong>Lotto</strong></h3>
               </div>
             </div>
@@ -94,9 +114,15 @@
               <img
                 src="./../assets/images/banner-sport-01.png"
                 class="card-img-top"
+                data-bs-toggle="modal"
+                data-bs-target="#modalLoginID"
                 alt=""
               />
-              <div class="card-body p-1">
+              <div
+                class="card-body p-1"
+                data-bs-toggle="modal"
+                data-bs-target="#modalLoginID"
+              >
                 <h3 class="card-title"><strong>Sport</strong></h3>
               </div>
             </div>
@@ -106,9 +132,15 @@
               <img
                 src="./../assets/images/banner-poker-01.png"
                 class="card-img-top"
+                data-bs-toggle="modal"
+                data-bs-target="#modalLoginID"
                 alt=""
               />
-              <div class="card-body p-1">
+              <div
+                class="card-body p-1"
+                data-bs-toggle="modal"
+                data-bs-target="#modalLoginID"
+              >
                 <h3 class="card-title"><strong>Poker</strong></h3>
               </div>
             </div>
@@ -118,9 +150,15 @@
               <img
                 src="./../assets/images/banner-keno-01.png"
                 class="card-img-top"
+                data-bs-toggle="modal"
+                data-bs-target="#modalLoginID"
                 alt=""
               />
-              <div class="card-body p-1">
+              <div
+                class="card-body p-1"
+                data-bs-toggle="modal"
+                data-bs-target="#modalLoginID"
+              >
                 <h3 class="card-title"><strong>Kenno</strong></h3>
               </div>
             </div>

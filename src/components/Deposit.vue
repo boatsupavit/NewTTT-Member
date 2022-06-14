@@ -11,10 +11,14 @@
             <img fluid :src="imgBank.kbank" width="50" class="mb-2" />
           </div>
           <div class="col-auto">
-            <p class="fs-6 fw-lighter m-0">กสิกรไทย</p>
-            <p class="fs-5 lh-1 text-white m-0">ศุภวิชญ์ เจริญถาวรกิจ</p>
+            <p class="fs-6 fw-lighter m-0">
+              {{ this.$store.getters.bankNameth }}
+            </p>
+            <p class="fs-5 lh-1 text-white m-0">
+              {{ this.$store.getters.name }}
+            </p>
             <p class="fs-5 fw-bold fw-bolder lh-1 m-0 text-warning">
-              1914502255
+              {{ this.$store.getters.bankaccount }}
             </p>
           </div>
         </div>
