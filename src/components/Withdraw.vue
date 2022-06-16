@@ -18,14 +18,22 @@
         <span class="input-group-text">
           <i class="bi bi-cash-stack"></i>
         </span>
-        <input type="number" class="form-control" />
+        <input
+          type="number"
+          class="form-control"
+          style="text-align: right"
+          :value="this.withdrawvalue"
+          @input="SetWithdrawValue"
+        />
         <span class="input-group-text"> บาท </span>
       </div>
-      <div class="row justify-content-md-center row-cols-6 mt-3">
+      <div class="row justify-content-center row-cols-6 mt-3">
         <div class="col-auto mb-2">
           <button
             type="button"
             class="btn btn-outline-warning btn-sm rounded-pill"
+            value="50"
+            @click="sum"
           >
             + 50
           </button>
@@ -34,6 +42,8 @@
           <button
             type="button"
             class="btn btn-outline-warning btn-sm rounded-pill"
+            value="100"
+            @click="sum"
           >
             + 100
           </button>
@@ -42,6 +52,8 @@
           <button
             type="button"
             class="btn btn-outline-warning btn-sm rounded-pill"
+            value="200"
+            @click="sum"
           >
             + 200
           </button>
@@ -50,6 +62,8 @@
           <button
             type="button"
             class="btn btn-outline-warning btn-sm rounded-pill"
+            value="300"
+            @click="sum"
           >
             + 300
           </button>
@@ -58,6 +72,8 @@
           <button
             type="button"
             class="btn btn-outline-warning btn-sm rounded-pill"
+            value="500"
+            @click="sum"
           >
             + 500
           </button>
@@ -66,6 +82,8 @@
           <button
             type="button"
             class="btn btn-outline-warning btn-sm rounded-pill"
+            value="1000"
+            @click="sum"
           >
             + 1000
           </button>
@@ -74,6 +92,8 @@
           <button
             type="button"
             class="btn btn-outline-warning btn-sm rounded-pill"
+            :value="this.$store.getters.credit"
+            @click="settotal"
           >
             ทั้งหมด ({{ this.$store.getters.credit }} ฿)
           </button>
@@ -84,6 +104,7 @@
           type="button"
           class="btn btn-warning w-100"
           style="max-width: 24em"
+          @click="withdraw"
         >
           ถอนเงิน
         </button>
@@ -97,7 +118,7 @@
           <div class="card-body">
             <div class="row justify-content-center">
               <div class="col-auto">
-                <img fluid :src="imgBank.kbank" width="50" class="mb-2" />
+                <img fluid :src="getImgUrl('ttb')" width="50" class="mb-2" />
               </div>
               <div class="col-auto">
                 <p class="fs-6 fw-lighter m-0">
@@ -124,13 +145,127 @@
 
 <script>
 import { imgBankSmoothSet as imgBank } from '@/assets/images/banking/th/smooth-corner'
+import axios from 'axios'
+import Swal from 'sweetalert2'
+
 export default {
   name: 'Withdraw',
   components: {},
+  data() {
+    return {
+      withdrawvalue: 0,
+    }
+  },
   setup() {
     return {
       imgBank,
     }
   },
+  methods: {
+    getImgUrl(pet) {
+      return require('../assets/images/banking/th/smooth-corner/' +
+        pet +
+        '.png')
+    },
+    sum(e) {
+      this.withdrawvalue = Number(this.withdrawvalue) + Number(e.target.value)
+    },
+    settotal(e) {
+      this.withdrawvalue = Number(e.target.value)
+    },
+
+    SetWithdrawValue(event) {
+      this.withdrawvalue = event.target.value
+    },
+    async withdraw() {
+      this.$store.commit('setapiname', 11007)
+      this.$store.commit('setAPI')
+      const token = this.$store.getters.token
+      const headers = { Authorization: 'Bearer ' + token }
+      console.log(headers)
+      if (this.withdrawvalue == 0) {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาระบุจำนวนที่ต้องการถอน',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else {
+        axios
+          .post(
+            this.$store.getters.API,
+            {
+              balance: this.withdrawvalue,
+            },
+            {
+              headers,
+            },
+          )
+          .then((respon) => {
+            console.log(respon.data)
+            if (respon.data.status == 200) {
+              Swal.fire({
+                title: 'สำเร็จ!!!',
+                text: respon.data.message,
+                icon: 'success',
+                confirmButtonText: 'ตกลง',
+              })
+            } else {
+              Swal.fire({
+                title: 'ผิดพลาด!!!',
+                text: respon.data.message,
+                icon: 'error',
+                confirmButtonText: 'ตกลง',
+              })
+              this.withdrawvalue = 0
+            }
+          })
+          .catch((error) => {
+            console.log(error)
+          })
+      }
+    },
+  },
+  // async mounted() {
+  //   this.$store.commit('setapiname', 11001)
+  //   this.$store.commit('setAPI')
+  //   const token = this.$store.getters.token
+  //   const headers = { Authorization: 'Bearer ' + token }
+  //   console.log(headers)
+  //   console.log(this.$store.getters.API)
+  //   await axios
+  //     .post(
+  //       this.$store.getters.API,
+  //       {},
+  //       {
+  //         headers,
+  //       },
+  //     )
+  //     .then((res) => {
+  //       console.log(res.data)
+  //       // ------------------------------------------------------------------------------//
+  //       this.$store.commit(
+  //         'setbkmb',
+  //         res.data.result.profile_mem.banking_account,
+  //       )
+  //       this.$store.commit(
+  //         'setbkacc',
+  //         this.$store.getters.bankmember[0].bank_acct,
+  //       )
+  //       this.$store.commit(
+  //         'setbkname',
+  //         this.$store.getters.bankmember[0].bank_name,
+  //       )
+  //       this.$store.commit(
+  //         'setbknameth',
+  //         this.$store.getters.bankmember[0].bank_name_th,
+  //       )
+  //       this.$store.commit('setbkid', this.$store.getters.bankmember[0].bank_id)
+  //       // ------------------------------------------------------------------------------//
+  //     })
+  //     .catch((error) => {
+  //       console.error(error)
+  //     })
+  // },
 }
 </script>

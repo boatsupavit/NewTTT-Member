@@ -3,12 +3,14 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     token: sessionStorage.getItem('token'),
-    IP: '192.168.1.50',
+    IP: '192.168.1.52',
     apiname: '',
     API: '',
     phonenumber: '',
     pin: '',
     msgRetrun: '',
+    bankdeposit: [],
+    bankmember: [],
     bankName: '',
     bankaccount: '',
     bankNameth: 'กรุณาเลือกธนาคาร...',
@@ -19,14 +21,13 @@ export default createStore({
     password: '',
     idline: '',
     captcha: '',
-    username: 'Anonymous',
+    username: '',
     createdate: '-',
     credit: '0',
     gametype: '',
     gamelink: '',
     captchaID: '',
     imgcaptcha: '',
-    spin: true,
   },
   getters: {
     token: (state) => state.token,
@@ -35,10 +36,14 @@ export default createStore({
     API: (state) => state.API,
     phonenumber: (state) => state.phonenumber,
     pin: (state) => state.pin,
+    bankdeposit: (state) => state.bankdeposit,
+    bankmember: (state) => state.bankmember,
     bankName: (state) => state.bankName,
     bankNameth: (state) => state.bankNameth,
     bankid: (state) => state.bankid,
     bankaccount: (state) => state.bankaccount,
+    fname: (state) => state.fname,
+    lname: (state) => state.lname,
     name: (state) => state.fname + '  ' + state.lname,
     chanel: (state) => state.chanel,
     idline: (state) => state.idline,
@@ -50,7 +55,6 @@ export default createStore({
     gamelink: (state) => state.gamelink,
     captchaID: (state) => state.captchaID,
     imgcaptcha: (state) => state.imgcaptcha,
-    spin: (state) => state.spin,
   },
   mutations: {
     preparevalue(state) {
@@ -62,6 +66,8 @@ export default createStore({
       state.phonenumber = ''
       state.pin = ''
       state.password = ''
+      state.bankdeposit = []
+      state.bankmember = []
       state.bankName = ''
       state.bankNameth = 'กรุณาเลือกธนาคาร...'
       state.bankid = ''
@@ -87,6 +93,12 @@ export default createStore({
     },
     settoken(state, token) {
       state.token = token
+    },
+    setbkdp(state, bankdeposit) {
+      state.bankdeposit = bankdeposit
+    },
+    setbkmb(state, bankmember) {
+      state.bankmember = bankmember
     },
     setbkname(state, bankName) {
       state.bankName = bankName
@@ -161,6 +173,8 @@ export default createStore({
         state.apiname = '10000/member/withdraw'
       } else if (apicode == 11008) {
         state.apiname = apicode
+      } else if (apicode == 11009) {
+        state.apiname = '10000/member/getbankdeposit'
       } else if (apicode == 45003) {
         state.apiname = apicode + '/getgamelist'
       } else if (apicode == 45004) {

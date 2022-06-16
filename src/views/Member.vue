@@ -184,60 +184,69 @@ export default {
   data() {
     return {
       imgHallArray: [],
+      img: require('@/assets/images/banking/th/smooth-corner/'),
     }
   },
   async mounted() {
     if (!!sessionStorage.getItem('token') == false) {
       this.$router.push('/home')
     }
-    this.$store.commit('setapiname', 11001)
-    this.$store.commit('setAPI')
-    const token = this.$store.getters.token
-    const headers = { Authorization: 'Bearer ' + token }
-    console.log(headers)
-    console.log(this.$store.getters.API)
-    await axios
-      .post(
-        this.$store.getters.API,
-        {},
-        {
-          headers,
-        },
-      )
-      .then((res) => {
-        console.log(res.data)
-        // ------------------------------------------------------------------------------//
-        this.$store.commit(
-          'setbkacc',
-          res.data.result.profile_mem.banking_account.bank_acct,
-        )
-        this.$store.commit(
-          'setbkname',
-          res.data.result.profile_mem.banking_account.bank_name,
-        )
-        // ------------------------------------------------------------------------------//
-        this.$store.commit(
-          'setphonenumber',
-          res.data.result.profile_mem.profile.tel,
-        )
-        this.$store.commit('setfname', res.data.result.profile_mem.profile.name)
-        this.$store.commit(
-          'setlname',
-          res.data.result.profile_mem.profile.surename,
-        )
-        this.$store.commit('setidline', res.data.result.profile_mem.line_id)
-        this.$store.commit(
-          'setcreatedate',
-          res.data.result.profile_mem.create_date,
-        )
-        this.$store.commit('setusername', res.data.result.profile_mem.username)
-        this.$store.commit('setcredit', res.data.result.profile_mem.PD.credit)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    // this.$store.commit('setapiname', 11001)
+    // this.$store.commit('setAPI')
+    // const token = this.$store.getters.token
+    // const headers = { Authorization: 'Bearer ' + token }
+    // console.log(headers)
+    // console.log(this.$store.getters.API)
+    // await axios
+    //   .post(
+    //     this.$store.getters.API,
+    //     {},
+    //     {
+    //       headers,
+    //     },
+    //   )
+    //   .then((res) => {
+    //     console.log(res.data)
+    // ------------------------------------------------------------------------------//
+    // this.$store.commit(
+    //   'setbkmb',
+    //   res.data.result.profile_mem.banking_account,
+    // )
+    // this.$store.commit(
+    //   'setbkacc',
+    //   this.$store.getters.bankmember[0].bank_acct,
+    // )
+    // this.$store.commit(
+    //   'setbkname',
+    //   this.$store.getters.bankmember[0].bank_name,
+    // )
+    // this.$store.commit(
+    //   'setbknameth',
+    //   this.$store.getters.bankmember[0].bank_name_th,
+    // )
+    // this.$store.commit('setbkid', this.$store.getters.bankmember[0].bank_id)
+    // ------------------------------------------------------------------------------//
+    // this.$store.commit(
+    //   'setphonenumber',
+    //   res.data.result.profile_mem.profile.tel,
+    // )
+    // this.$store.commit('setfname', res.data.result.profile_mem.profile.name)
+    // this.$store.commit(
+    //   'setlname',
+    //   res.data.result.profile_mem.profile.surename,
+    // )
+    // this.$store.commit('setidline', res.data.result.profile_mem.line_id)
+    // this.$store.commit(
+    //   'setcreatedate',
+    //   res.data.result.profile_mem.create_date,
+    // )
+    // this.$store.commit('setusername', res.data.result.profile_mem.username)
+    // this.$store.commit('setcredit', res.data.result.profile_mem.PD.credit)
+    // })
+    // .catch((error) => {
+    //   console.error(error)
+    // })
   },
-
   methods: {
     importAll(r) {
       r.keys().forEach((key) =>

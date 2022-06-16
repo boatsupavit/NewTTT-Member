@@ -39,7 +39,7 @@
             </span>
             <input
               id="pinID"
-              type="number"
+              type="password"
               class="form-control"
               placeholder="XXXX"
               maxlength="4"
@@ -60,7 +60,7 @@
             </span>
             <input
               id="pinID"
-              type="text"
+              type="password"
               class="form-control"
               placeholder="XXXX"
               maxlength="4"
@@ -232,7 +232,7 @@
             data-bs-dismiss="modal"
             @click="submit"
           >
-            Submit
+            สมัครสมาชิก
           </button>
         </div>
       </div>
@@ -287,11 +287,9 @@ export default {
     },
     SetbankValue(event) {
       let bank = this.listbank[event.target.options.selectedIndex]
-      console.log(event.target.options.selectedIndex)
       this.$store.commit('setbkname', bank.banknameen)
       this.$store.commit('setbknameth', bank.banknameth)
       this.$store.commit('setbkid', bank._id)
-      // console.log('bank id', this.$store.getters.bankid)
     },
     SetbankAccountValue(event) {
       this.$store.commit('setbkacc', event.target.value)
@@ -423,10 +421,9 @@ export default {
           captchaID: this.$store.getters.captchaID,
           value: this.$store.getters.captcha,
         }
+        console.log(body)
         await axios
-          .post(this.$store.getters.API, {
-            body,
-          })
+          .post(this.$store.getters.API, { body })
           .then((response) => {
             this.msgresp = response.data
             console.log(response.data)

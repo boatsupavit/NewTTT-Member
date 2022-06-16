@@ -13,7 +13,14 @@
           >
         </li>
         <li class="menu">
-          <a id="slot" @click="setgametype" href="#">สล็อต</a>
+          <a
+            id="slot"
+            @click="setgametype"
+            href="#"
+            data-bs-toggle="modal"
+            data-bs-target="#modalspin"
+            >สล็อต</a
+          >
         </li>
         <li class="menu">
           <a
@@ -26,13 +33,34 @@
           >
         </li>
         <li class="menu">
-          <a id="Card" @click="setgametype" href="#">ไพ่</a>
+          <a
+            id="Card"
+            @click="setgametype"
+            href="#"
+            data-bs-toggle="modal"
+            data-bs-target="#modalspin"
+            >ไพ่</a
+          >
         </li>
         <li class="menu">
-          <a id="Fish" @click="setgametype" href="#">ตกปลา</a>
+          <a
+            id="Fish"
+            @click="setgametype"
+            href="#"
+            data-bs-toggle="modal"
+            data-bs-target="#modalspin"
+            >ตกปลา</a
+          >
         </li>
         <li class="menu">
-          <a id="keno" @click="setgametype" href="#">คีโน่</a>
+          <a
+            id="keno"
+            @click="setgametype"
+            href="#"
+            data-bs-toggle="modal"
+            data-bs-target="#modalspin"
+            >คีโน่</a
+          >
         </li>
       </ul>
     </nav>
@@ -153,15 +181,14 @@
     tabindex="-1"
     aria-labelledby="modalspin"
     aria-hidden="true"
-    @click="callmodal"
   >
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-body">
         <button
           type="button"
-          hidden
           data-bs-dismiss="modal"
           id="modalspin"
+          hidden
         ></button>
         <Spinner />
       </div>
@@ -190,20 +217,6 @@ export default {
     window.addEventListener('scroll', this.scrollFunction)
   },
   methods: {
-    callmodal() {
-      console.log('#')
-      setTimeout(function () {
-        // document.querySelector('#modalspin').modal('hide')
-        this.document.querySelector('#modalspin').modal('hide')
-        console.log('###')
-      }, 2000)
-      // document.querySelector('#modalspin').style.display = 'none'
-      // document.querySelector('div.modal-backdrop').style.display = 'none'
-      // document.querySelector('#modalspin').remove()
-      // document.querySelector('div.modal-backdrop').remove()
-      // console.log(document.querySelector('div.modal-backdrop'))
-      console.log('##')
-    },
     async getprofile() {
       this.$store.commit('preparevalue')
       this.$store.commit('settoken', sessionStorage.getItem('token'))
@@ -225,12 +238,24 @@ export default {
           console.log(res.data)
           // ------------------------------------------------------------------------------//
           this.$store.commit(
+            'setbkmb',
+            res.data.result.profile_mem.banking_account,
+          )
+          this.$store.commit(
             'setbkacc',
-            res.data.result.profile_mem.banking_account.bank_acct,
+            this.$store.getters.bankmember[0].bank_acct,
           )
           this.$store.commit(
             'setbkname',
-            res.data.result.profile_mem.banking_account.bank_name,
+            this.$store.getters.bankmember[0].bank_name,
+          )
+          this.$store.commit(
+            'setbknameth',
+            this.$store.getters.bankmember[0].bank_name_th,
+          )
+          this.$store.commit(
+            'setbkid',
+            this.$store.getters.bankmember[0].bank_id,
           )
           // ------------------------------------------------------------------------------//
           this.$store.commit(
@@ -295,6 +320,9 @@ export default {
             (this.gamelists = this.providerlist),
             console.log('gamelists', this.gamelists)
           ),
+          setTimeout(function () {
+            document.querySelector('button#modalspin').click()
+          }, 500),
         )
     },
     async startgame(event) {
@@ -404,13 +432,22 @@ export default {
         console.log(res.data)
         // ------------------------------------------------------------------------------//
         this.$store.commit(
+          'setbkmb',
+          res.data.result.profile_mem.banking_account,
+        )
+        this.$store.commit(
           'setbkacc',
-          res.data.result.profile_mem.banking_account.bank_acct,
+          this.$store.getters.bankmember[0].bank_acct,
         )
         this.$store.commit(
           'setbkname',
-          res.data.result.profile_mem.banking_account.bank_name,
+          this.$store.getters.bankmember[0].bank_name,
         )
+        this.$store.commit(
+          'setbknameth',
+          this.$store.getters.bankmember[0].bank_name_th,
+        )
+        this.$store.commit('setbkid', this.$store.getters.bankmember[0].bank_id)
         // ------------------------------------------------------------------------------//
         this.$store.commit(
           'setphonenumber',
@@ -433,22 +470,24 @@ export default {
         console.error(error)
       })
     // get gamelists
-    this.$store.commit('setapiname', 45003)
-    this.$store.commit('setAPI')
-    console.log('API', this.$store.getters.API)
-    console.log('gametype', this.$store.getters.gametype)
-    await axios
-      .post(this.$store.getters.API, {
-        gametype: this.$store.getters.gametype,
-      })
-      .then(
-        (resp) => (
-          (this.providerlist = resp.data.result.data),
-          console.log('providerlist', this.providerlist),
-          (this.gamelists = this.providerlist),
-          console.log('gamelists', this.gamelists)
-        ),
-      )
+    if (this.$store.getters.gametype != '') {
+      this.$store.commit('setapiname', 45003)
+      this.$store.commit('setAPI')
+      console.log('API', this.$store.getters.API)
+      console.log('gametype', this.$store.getters.gametype)
+      await axios
+        .post(this.$store.getters.API, {
+          gametype: this.$store.getters.gametype,
+        })
+        .then(
+          (resp) => (
+            (this.providerlist = resp.data.result.data),
+            console.log('providerlist', this.providerlist),
+            (this.gamelists = this.providerlist),
+            console.log('gamelists', this.gamelists)
+          ),
+        )
+    }
     // document.querySelector('header').remove()
   },
 }
