@@ -21,10 +21,10 @@
           </div>
         </a>
         <router-link
-          to="/member/games"
           class="card1"
           id="Slot"
           @click="setgametype"
+          to="/member/games/"
         >
           <div
             class="card1__background"
@@ -37,10 +37,10 @@
           </div>
         </router-link>
         <router-link
-          to="/member/games"
           class="card1"
           id="Casino"
           @click="setgametype"
+          to="/member/games/"
         >
           <div
             class="card1__background"
@@ -53,10 +53,10 @@
           </div>
         </router-link>
         <router-link
-          to="/member/games"
           class="card1"
           id="Card"
           @click="setgametype"
+          to="/member/games/"
         >
           <div
             class="card1__background"
@@ -69,10 +69,10 @@
           </div>
         </router-link>
         <router-link
-          to="/member/games"
           class="card1"
           id="Fish"
           @click="setgametype"
+          to="/member/games/"
         >
           <div
             class="card1__background"
@@ -85,10 +85,10 @@
           </div>
         </router-link>
         <router-link
-          to="/member/games"
           class="card1"
           id="keno"
           @click="setgametype"
+          to="/member/games/"
         >
           <div
             class="card1__background"

@@ -8,7 +8,7 @@
       <div class="mb-3 px-3">
         <div class="row justify-content-md-center">
           <div class="col-auto">
-            <img fluid :src="getImgUrl('ttb')" width="50" class="mb-2" />
+            <img fluid :src="imgbankmember" width="50" class="mb-2" />
           </div>
           <div class="col-auto">
             <p class="fs-6 fw-lighter m-0">
@@ -80,10 +80,7 @@ export default {
   components: {},
   data() {
     return {
-      acc_name: '',
-      bank_name: '',
-      bank_acc: '',
-      bank_nameTH: '',
+      imgbankmember: '',
     }
   },
   setup() {
@@ -96,12 +93,6 @@ export default {
       return require('../assets/images/banking/th/smooth-corner/' +
         pic +
         '.png')
-    },
-    copyText() {
-      var copyText = this.$refs.input
-      copyText.select()
-      document.execCommand('copy')
-      alert('Copied to text:' + copyText.value)
     },
     async getbankdp() {
       this.$store.commit('setapiname', 11009)
@@ -119,9 +110,7 @@ export default {
           },
         )
         .then((res) => {
-          console.log(res.data.result)
           this.$store.commit('setbkdp', res.data.result)
-          console.log(this.$store.getters.bankdeposit)
         })
         .catch((error) => {
           console.error(error)
@@ -153,13 +142,14 @@ export default {
             'setbkacc',
             this.$store.getters.bankmember[0].bank_acct,
           )
+          this.bank_name = this.$store.getters.bankmember[0].bank_name
+          // console.log('bank_name', this.bank_name)
+          this.imgbankmember = this.getImgUrl(this.bank_name)
+          // console.log('imgbankmember', this.imgbankmember)
           this.$store.commit(
             'setbkname',
             this.$store.getters.bankmember[0].bank_name,
           )
-          this.bank_name =
-            res.data.result.profile_mem.banking_account[0].bank_name
-          console.log(this.bank_name)
           this.$store.commit(
             'setbknameth',
             this.$store.getters.bankmember[0].bank_name_th,

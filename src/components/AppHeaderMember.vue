@@ -497,23 +497,23 @@ export default {
       .then((res) => {
         console.log(res.data)
         // ------------------------------------------------------------------------------//
-        this.$store.commit(
-          'setbkmb',
-          res.data.result.profile_mem.banking_account,
-        )
-        this.$store.commit(
-          'setbkacc',
-          this.$store.getters.bankmember[0].bank_acct,
-        )
-        this.$store.commit(
-          'setbkname',
-          this.$store.getters.bankmember[0].bank_name,
-        )
-        this.$store.commit(
-          'setbknameth',
-          this.$store.getters.bankmember[0].bank_name_th,
-        )
-        this.$store.commit('setbkid', this.$store.getters.bankmember[0].bank_id)
+        // this.$store.commit(
+        //   'setbkmb',
+        //   res.data.result.profile_mem.banking_account,
+        // )
+        // this.$store.commit(
+        //   'setbkacc',
+        //   this.$store.getters.bankmember[0].bank_acct,
+        // )
+        // this.$store.commit(
+        //   'setbkname',
+        //   this.$store.getters.bankmember[0].bank_name,
+        // )
+        // this.$store.commit(
+        //   'setbknameth',
+        //   this.$store.getters.bankmember[0].bank_name_th,
+        // )
+        // this.$store.commit('setbkid', this.$store.getters.bankmember[0].bank_id)
         // ------------------------------------------------------------------------------//
         this.$store.commit(
           'setphonenumber',

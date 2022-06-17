@@ -252,7 +252,6 @@ import 'swiper/css/navigation'
 
 // import required modules
 import { Pagination, Navigation } from 'swiper'
-// import Swal from 'sweetalert2'
 import axios from 'axios'
 import Swal from 'sweetalert2'
 

@@ -118,7 +118,7 @@
           <div class="card-body">
             <div class="row justify-content-center">
               <div class="col-auto">
-                <img fluid :src="getImgUrl('ttb')" width="50" class="mb-2" />
+                <img fluid :src="imgbankmember" width="50" class="mb-2" />
               </div>
               <div class="col-auto">
                 <p class="fs-6 fw-lighter m-0">
@@ -154,6 +154,7 @@ export default {
   data() {
     return {
       withdrawvalue: 0,
+      imgbankmember: '',
     }
   },
   setup() {
@@ -225,47 +226,56 @@ export default {
           })
       }
     },
+    async getprofile() {
+      this.$store.commit('setapiname', 11001)
+      this.$store.commit('setAPI')
+      const token = this.$store.getters.token
+      const headers = { Authorization: 'Bearer ' + token }
+      console.log(headers)
+      console.log(this.$store.getters.API)
+      await axios
+        .post(
+          this.$store.getters.API,
+          {},
+          {
+            headers,
+          },
+        )
+        .then((res) => {
+          console.log(res.data)
+          // ------------------------------------------------------------------------------//
+          this.$store.commit(
+            'setbkmb',
+            res.data.result.profile_mem.banking_account,
+          )
+          this.$store.commit(
+            'setbkacc',
+            this.$store.getters.bankmember[0].bank_acct,
+          )
+          this.$store.commit(
+            'setbkname',
+            this.$store.getters.bankmember[0].bank_name,
+          )
+          this.bank_name = this.$store.getters.bankmember[0].bank_name
+          // console.log('bank_name', this.bank_name)
+          this.imgbankmember = this.getImgUrl(this.bank_name)
+          this.$store.commit(
+            'setbknameth',
+            this.$store.getters.bankmember[0].bank_name_th,
+          )
+          this.$store.commit(
+            'setbkid',
+            this.$store.getters.bankmember[0].bank_id,
+          )
+          // ------------------------------------------------------------------------------//
+        })
+        .catch((error) => {
+          console.error(error)
+        })
+    },
   },
-  // async mounted() {
-  //   this.$store.commit('setapiname', 11001)
-  //   this.$store.commit('setAPI')
-  //   const token = this.$store.getters.token
-  //   const headers = { Authorization: 'Bearer ' + token }
-  //   console.log(headers)
-  //   console.log(this.$store.getters.API)
-  //   await axios
-  //     .post(
-  //       this.$store.getters.API,
-  //       {},
-  //       {
-  //         headers,
-  //       },
-  //     )
-  //     .then((res) => {
-  //       console.log(res.data)
-  //       // ------------------------------------------------------------------------------//
-  //       this.$store.commit(
-  //         'setbkmb',
-  //         res.data.result.profile_mem.banking_account,
-  //       )
-  //       this.$store.commit(
-  //         'setbkacc',
-  //         this.$store.getters.bankmember[0].bank_acct,
-  //       )
-  //       this.$store.commit(
-  //         'setbkname',
-  //         this.$store.getters.bankmember[0].bank_name,
-  //       )
-  //       this.$store.commit(
-  //         'setbknameth',
-  //         this.$store.getters.bankmember[0].bank_name_th,
-  //       )
-  //       this.$store.commit('setbkid', this.$store.getters.bankmember[0].bank_id)
-  //       // ------------------------------------------------------------------------------//
-  //     })
-  //     .catch((error) => {
-  //       console.error(error)
-  //     })
-  // },
+  mounted() {
+    this.getprofile()
+  },
 }
 </script>

@@ -488,7 +488,6 @@ export default {
           ),
         )
     }
-    // document.querySelector('header').remove()
   },
 }
 </script>
