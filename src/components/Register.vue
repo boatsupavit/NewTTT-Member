@@ -23,6 +23,7 @@
               id="phoneID"
               type="text"
               maxlength="10"
+              pattern="^[\d\W]{9,11}$"
               class="form-control"
               placeholder="เบอร์โทรศัพท์"
               :value="this.$store.getters.phonenumber"
@@ -171,10 +172,13 @@
             <option value="กรุณาเลือกช่องทาง..." selected>
               กรุณาเลือกช่องทาง...
             </option>
-            <option value="Facebook">Facebook</option>
-            <option value="Line">Line</option>
-            <option value="Web Site">Web Site</option>
-            <option value="Agent">Agent</option>
+            <option
+              v-for="(item, index) in channel"
+              :key="index"
+              :value="item._id"
+            >
+              {{ item.channel }}
+            </option>
           </select>
         </div>
         <label for="lineID" class="form-label mb-1 mt-2">
@@ -263,6 +267,7 @@ export default {
   data() {
     return {
       listbank: [],
+      channel: [],
       isActive: true,
       swiperOption: {
         slidesPerView: 7,
@@ -285,7 +290,7 @@ export default {
       this.$store.commit('setphonenumber', event.target.value)
     },
     SetbankValue(event) {
-      let bank = this.listbank[event.target.options.selectedIndex]
+      let bank = this.listbank[event.target.options.selectedIndex - 1]
       this.$store.commit('setbkname', bank.banknameen)
       this.$store.commit('setbknameth', bank.banknameth)
       this.$store.commit('setbkid', bank._id)
@@ -314,6 +319,7 @@ export default {
     SetCaptchaValue(event) {
       this.$store.commit('setcaptcha', event.target.value)
     },
+    //--------------captcha---------------//
     async refreshcap() {
       this.$store.commit('setapiname', 11008)
       this.$store.commit('setAPI')
@@ -328,6 +334,7 @@ export default {
           console.log(error)
         })
     },
+    //---------------register--------------//
     async submit() {
       if (this.$store.getters.phonenumber === '') {
         Swal.fire({
@@ -402,20 +409,14 @@ export default {
           username: '',
           password: this.$store.getters.password,
           tel: this.$store.getters.phonenumber,
-          pin: this.$store.getters.password,
+          pin: this.$store.getters.pin,
           line_id: this.$store.getters.idline,
           name: this.$store.getters.fname,
           surename: this.$store.getters.lname,
           tag: ['6281446d5aa7df0156f3b467'],
-          channel: ['6281446d5aa7df0156f3b467'],
-          banking_account: [
-            {
-              bank_id: this.$store.getters.bankid,
-              bank_acct: this.$store.getters.bankaccount,
-              bank_name: this.$store.getters.bankName,
-              bank_name_th: this.$store.getters.bankNameth,
-            },
-          ],
+          channel: this.$store.getters.chanel,
+          bank_id: this.$store.getters.bankid,
+          bank_acct: this.$store.getters.bankaccount,
           domain_name: 'https://www.banpong888.com',
           captchaID: this.$store.getters.captchaID,
           value: this.$store.getters.captcha,
@@ -424,75 +425,14 @@ export default {
         await axios
           .post(this.$store.getters.API, { body })
           .then((response) => {
-            this.msgresp = response.data
             console.log(response.data)
             this.$store.commit('setapiname', 11005)
             this.$store.commit('setAPI')
             console.log(this.$store.getters.API)
             if (response.data.status == '200') {
-              axios
-                .post(this.$store.getters.API, {
-                  tel: this.$store.getters.phonenumber,
-                  pin: this.$store.getters.pin,
-                })
-                .then((response) => {
-                  console.log(this.$store.getters.phonenumber)
-                  console.log(this.$store.getters.pin)
-                  console.log(response.data)
-                  console.log(response.data.status)
-                  if (response.data.status == '200') {
-                    console.log(response.data.result.token)
-                    sessionStorage.setItem('token', response.data.result.token)
-                    // ------------------------------------------------------------------------------//
-                    this.bankacc =
-                      response.data.result.profile_mem.banking_account
-                    console.log(this.bankacc)
-                    // this.$store.commit(
-                    //   'setbkacc',
-                    //   response.data.result.profile_mem.banking_account.bank_acct,
-                    // )
-                    // this.$store.commit(
-                    //   'setbkname',
-                    //   response.data.result.profile_mem.banking_account.bank_name,
-                    // )
-                    // ------------------------------------------------------------------------------//
-                    this.$store.commit(
-                      'setphonenumber',
-                      response.data.result.profile_mem.profile.tel,
-                    )
-                    this.$store.commit(
-                      'setfname',
-                      response.data.result.profile_mem.profile.name,
-                    )
-                    this.$store.commit(
-                      'setlname',
-                      response.data.result.profile_mem.profile.surename,
-                    )
-                    this.$store.commit(
-                      'setidline',
-                      response.data.result.profile_mem.line_id,
-                    )
-                    this.$store.commit(
-                      'setcreatedate',
-                      response.data.result.profile_mem.create_date,
-                    )
-                    this.$store.commit(
-                      'setusername',
-                      response.data.result.profile_mem.username,
-                    )
-                    this.$store.commit(
-                      'setcredit',
-                      response.data.result.profile_mem.PD.credit,
-                    )
-                    Swal.fire({
-                      title: 'สำเร็จ!!!',
-                      text: 'สมัครสมาชิกสำเร็จ Good Luck :)',
-                      icon: 'success',
-                      confirmButtonText: 'ตกลง',
-                    })
-                    this.$router.push('/member')
-                  }
-                })
+              setTimeout(function () {
+                document.querySelector('button#login').click()
+              }, 50)
             } else if (response.data.status == '300') {
               Swal.fire({
                 title: 'ผิดพลาด!!!',
@@ -508,16 +448,18 @@ export default {
                 icon: 'error',
                 confirmButtonText: 'ตกลง',
               })
+              this.refreshcap()
               this.$store.commit('clearall')
             }
           })
-          .csatch((error) => {
+          .catch((error) => {
             Swal.fire({
               title: 'ผิดพลาด!!!',
               text: 'ระบบขัดข้อง กรุณาสมัครอีกครั้งภายหลัง',
               icon: 'error',
               confirmButtonText: 'ตกลง',
             })
+            this.refreshcap()
             this.$store.commit('clearall')
             console.log(error)
           })
@@ -528,11 +470,7 @@ export default {
     this.$store.commit('setapiname', 11004)
     this.$store.commit('setAPI')
     await axios
-      .post(this.$store.getters.API, {
-        agent_id: '6281446d5aa7df0156f3b467',
-        domain_name: 'https://www.banpong888.com',
-        status: 'Active',
-      })
+      .post(this.$store.getters.API, {})
       .then((resp) => {
         this.listbank = resp.data.result.Member
         console.log(resp.data.result.Member)
@@ -540,18 +478,18 @@ export default {
       .catch((error) => {
         console.log(error)
       })
-    this.$store.commit('setapiname', 11008)
+    this.$store.commit('setapiname', 11011)
     this.$store.commit('setAPI')
     await axios
-      .get(this.$store.getters.API, {})
+      .post(this.$store.getters.API, {})
       .then((resp) => {
-        this.$store.commit('setimgcaptcha', resp.data.result.image)
-        this.$store.commit('setcaptchaID', resp.data.result.captchaID)
-        console.log(this.$store.getters.captchaID)
+        console.log(resp.data.channel)
+        this.channel = resp.data.channel
       })
       .catch((error) => {
         console.log(error)
       })
+    this.refreshcap()
   },
 }
 </script>

@@ -3,7 +3,7 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     token: sessionStorage.getItem('token'),
-    IP: 'localhost',
+    IP: '192.168.1.45',
     apiname: '',
     API: '',
     phonenumber: '',
@@ -18,16 +18,19 @@ export default createStore({
     fname: '',
     lname: '',
     chanel: 'กรุณาเลือกช่องทาง...',
+    statusmem: '',
     password: '',
     idline: '',
     captcha: '',
     username: '',
     createdate: '-',
     credit: '0',
+    privilege: '',
     gametype: '',
     gamelink: '',
     captchaID: '',
     imgcaptcha: '',
+    withdraw_count: 0,
   },
   getters: {
     token: (state) => state.token,
@@ -49,12 +52,15 @@ export default createStore({
     idline: (state) => state.idline,
     captcha: (state) => state.captcha,
     username: (state) => state.username,
+    statusmem: (state) => state.statusmem,
     createdate: (state) => state.createdate,
     credit: (state) => state.credit,
+    privilege: (state) => state.privilege,
     gametype: (state) => state.gametype,
     gamelink: (state) => state.gamelink,
     captchaID: (state) => state.captchaID,
     imgcaptcha: (state) => state.imgcaptcha,
+    withdraw_count: (state) => state.withdraw_count,
   },
   mutations: {
     preparevalue(state) {
@@ -79,11 +85,14 @@ export default createStore({
       state.idline = ''
       state.captcha = ''
       state.username = ''
+      state.statusmem = ''
       state.createdate = '-'
       state.credit = ''
+      state.privilege = ''
       state.gametype = ''
       state.gamelink = ''
       state.captchaID = ''
+      state.withdraw_count = 0
     },
     setphonenumber(state, phonenumber) {
       state.phonenumber = phonenumber
@@ -133,6 +142,9 @@ export default createStore({
     setcaptchaID(state, captchaID) {
       state.captchaID = captchaID
     },
+    setstatusmem(state, statusmem) {
+      state.statusmem = statusmem
+    },
     setimgcaptcha(state, imgcaptcha) {
       state.imgcaptcha = imgcaptcha
     },
@@ -145,11 +157,17 @@ export default createStore({
     setcredit(state, credit) {
       state.credit = credit
     },
+    setprivilege(state, privilege) {
+      state.privilege = privilege
+    },
     setgametype(state, gametype) {
       state.gametype = gametype
     },
     setgamelink(state, gamelink) {
       state.gamelink = gamelink
+    },
+    setwdc(state, withdraw_count) {
+      state.withdraw_count = withdraw_count
     },
     setAPI() {
       this.state.API = 'http://' + this.state.IP + ':' + this.state.apiname
@@ -175,6 +193,8 @@ export default createStore({
         state.apiname = apicode
       } else if (apicode == 11009) {
         state.apiname = '10000/member/getbankdeposit'
+      } else if (apicode == 11011) {
+        state.apiname = apicode + '/getchannel'
       } else if (apicode == 45003) {
         state.apiname = apicode + '/getgamelist'
       } else if (apicode == 45004) {

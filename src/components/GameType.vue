@@ -7,7 +7,7 @@
           id="Sports"
           @click="startgamesport"
           data-bs-toggle="modal"
-          data-bs-target="#modalGameview"
+          :data-bs-target="modalname"
           href="#"
         >
           <div
@@ -24,7 +24,7 @@
           class="card1"
           id="Slot"
           @click="setgametype"
-          to="/member/games/"
+          to="/member/games/Slot"
         >
           <div
             class="card1__background"
@@ -40,7 +40,7 @@
           class="card1"
           id="Casino"
           @click="setgametype"
-          to="/member/games/"
+          to="/member/games/Casino"
         >
           <div
             class="card1__background"
@@ -56,7 +56,7 @@
           class="card1"
           id="Card"
           @click="setgametype"
-          to="/member/games/"
+          to="/member/games/Card"
         >
           <div
             class="card1__background"
@@ -72,7 +72,7 @@
           class="card1"
           id="Fish"
           @click="setgametype"
-          to="/member/games/"
+          to="/member/games/Fish"
         >
           <div
             class="card1__background"
@@ -88,7 +88,7 @@
           class="card1"
           id="keno"
           @click="setgametype"
-          to="/member/games/"
+          to="/member/games/keno"
         >
           <div
             class="card1__background"
@@ -121,7 +121,11 @@ import axios from 'axios'
 
 export default {
   name: 'GameType',
-
+  data() {
+    return {
+      modalname: '',
+    }
+  },
   setup() {
     return {
       content_card_1: content_card_1,
@@ -138,32 +142,46 @@ export default {
       this.$store.commit('setgametype', event.target.id)
     },
     async startgamesport(event) {
-      this.$store.commit('preparevalue')
-      this.$store.commit('setapiname', 45004)
-      this.$store.commit('setAPI')
-      const token = this.$store.getters.token
-      const headers = { Authorization: 'Bearer ' + token }
-      console.log(token)
-      console.log(headers)
-      await axios
-        .post(
-          this.$store.getters.API,
-          {
-            tab: event.target.id,
-          },
-          {
-            headers,
-          },
-        )
-        .then((response) => {
-          console.log(response.data)
-          this.$store.commit('setgamelink', response.data.uri)
-          console.log(this.$store.getters.gamelink)
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+      let staus = this.$store.getters.statusmem
+      if (staus.toString().toLowerCase() == 'suspend') {
+        this.modalname = '#modalsuspend'
+      } else {
+        this.modalname = '#modalGameview'
+        this.$store.commit('preparevalue')
+        this.$store.commit('setapiname', 45004)
+        this.$store.commit('setAPI')
+        const token = this.$store.getters.token
+        const headers = { Authorization: 'Bearer ' + token }
+        console.log(token)
+        console.log(headers)
+        await axios
+          .post(
+            this.$store.getters.API,
+            {
+              tab: event.target.id,
+            },
+            {
+              headers,
+            },
+          )
+          .then((response) => {
+            console.log(response.data)
+            this.$store.commit('setgamelink', response.data.uri)
+            console.log(this.$store.getters.gamelink)
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+      }
     },
+  },
+  mounted() {
+    let staus = this.$store.getters.statusmem
+    if (staus.toString().toLowerCase() == 'suspend') {
+      this.modalname = '#modalsuspend'
+    } else {
+      this.modalname = '#modalGameview'
+    }
   },
 }
 </script>

@@ -154,6 +154,7 @@
           <li class="mb-3 mt-2">
             <button
               type="button"
+              id="register"
               class="btn btn-link px-2 text-decoration-none link-light"
               data-bs-toggle="modal"
               data-bs-target="#modalRegisterID"
@@ -168,6 +169,7 @@
           <li class="mb-3 mt-2">
             <button
               type="button"
+              id="login"
               class="btn btn-link px-2 text-decoration-none link-light"
               data-bs-toggle="modal"
               data-bs-target="#modalLoginID"
@@ -345,6 +347,7 @@ export default {
     clearValue() {
       this.$store.commit('clearall')
     },
+    // -----------login-----------//
     async login() {
       if (this.$store.getters.phonenumber === '') {
         Swal.fire({
@@ -369,17 +372,14 @@ export default {
             pin: this.$store.getters.pin,
           })
           .then((response) => {
-            console.log(this.$store.getters.phonenumber)
-            console.log(this.$store.getters.pin)
             console.log(response.data)
-            console.log(response.data.status)
             if (response.data.status == '200') {
               this.$store.commit('clearall')
               console.log(response.data.result.token)
               sessionStorage.setItem('token', response.data.result.token)
               // ------------------------------------------------------------------------------//
-              this.bankacc = response.data.result.profile_mem.banking_account
-              console.log(this.bankacc)
+              // this.bankacc = response.data.result.profile_mem.banking_account
+              // console.log(this.bankacc)
               // this.$store.commit(
               //   'setbkacc',
               //   response.data.result.profile_mem.banking_account.bank_acct,
@@ -414,8 +414,16 @@ export default {
                 response.data.result.profile_mem.username,
               )
               this.$store.commit(
+                'setstatusmem',
+                response.data.result.profile_mem.status,
+              )
+              this.$store.commit(
                 'setcredit',
                 response.data.result.profile_mem.PD.credit,
+              )
+              this.$store.commit(
+                'setprivilege',
+                response.data.result.profile_mem.profile.privilege,
               )
               Swal.fire({
                 title: 'สำเร็จ!!!',
@@ -423,7 +431,6 @@ export default {
                 icon: 'success',
                 confirmButtonText: 'ตกลง',
               })
-              // this.$('#modalLoginID').modal('hide')
               this.$router.push('/member')
             } else {
               Swal.fire({
@@ -433,7 +440,6 @@ export default {
                 confirmButtonText: 'ตกลง',
               })
             }
-            console.log(sessionStorage.getItem('token'))
           })
           .catch((error) => {
             Swal.fire({

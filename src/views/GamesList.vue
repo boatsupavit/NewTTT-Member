@@ -2,17 +2,17 @@
   <div class="sticky-menu">
     <nav class="skew-menu mt-2" id="navmenu">
       <ul>
-        <li class="menu">
+        <li class="menu" id="Sports">
           <a
             id="Sports"
             @click="startgamesport"
             data-bs-toggle="modal"
-            data-bs-target="#modalGameview"
+            :data-bs-target="modalname"
             href="#"
             >กีฬา</a
           >
         </li>
-        <li class="menu">
+        <li class="menu" id="slot">
           <a
             id="slot"
             @click="setgametype"
@@ -22,7 +22,7 @@
             >สล็อต</a
           >
         </li>
-        <li class="menu">
+        <li class="menu" id="casino">
           <a
             id="casino"
             @click="setgametype"
@@ -32,7 +32,7 @@
             >ไลฟ์คาสิโน</a
           >
         </li>
-        <li class="menu">
+        <li class="menu" id="Card">
           <a
             id="Card"
             @click="setgametype"
@@ -42,7 +42,7 @@
             >ไพ่</a
           >
         </li>
-        <li class="menu">
+        <li class="menu" id="Fish">
           <a
             id="Fish"
             @click="setgametype"
@@ -52,7 +52,7 @@
             >ตกปลา</a
           >
         </li>
-        <li class="menu">
+        <li class="menu" id="keno">
           <a
             id="keno"
             @click="setgametype"
@@ -115,7 +115,7 @@
             >
               <img
                 data-bs-toggle="modal"
-                data-bs-target="#modalGameview"
+                :data-bs-target="modalname"
                 :src="game.image.horizontal"
                 :gameCategory="game.gameCategory"
                 :gameprovider="game.provider"
@@ -123,7 +123,7 @@
               />
               <figcaption
                 data-bs-toggle="modal"
-                data-bs-target="#modalGameview"
+                :data-bs-target="modalname"
                 :gameCategory="game.gameCategory"
                 :gameprovider="game.provider"
                 :gameid="game.id"
@@ -172,6 +172,15 @@
     </div>
   </div>
 
+  <div>
+    <button
+      id="callspin"
+      data-bs-toggle="modal"
+      data-bs-target="#modalspin"
+      hidden
+    />
+  </div>
+
   <!-- Modal - Spinner -->
   <div
     class="modal fade modal"
@@ -194,6 +203,53 @@
       </div>
     </div>
   </div>
+  <!-- Modal - SUSPEND -->
+  <div
+    class="modal fade modal"
+    id="modalsuspend"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="modalsuspend"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content border-2 modal-shadow">
+        <div class="modal-header">
+          <h5 class="modal-title text-white" id="modalsuspend">
+            <i class="bi bi-exclamation-circle-fill"></i>
+            Warning !!!
+          </h5>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <div class="container text-content-color">
+            <span class="text-center">
+              <div class="container">
+                <h2>บัญชีของคุณถูกระงับ กรุณาติดต่อเจ้าหน้าที่</h2>
+                <img
+                  src="https://www.freeiconspng.com/thumbs/alert-icon/alert-icon-red-11.png"
+                  alt="Warning !!!"
+                  width="50%"
+                  height="50%"
+                />
+              </div>
+            </span>
+          </div>
+        </div>
+        <div class="modal-footer px-4">
+          <button type="button" class="btn btn-warning" data-bs-dismiss="modal">
+            ติดต่อเจ้าหน้าที่
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -211,6 +267,8 @@ export default {
     return {
       gamelists: [],
       providerlist: [],
+      modalname: '',
+      state: '',
     }
   },
   created() {
@@ -301,6 +359,9 @@ export default {
         console.log(this.gamelists)
     },
     async setgametype(event) {
+      setTimeout(function () {
+        document.querySelector('button#callspin').click()
+      }, 50)
       this.providerlist = []
       this.gamelists = []
       this.$store.commit('preparevalue')
@@ -326,61 +387,73 @@ export default {
         )
     },
     async startgame(event) {
-      this.$store.commit('preparevalue')
-      this.$store.commit('setapiname', 45004)
-      this.$store.commit('setAPI')
-      const token = this.$store.getters.token
-      const headers = { Authorization: 'Bearer ' + token }
-      console.log(event.target.attributes.gameid.value)
-      console.log(event.target.attributes.gameprovider.value)
-      console.log(event.target.attributes.gameCategory.value)
-      await axios
-        .post(
-          this.$store.getters.API,
-          {
-            gameID: event.target.attributes.gameid.value,
-            provider: event.target.attributes.gameprovider.value,
-            tab: event.target.attributes.gameCategory.value,
-          },
-          {
-            headers,
-          },
-        )
-        .then((response) => {
-          console.log(response.data)
-          this.$store.commit('setgamelink', response.data.uri)
-          console.log(this.$store.getters.gamelink)
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+      let staus = this.$store.getters.statusmem
+      if (staus.toString().toLowerCase() == 'suspend') {
+        this.modalname = '#modalsuspend'
+      } else {
+        this.modalname = '#modalGameview'
+        this.$store.commit('preparevalue')
+        this.$store.commit('setapiname', 45004)
+        this.$store.commit('setAPI')
+        const token = this.$store.getters.token
+        const headers = { Authorization: 'Bearer ' + token }
+        console.log(event.target.attributes.gameid.value)
+        console.log(event.target.attributes.gameprovider.value)
+        console.log(event.target.attributes.gameCategory.value)
+        await axios
+          .post(
+            this.$store.getters.API,
+            {
+              gameID: event.target.attributes.gameid.value,
+              provider: event.target.attributes.gameprovider.value,
+              tab: event.target.attributes.gameCategory.value,
+            },
+            {
+              headers,
+            },
+          )
+          .then((response) => {
+            console.log(response.data)
+            this.$store.commit('setgamelink', response.data.uri)
+            console.log(this.$store.getters.gamelink)
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+      }
     },
     async startgamesport(event) {
-      this.$store.commit('preparevalue')
-      this.$store.commit('setapiname', 45004)
-      this.$store.commit('setAPI')
-      const token = this.$store.getters.token
-      const headers = { Authorization: 'Bearer ' + token }
-      console.log(token)
-      console.log(headers)
-      await axios
-        .post(
-          this.$store.getters.API,
-          {
-            tab: event.target.id,
-          },
-          {
-            headers,
-          },
-        )
-        .then((response) => {
-          console.log(response.data)
-          this.$store.commit('setgamelink', response.data.uri)
-          console.log(this.$store.getters.gamelink)
-        })
-        .catch((error) => {
-          console.error(error)
-        })
+      let staus = this.$store.getters.statusmem
+      if (staus.toString().toLowerCase() == 'suspend') {
+        this.modalname = '#modalsuspend'
+      } else {
+        this.modalname = '#modalGameview'
+        this.$store.commit('preparevalue')
+        this.$store.commit('setapiname', 45004)
+        this.$store.commit('setAPI')
+        const token = this.$store.getters.token
+        const headers = { Authorization: 'Bearer ' + token }
+        console.log(token)
+        console.log(headers)
+        await axios
+          .post(
+            this.$store.getters.API,
+            {
+              tab: event.target.id,
+            },
+            {
+              headers,
+            },
+          )
+          .then((response) => {
+            console.log(response.data)
+            this.$store.commit('setgamelink', response.data.uri)
+            console.log(this.$store.getters.gamelink)
+          })
+          .catch((error) => {
+            console.error(error)
+          })
+      }
     },
     scrollFunction() {
       let mybutton = document.getElementById('btn-back-to-top')
@@ -399,6 +472,13 @@ export default {
     },
   },
   async mounted() {
+    //-------------Get URL------------//
+    this.state = window.location.href
+    console.log('URL =>', this.state)
+    this.state = this.$route.params.gametype
+    console.log('gametype URL =>', this.state)
+    this.$store.commit('setgametype', this.state)
+    console.log('gametype : ', this.$store.getters.gametype)
     // menu add active
     const list = document.querySelectorAll('.menu')
     function activeLink() {
@@ -463,6 +543,7 @@ export default {
           'setcreatedate',
           res.data.result.profile_mem.create_date,
         )
+        this.$store.commit('setstatusmem', res.data.result.profile_mem.status)
         this.$store.commit('setusername', res.data.result.profile_mem.username)
         this.$store.commit('setcredit', res.data.result.profile_mem.PD.credit)
       })
@@ -471,6 +552,7 @@ export default {
       })
     // get gamelists
     if (this.$store.getters.gametype != '') {
+      document.querySelector('button#callspin').click()
       this.$store.commit('setapiname', 45003)
       this.$store.commit('setAPI')
       console.log('API', this.$store.getters.API)
@@ -486,6 +568,9 @@ export default {
             (this.gamelists = this.providerlist),
             console.log('gamelists', this.gamelists)
           ),
+          setTimeout(function () {
+            document.querySelector('button#modalspin').click()
+          }, 500),
         )
     }
   },

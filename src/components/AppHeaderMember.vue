@@ -467,6 +467,10 @@ export default {
             res.data.result.profile_mem.username,
           )
           this.$store.commit('setcredit', res.data.result.profile_mem.PD.credit)
+          this.$store.commit(
+            'setwdc',
+            res.data.result.profile_mem.financial.withdraw_count,
+          )
         })
         .catch((error) => {
           console.error(error)
@@ -529,8 +533,13 @@ export default {
           'setcreatedate',
           res.data.result.profile_mem.create_date,
         )
+        this.$store.commit('setstatusmem', res.data.result.profile_mem.status)
         this.$store.commit('setusername', res.data.result.profile_mem.username)
         this.$store.commit('setcredit', res.data.result.profile_mem.PD.credit)
+        this.$store.commit(
+          'setwdc',
+          res.data.result.profile_mem.financial.withdraw_count,
+        )
       })
       .catch((error) => {
         console.error(error)

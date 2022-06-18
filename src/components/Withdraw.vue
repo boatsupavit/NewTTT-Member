@@ -11,7 +11,11 @@
       <div class="text-center">
         <small class="small" style="font-size: 0.73rem">
           จำนวนการถอนต่อวัน : <span class="text-danger">5</span> ครั้ง /
-          ถอนไปแล้ว <span class="text-info">0</span> ครั้ง
+          ถอนไปแล้ว
+          <span class="text-info">{{
+            this.$store.getters.withdraw_count
+          }}</span>
+          ครั้ง
         </small>
       </div>
       <div class="input-group mx-auto mt-3" style="max-width: 24em">
@@ -211,6 +215,7 @@ export default {
                 icon: 'success',
                 confirmButtonText: 'ตกลง',
               })
+              this.$store.commit('setwdc', respon.data.withdraw_count)
             } else {
               Swal.fire({
                 title: 'ผิดพลาด!!!',

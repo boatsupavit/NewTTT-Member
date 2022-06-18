@@ -44,7 +44,8 @@
                 <p class="small lh-1 text-white m-0">{{ bank.account_name }}</p>
                 <p
                   class="fs-5 fw-bold fw-bolder lh-1 mb-2 text-warning"
-                  ref="input"
+                  id="myInput"
+                  :value="bank.bank_account"
                 >
                   {{ bank.bank_account }}
                 </p>
@@ -54,7 +55,11 @@
                   type="button"
                   class="btn btn-secondary btn-sm"
                   @click="copyText"
+                  @mouseout="outfocus"
                 >
+                  <span class="tooltiptext" id="myTooltip"
+                    >Copy to clipboard</span
+                  >
                   <i class="bi bi-clipboard-check"></i>
                   คัดลอก
                 </button>
@@ -89,6 +94,18 @@ export default {
     }
   },
   methods: {
+    copyText() {
+      var copyText = document.getElementById('myInput').innerText
+      console.log(copyText)
+      navigator.clipboard.writeText(copyText)
+      var tooltip = document.getElementById('myTooltip')
+      tooltip.innerHTML = 'Copied: ' + copyText
+      console.log(tooltip)
+    },
+    outfocus() {
+      var tooltip = document.getElementById('myTooltip')
+      tooltip.innerHTML = 'Copy to clipboard'
+    },
     getImgUrl(pic) {
       return require('../assets/images/banking/th/smooth-corner/' +
         pic +
@@ -171,3 +188,42 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 140px;
+  background-color: rgb(201, 201, 201);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 150%;
+  left: 50%;
+  margin-left: -75px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.tooltip .tooltiptext::after {
+  content: '';
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgb(201, 201, 201) transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+</style>

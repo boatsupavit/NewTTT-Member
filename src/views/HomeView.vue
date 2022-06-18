@@ -294,12 +294,24 @@ export default {
   data() {
     return {
       imgHallArray: [],
+      state: '',
+      page: '',
     }
   },
   mounted() {
     this.importAll(
       require.context('../assets/images/gameshall/', true, /\.png$/),
     )
+    this.state = window.location.href
+    this.state = this.$route.params.tel
+    this.page = this.$route.params.page
+    console.log(this.page)
+    if (this.page == 'login' && this.state != '') {
+      this.$store.commit('setphonenumber', this.state)
+      setTimeout(function () {
+        document.querySelector('button#login').click()
+      }, 500)
+    }
   },
 
   methods: {

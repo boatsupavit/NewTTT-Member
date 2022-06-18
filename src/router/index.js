@@ -25,6 +25,16 @@ const routes = [
         name: 'Register',
         component: () => import('./../components/Register.vue'),
       },
+      {
+        path: '/login',
+        name: 'login',
+        component: () => import('./../views/HomeView.vue'),
+      },
+      {
+        path: '/:page/:tel',
+        name: 'logintel',
+        component: () => import('./../views/HomeView.vue'),
+      },
     ],
   },
   {
@@ -45,7 +55,7 @@ const routes = [
       },
       {
         path: '/member/games/:gametype',
-        name: '',
+        name: 'gametype',
         component: () => import('../views/GamesList.vue'),
       },
     ],
