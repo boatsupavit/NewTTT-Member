@@ -128,6 +128,7 @@ export default {
         )
         .then((res) => {
           this.$store.commit('setbkdp', res.data.result)
+          console.log('BKDP', res.data)
         })
         .catch((error) => {
           console.error(error)

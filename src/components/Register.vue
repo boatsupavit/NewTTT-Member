@@ -472,8 +472,8 @@ export default {
     await axios
       .post(this.$store.getters.API, {})
       .then((resp) => {
-        this.listbank = resp.data.result.Member
-        console.log(resp.data.result.Member)
+        this.listbank = resp.data.result.banking
+        console.log(resp.data.result.banking)
       })
       .catch((error) => {
         console.log(error)
