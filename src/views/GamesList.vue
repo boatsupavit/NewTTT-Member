@@ -276,80 +276,80 @@ export default {
     window.addEventListener('scroll', this.scrollFunction)
   },
   methods: {
-    async getprofile() {
-      this.$store.commit('preparevalue')
-      this.$store.commit('settoken', sessionStorage.getItem('token'))
-      this.$store.commit('setapiname', 11001)
-      this.$store.commit('setAPI')
-      const token = this.$store.getters.token
-      const headers = { Authorization: 'Bearer ' + token }
-      console.log(headers)
-      console.log(this.$store.getters.API)
-      await axios
-        .post(
-          this.$store.getters.API,
-          {},
-          {
-            headers,
-          },
-        )
-        .then((res) => {
-          console.log(res.data)
-          // ------------------------------------------------------------------------------//
-          this.$store.commit(
-            'setbkmb',
-            res.data.result.profile_mem.banking_account,
-          )
-          this.$store.commit(
-            'setbkacc',
-            this.$store.getters.bankmember[0].bank_acct,
-          )
-          this.$store.commit(
-            'setbkname',
-            this.$store.getters.bankmember[0].bank_name,
-          )
-          this.$store.commit(
-            'setbknameth',
-            this.$store.getters.bankmember[0].bank_name_th,
-          )
-          this.$store.commit(
-            'setbkid',
-            this.$store.getters.bankmember[0].bank_id,
-          )
-          // ------------------------------------------------------------------------------//
-          this.$store.commit(
-            'setphonenumber',
-            res.data.result.profile_mem.profile.tel,
-          )
-          this.$store.commit(
-            'setfname',
-            res.data.result.profile_mem.profile.name,
-          )
-          this.$store.commit(
-            'setlname',
-            res.data.result.profile_mem.profile.surename,
-          )
-          this.$store.commit('setidline', res.data.result.profile_mem.line_id)
-          this.$store.commit(
-            'setcreatedate',
-            res.data.result.profile_mem.create_date,
-          )
-          this.$store.commit(
-            'setusername',
-            res.data.result.profile_mem.username,
-          )
-          this.$store.commit('setcredit', res.data.result.profile_mem.PD.credit)
-        })
-        .catch((error) => {
-          console.error(error)
-          Swal.fire({
-            title: 'ผิดพลาด!!!',
-            text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
-            icon: 'error',
-            confirmButtonText: 'ตกลง',
-          })
-        })
-    },
+    // async getprofile() {
+    //   this.$store.commit('preparevalue')
+    //   this.$store.commit('settoken', sessionStorage.getItem('token'))
+    //   this.$store.commit('setapiname', 11001)
+    //   this.$store.commit('setAPI')
+    //   const token = this.$store.getters.token
+    //   const headers = { Authorization: 'Bearer ' + token }
+    //   console.log(headers)
+    //   console.log(this.$store.getters.API)
+    //   await axios
+    //     .post(
+    //       this.$store.getters.API,
+    //       {},
+    //       {
+    //         headers,
+    //       },
+    //     )
+    //     .then((res) => {
+    //       console.log(res.data)
+    //       // ------------------------------------------------------------------------------//
+    //       this.$store.commit(
+    //         'setbkmb',
+    //         res.data.result.profile_mem.banking_account,
+    //       )
+    //       this.$store.commit(
+    //         'setbkacc',
+    //         this.$store.getters.bankmember[0].bank_acct,
+    //       )
+    //       this.$store.commit(
+    //         'setbkname',
+    //         this.$store.getters.bankmember[0].bank_name,
+    //       )
+    //       this.$store.commit(
+    //         'setbknameth',
+    //         this.$store.getters.bankmember[0].bank_name_th,
+    //       )
+    //       this.$store.commit(
+    //         'setbkid',
+    //         this.$store.getters.bankmember[0].bank_id,
+    //       )
+    //       // ------------------------------------------------------------------------------//
+    //       this.$store.commit(
+    //         'setphonenumber',
+    //         res.data.result.profile_mem.profile.tel,
+    //       )
+    //       this.$store.commit(
+    //         'setfname',
+    //         res.data.result.profile_mem.profile.name,
+    //       )
+    //       this.$store.commit(
+    //         'setlname',
+    //         res.data.result.profile_mem.profile.surename,
+    //       )
+    //       this.$store.commit('setidline', res.data.result.profile_mem.line_id)
+    //       this.$store.commit(
+    //         'setcreatedate',
+    //         res.data.result.profile_mem.create_date,
+    //       )
+    //       this.$store.commit(
+    //         'setusername',
+    //         res.data.result.profile_mem.username,
+    //       )
+    //       this.$store.commit('setcredit', res.data.result.profile_mem.PD.credit)
+    //     })
+    //     .catch((error) => {
+    //       console.error(error)
+    //       Swal.fire({
+    //         title: 'ผิดพลาด!!!',
+    //         text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+    //         icon: 'error',
+    //         confirmButtonText: 'ตกลง',
+    //       })
+    //     })
+    // },
     Filtergamelist(e) {
       console.log(e.target.attributes.value.value)
       const filterArray = (array, fields, value) => {
@@ -400,6 +400,7 @@ export default {
             setTimeout(function () {
               document.querySelector('button#modalspin').click()
             }, 1000)
+            localStorage.setItem('GType', this.$store.getters.gametype)
           } else {
             setTimeout(function () {
               document.querySelector('button#modalspin').click()
@@ -529,13 +530,14 @@ export default {
     },
   },
   async mounted() {
+    // this.$store.commit('setgametype', localStorage.getItem('GType'))
     //-------------Get URL------------//
     // this.state = window.location.href
     // console.log('URL =>', this.state)
     // this.state = this.$route.params.gametype
     // console.log('gametype URL =>', this.state)
     // this.$store.commit('setgametype', this.state)
-    // console.log('gametype : ', this.$store.getters.gametype)
+    console.log('gametype : ', this.$store.getters.gametype)
     // menu add active
     const list = document.querySelectorAll('.menu')
     function activeLink() {
@@ -550,7 +552,7 @@ export default {
       this.$router.push('/home')
     }
     // get profile
-    this.getprofile()
+    // this.getprofile()
     // get gamelists
     if (this.$store.getters.gametype != '') {
       document.querySelector('button#callspin').click()
