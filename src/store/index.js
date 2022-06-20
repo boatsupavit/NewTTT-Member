@@ -3,7 +3,7 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     token: sessionStorage.getItem('token'),
-    IP: '192.168.1.45',
+    IP: '139.59.106.241',
     apiname: '',
     API: '',
     phonenumber: '',
