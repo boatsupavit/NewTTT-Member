@@ -292,7 +292,7 @@
             <div class="d-grid gap-2">
               <button
                 type="button"
-                id="login"
+                id="loginbtn"
                 class="btn btn-warning"
                 data-bs-dismiss="modal"
                 @click="login"
@@ -377,54 +377,6 @@ export default {
               this.$store.commit('clearall')
               console.log(response.data.result.token)
               sessionStorage.setItem('token', response.data.result.token)
-              // ------------------------------------------------------------------------------//
-              // this.bankacc = response.data.result.profile_mem.banking_account
-              // console.log(this.bankacc)
-              // this.$store.commit(
-              //   'setbkacc',
-              //   response.data.result.profile_mem.banking_account.bank_acct,
-              // )
-              // this.$store.commit(
-              //   'setbkname',
-              //   response.data.result.profile_mem.banking_account.bank_name,
-              // )
-              // ------------------------------------------------------------------------------//
-              this.$store.commit(
-                'setphonenumber',
-                response.data.result.profile_mem.profile.tel,
-              )
-              this.$store.commit(
-                'setfname',
-                response.data.result.profile_mem.profile.name,
-              )
-              this.$store.commit(
-                'setlname',
-                response.data.result.profile_mem.profile.surename,
-              )
-              this.$store.commit(
-                'setidline',
-                response.data.result.profile_mem.line_id,
-              )
-              this.$store.commit(
-                'setcreatedate',
-                response.data.result.profile_mem.create_date,
-              )
-              this.$store.commit(
-                'setusername',
-                response.data.result.profile_mem.username,
-              )
-              this.$store.commit(
-                'setstatusmem',
-                response.data.result.profile_mem.status,
-              )
-              this.$store.commit(
-                'setcredit',
-                response.data.result.profile_mem.PD.credit,
-              )
-              this.$store.commit(
-                'setprivilege',
-                response.data.result.profile_mem.profile.privilege,
-              )
               Swal.fire({
                 title: 'สำเร็จ!!!',
                 text: 'เข้าสู่ระบบสำเร็จ ยินดีต้อนรับกลับค่ะ',

@@ -24,7 +24,7 @@
           class="card1"
           id="Slot"
           @click="setgametype"
-          to="/member/games/Slot"
+          to="/member/games"
         >
           <div
             class="card1__background"
@@ -40,7 +40,7 @@
           class="card1"
           id="Casino"
           @click="setgametype"
-          to="/member/games/Casino"
+          to="/member/games"
         >
           <div
             class="card1__background"
@@ -56,7 +56,7 @@
           class="card1"
           id="Card"
           @click="setgametype"
-          to="/member/games/Card"
+          to="/member/games"
         >
           <div
             class="card1__background"
@@ -72,7 +72,7 @@
           class="card1"
           id="Fish"
           @click="setgametype"
-          to="/member/games/Fish"
+          to="/member/games"
         >
           <div
             class="card1__background"
@@ -88,7 +88,7 @@
           class="card1"
           id="keno"
           @click="setgametype"
-          to="/member/games/keno"
+          to="/member/games"
         >
           <div
             class="card1__background"

@@ -220,6 +220,7 @@ import { imgSocialMedia as imgSocial } from '@/assets/images/social'
 import GameCard from '@/components/GameType.vue'
 // import LastGames from '@/components/GameLasted.vue'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'HomeView',
@@ -255,49 +256,58 @@ export default {
       )
       .then((res) => {
         console.log(res.data)
-        //------------------------------------------------------------------------------//
-        // this.$store.commit(
-        //   'setbkmb',
-        //   res.data.result.profile_mem.banking_account,
-        // )
-        // this.$store.commit(
-        //   'setbkacc',
-        //   this.$store.getters.bankmember[0].bank_acct,
-        // )
-        // this.$store.commit(
-        //   'setbkname',
-        //   this.$store.getters.bankmember[0].bank_name,
-        // )
-        // this.$store.commit(
-        //   'setbknameth',
-        //   this.$store.getters.bankmember[0].bank_name_th,
-        // )
-        // this.$store.commit('setbkid', this.$store.getters.bankmember[0].bank_id)
-        //------------------------------------------------------------------------------//
-        this.$store.commit(
-          'setphonenumber',
-          res.data.result.profile_mem.profile.tel,
-        )
-        this.$store.commit('setfname', res.data.result.profile_mem.profile.name)
-        this.$store.commit(
-          'setlname',
-          res.data.result.profile_mem.profile.surename,
-        )
-        this.$store.commit('setidline', res.data.result.profile_mem.line_id)
-        this.$store.commit(
-          'setcreatedate',
-          res.data.result.profile_mem.create_date,
-        )
-        this.$store.commit('setstatusmem', res.data.result.profile_mem.status)
-        this.$store.commit('setusername', res.data.result.profile_mem.username)
-        this.$store.commit('setcredit', res.data.result.profile_mem.PD.credit)
-        this.$store.commit(
-          'setwdc',
-          res.data.result.profile_mem.financial.withdraw_count,
-        )
+        if (res.data.status == 200) {
+          this.$store.commit(
+            'setphonenumber',
+            res.data.result.profile_mem.profile.tel,
+          )
+          this.$store.commit(
+            'setfname',
+            res.data.result.profile_mem.profile.name,
+          )
+          this.$store.commit(
+            'setlname',
+            res.data.result.profile_mem.profile.surename,
+          )
+          this.$store.commit('setidline', res.data.result.profile_mem.line_id)
+          this.$store.commit(
+            'setcreatedate',
+            res.data.result.profile_mem.create_date,
+          )
+          this.$store.commit('setstatusmem', res.data.result.profile_mem.status)
+          this.$store.commit(
+            'setusername',
+            res.data.result.profile_mem.username,
+          )
+          this.$store.commit('setcredit', res.data.result.profile_mem.PD.credit)
+          this.$store.commit(
+            'setwdc',
+            res.data.result.profile_mem.financial.withdraw_count,
+          )
+        } else if (res.data.status == 503) {
+          Swal.fire({
+            title: 'ผิดพลาด!!!',
+            text: 'พบการ Login ซ้อนกรุณาติดต่อเจ้าหน้าที่หรือ Login ใหม่อีกครั้ง',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+          })
+        } else if (res.data.status == 502) {
+          Swal.fire({
+            title: 'ผิดพลาด!!!',
+            text: 'กรุณา Login ใหม่อีกครั้ง',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+          })
+        }
       })
       .catch((error) => {
         console.error(error)
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
       })
   },
   methods: {

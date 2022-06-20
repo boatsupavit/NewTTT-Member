@@ -3,7 +3,7 @@ import { createStore } from 'vuex'
 export default createStore({
   state: {
     token: sessionStorage.getItem('token'),
-    IP: '139.59.106.241',
+    IP: 'taetrueteam.fun',
     apiname: '',
     API: '',
     phonenumber: '',
@@ -193,10 +193,12 @@ export default createStore({
         state.apiname = apicode
       } else if (apicode == 11009) {
         state.apiname = '10000/member/getbankdeposit'
+      } else if (apicode == 11010) {
+        state.apiname = '10000/member/getwithdrawamount'
       } else if (apicode == 11011) {
         state.apiname = apicode + '/getchannel'
       } else if (apicode == 45003) {
-        state.apiname = apicode + '/getgamelist'
+        state.apiname = '10000/member/getgamelist'
       } else if (apicode == 45004) {
         state.apiname = '10000/provieder/startgame'
       }

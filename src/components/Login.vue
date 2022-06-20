@@ -72,7 +72,7 @@ export default {
     },
     login() {
       setTimeout(function () {
-        document.querySelector('#login').click()
+        document.querySelector('#loginbtn').click()
       }, 50)
     },
   },

@@ -32,64 +32,18 @@
         <span class="input-group-text"> บาท </span>
       </div>
       <div class="row justify-content-center row-cols-6 mt-3">
-        <div class="col-auto mb-2">
+        <div
+          class="col-auto mb-2"
+          v-for="amount in withdraw_config"
+          :key="amount.index"
+        >
           <button
             type="button"
             class="btn btn-outline-warning btn-sm rounded-pill"
-            value="50"
+            :value="amount"
             @click="sum"
           >
-            + 50
-          </button>
-        </div>
-        <div class="col-auto mb-2">
-          <button
-            type="button"
-            class="btn btn-outline-warning btn-sm rounded-pill"
-            value="100"
-            @click="sum"
-          >
-            + 100
-          </button>
-        </div>
-        <div class="col-auto mb-2">
-          <button
-            type="button"
-            class="btn btn-outline-warning btn-sm rounded-pill"
-            value="200"
-            @click="sum"
-          >
-            + 200
-          </button>
-        </div>
-        <div class="col-auto mb-2">
-          <button
-            type="button"
-            class="btn btn-outline-warning btn-sm rounded-pill"
-            value="300"
-            @click="sum"
-          >
-            + 300
-          </button>
-        </div>
-        <div class="col-auto mb-2">
-          <button
-            type="button"
-            class="btn btn-outline-warning btn-sm rounded-pill"
-            value="500"
-            @click="sum"
-          >
-            + 500
-          </button>
-        </div>
-        <div class="col-auto mb-2">
-          <button
-            type="button"
-            class="btn btn-outline-warning btn-sm rounded-pill"
-            value="1000"
-            @click="sum"
-          >
-            + 1000
+            + {{ amount }}
           </button>
         </div>
         <div class="col-auto mb-2">
@@ -159,6 +113,7 @@ export default {
     return {
       withdrawvalue: 0,
       imgbankmember: '',
+      withdraw_config: [],
     }
   },
   setup() {
@@ -173,6 +128,7 @@ export default {
         '.png')
     },
     sum(e) {
+      console.log(e.target.value)
       this.withdrawvalue = Number(this.withdrawvalue) + Number(e.target.value)
     },
     settotal(e) {
@@ -212,7 +168,7 @@ export default {
               Swal.fire({
                 title: 'สำเร็จ!!!',
                 text: respon.data.message,
-                icon: 'success',
+                icon: 'info',
                 confirmButtonText: 'ตกลง',
               })
               this.$store.commit('setwdc', respon.data.withdraw_count)
@@ -231,6 +187,26 @@ export default {
           })
       }
     },
+    async getwithdraw_amount() {
+      this.$store.commit('setapiname', 11010)
+      this.$store.commit('setAPI')
+      const token = this.$store.getters.token
+      const headers = { Authorization: 'Bearer ' + token }
+      console.log(headers)
+      console.log(this.$store.getters.API)
+      await axios
+        .post(
+          this.$store.getters.API,
+          {},
+          {
+            headers,
+          },
+        )
+        .then((res) => {
+          console.log('withdraw_config => ', res.data)
+          this.withdraw_config = res.data.result.withdraw_config
+        })
+    },
     async getprofile() {
       this.$store.commit('setapiname', 11001)
       this.$store.commit('setAPI')
@@ -248,39 +224,62 @@ export default {
         )
         .then((res) => {
           console.log(res.data)
-          // ------------------------------------------------------------------------------//
-          this.$store.commit(
-            'setbkmb',
-            res.data.result.profile_mem.banking_account,
-          )
-          this.$store.commit(
-            'setbkacc',
-            this.$store.getters.bankmember[0].bank_acct,
-          )
-          this.$store.commit(
-            'setbkname',
-            this.$store.getters.bankmember[0].bank_name,
-          )
-          this.bank_name = this.$store.getters.bankmember[0].bank_name
-          // console.log('bank_name', this.bank_name)
-          this.imgbankmember = this.getImgUrl(this.bank_name)
-          this.$store.commit(
-            'setbknameth',
-            this.$store.getters.bankmember[0].bank_name_th,
-          )
-          this.$store.commit(
-            'setbkid',
-            this.$store.getters.bankmember[0].bank_id,
-          )
-          // ------------------------------------------------------------------------------//
+          if (res.data.status == 200) {
+            // ------------------------------------------------------------------------------//
+            this.$store.commit(
+              'setbkmb',
+              res.data.result.profile_mem.banking_account,
+            )
+            this.$store.commit(
+              'setbkacc',
+              this.$store.getters.bankmember[0].bank_acct,
+            )
+            this.$store.commit(
+              'setbkname',
+              this.$store.getters.bankmember[0].bank_name,
+            )
+            this.bank_name = this.$store.getters.bankmember[0].bank_name
+            // console.log('bank_name', this.bank_name)
+            this.imgbankmember = this.getImgUrl(this.bank_name)
+            this.$store.commit(
+              'setbknameth',
+              this.$store.getters.bankmember[0].bank_name_th,
+            )
+            this.$store.commit(
+              'setbkid',
+              this.$store.getters.bankmember[0].bank_id,
+            )
+            // ------------------------------------------------------------------------------//
+          } else if (res.data.status == 503) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'พบการ Login ซ้อนกรุณาติดต่อเจ้าหน้าที่หรือ Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+          } else if (res.data.status == 502) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'กรุณา Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+          }
         })
         .catch((error) => {
           console.error(error)
+          Swal.fire({
+            title: 'ผิดพลาด!!!',
+            text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+          })
         })
     },
   },
   mounted() {
     this.getprofile()
+    this.getwithdraw_amount()
   },
 }
 </script>

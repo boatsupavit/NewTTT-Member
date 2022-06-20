@@ -44,7 +44,7 @@
                 <p class="small lh-1 text-white m-0">{{ bank.account_name }}</p>
                 <p
                   class="fs-5 fw-bold fw-bolder lh-1 mb-2 text-warning"
-                  id="myInput"
+                  id="wdvalue"
                   :value="bank.bank_account"
                 >
                   {{ bank.bank_account }}
@@ -55,16 +55,19 @@
                   type="button"
                   class="btn btn-secondary btn-sm"
                   @click="copyText"
-                  @mouseout="outfocus"
+                  @mouseover="outfocus"
                 >
-                  <span class="tooltiptext" id="myTooltip"
-                    >Copy to clipboard</span
-                  >
                   <i class="bi bi-clipboard-check"></i>
+                  <div class="tooltip">
+                    <span class="tooltiptext" id="myTooltip"
+                      >Copy to clipboard</span
+                    >
+                  </div>
                   คัดลอก
                 </button>
               </div>
             </div>
+            <input />
           </div>
         </div>
       </div>
@@ -79,6 +82,7 @@
 <script>
 import { imgBankSmoothSet as imgBank } from '@/assets/images/banking/th/smooth-corner'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'Deposit',
@@ -95,16 +99,17 @@ export default {
   },
   methods: {
     copyText() {
-      var copyText = document.getElementById('myInput').innerText
+      var copyText = document.getElementById('wdvalue').innerText
       console.log(copyText)
       navigator.clipboard.writeText(copyText)
       var tooltip = document.getElementById('myTooltip')
       tooltip.innerHTML = 'Copied: ' + copyText
-      console.log(tooltip)
+      console.log(tooltip.innerHTML)
     },
     outfocus() {
       var tooltip = document.getElementById('myTooltip')
       tooltip.innerHTML = 'Copy to clipboard'
+      console.log(tooltip.innerHTML)
     },
     getImgUrl(pic) {
       return require('../assets/images/banking/th/smooth-corner/' +
@@ -127,8 +132,17 @@ export default {
           },
         )
         .then((res) => {
-          this.$store.commit('setbkdp', res.data.result)
-          console.log('BKDP', res.data)
+          if (res.data.status == 200) {
+            this.$store.commit('setbkdp', res.data.result)
+            console.log('BKDP', res.data)
+          } else {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'Call Bank Deposit : ' + res.data.message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+          }
         })
         .catch((error) => {
           console.error(error)
@@ -151,35 +165,93 @@ export default {
         )
         .then((res) => {
           console.log(res.data)
-          // ------------------------------------------------------------------------------//
-          this.$store.commit(
-            'setbkmb',
-            res.data.result.profile_mem.banking_account,
-          )
-          this.$store.commit(
-            'setbkacc',
-            this.$store.getters.bankmember[0].bank_acct,
-          )
-          this.bank_name = this.$store.getters.bankmember[0].bank_name
-          // console.log('bank_name', this.bank_name)
-          this.imgbankmember = this.getImgUrl(this.bank_name)
-          // console.log('imgbankmember', this.imgbankmember)
-          this.$store.commit(
-            'setbkname',
-            this.$store.getters.bankmember[0].bank_name,
-          )
-          this.$store.commit(
-            'setbknameth',
-            this.$store.getters.bankmember[0].bank_name_th,
-          )
-          this.$store.commit(
-            'setbkid',
-            this.$store.getters.bankmember[0].bank_id,
-          )
-          // ------------------------------------------------------------------------------//
+          if (res.data.status == 200) {
+            // ------------------------------------------------------------------------------//
+            this.$store.commit(
+              'setbkmb',
+              res.data.result.profile_mem.banking_account,
+            )
+            this.$store.commit(
+              'setbkacc',
+              this.$store.getters.bankmember[0].bank_acct,
+            )
+            this.bank_name = this.$store.getters.bankmember[0].bank_name
+            // console.log('bank_name', this.bank_name)
+            this.imgbankmember = this.getImgUrl(this.bank_name)
+            // console.log('imgbankmember', this.imgbankmember)
+            this.$store.commit(
+              'setbkname',
+              this.$store.getters.bankmember[0].bank_name,
+            )
+            this.$store.commit(
+              'setbknameth',
+              this.$store.getters.bankmember[0].bank_name_th,
+            )
+            this.$store.commit(
+              'setbkid',
+              this.$store.getters.bankmember[0].bank_id,
+            )
+            // ------------------------------------------------------------------------------//
+            this.$store.commit(
+              'setphonenumber',
+              res.data.result.profile_mem.profile.tel,
+            )
+            this.$store.commit(
+              'setfname',
+              res.data.result.profile_mem.profile.name,
+            )
+            this.$store.commit(
+              'setlname',
+              res.data.result.profile_mem.profile.surename,
+            )
+            this.$store.commit('setidline', res.data.result.profile_mem.line_id)
+            this.$store.commit(
+              'setcreatedate',
+              res.data.result.profile_mem.create_date,
+            )
+            this.$store.commit(
+              'setusername',
+              res.data.result.profile_mem.username,
+            )
+            this.$store.commit(
+              'setcredit',
+              res.data.result.profile_mem.PD.credit,
+            )
+            this.$store.commit(
+              'setwdc',
+              res.data.result.profile_mem.financial.withdraw_count,
+            )
+          } else if (res.data.status == 503) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'พบการ Login ซ้อนกรุณาติดต่อเจ้าหน้าที่หรือ Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+          } else if (res.data.status == 502) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'กรุณา Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+          } else {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'Call Profile Member : ' + res.data.message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+          }
         })
         .catch((error) => {
           console.error(error)
+          Swal.fire({
+            title: 'ผิดพลาด!!!',
+            text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+          })
         })
     },
   },

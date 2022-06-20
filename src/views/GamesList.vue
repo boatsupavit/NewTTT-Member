@@ -376,6 +376,7 @@ export default {
         })
         .then(
           (resp) => (
+            console.log(resp.data),
             (this.providerlist = resp.data.result.data),
             console.log('providerlist', this.providerlist),
             (this.gamelists = this.providerlist),
@@ -473,11 +474,11 @@ export default {
   },
   async mounted() {
     //-------------Get URL------------//
-    this.state = window.location.href
-    console.log('URL =>', this.state)
-    this.state = this.$route.params.gametype
-    console.log('gametype URL =>', this.state)
-    this.$store.commit('setgametype', this.state)
+    // this.state = window.location.href
+    // console.log('URL =>', this.state)
+    // this.state = this.$route.params.gametype
+    // console.log('gametype URL =>', this.state)
+    // this.$store.commit('setgametype', this.state)
     console.log('gametype : ', this.$store.getters.gametype)
     // menu add active
     const list = document.querySelectorAll('.menu')
@@ -563,6 +564,7 @@ export default {
         })
         .then(
           (resp) => (
+            console.log(resp.data),
             (this.providerlist = resp.data.result.data),
             console.log('providerlist', this.providerlist),
             (this.gamelists = this.providerlist),
