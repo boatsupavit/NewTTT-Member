@@ -198,7 +198,7 @@ export default createStore({
       } else if (apicode == 11011) {
         state.apiname = apicode + '/getchannel'
       } else if (apicode == 45003) {
-        state.apiname = '10000/member/getgamelist'
+        state.apiname = apicode + '/getgamelist'
       } else if (apicode == 45004) {
         state.apiname = '10000/provieder/startgame'
       }

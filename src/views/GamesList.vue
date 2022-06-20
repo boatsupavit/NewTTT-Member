@@ -256,6 +256,7 @@
 import Iframe from './../components/Iframe.vue'
 import Spinner from './../components/LoadingBar.vue'
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'GameType',
@@ -341,6 +342,12 @@ export default {
         })
         .catch((error) => {
           console.error(error)
+          Swal.fire({
+            title: 'ผิดพลาด!!!',
+            text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+          })
         })
     },
     Filtergamelist(e) {
@@ -370,22 +377,41 @@ export default {
       this.$store.commit('setgametype', event.target.id)
       console.log(event.target.id)
       console.log('gametype', this.$store.getters.gametype)
+      const token = this.$store.getters.token
+      const headers = { Authorization: 'Bearer ' + token }
+      console.log(headers)
       await axios
-        .post(this.$store.getters.API, {
-          gametype: this.$store.getters.gametype,
-        })
-        .then(
-          (resp) => (
-            console.log(resp.data),
-            (this.providerlist = resp.data.result.data),
-            console.log('providerlist', this.providerlist),
-            (this.gamelists = this.providerlist),
-            console.log('gamelists', this.gamelists)
-          ),
-          setTimeout(function () {
-            document.querySelector('button#modalspin').click()
-          }, 500),
+        .post(
+          this.$store.getters.API,
+          {
+            gametype: this.$store.getters.gametype,
+          },
+          {
+            headers,
+          },
         )
+        .then((resp) => {
+          console.log(resp.data)
+          if (resp.data.status == 200) {
+            this.providerlist = resp.data.result.data
+            console.log('providerlist', this.providerlist)
+            this.gamelists = this.providerlist
+            console.log('gamelists', this.gamelists)
+            setTimeout(function () {
+              document.querySelector('button#modalspin').click()
+            }, 1000)
+          } else {
+            setTimeout(function () {
+              document.querySelector('button#modalspin').click()
+            }, 1000)
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'Call Games List : ' + resp.data.message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+          }
+        })
     },
     async startgame(event) {
       let staus = this.$store.getters.statusmem
@@ -415,11 +441,26 @@ export default {
           )
           .then((response) => {
             console.log(response.data)
-            this.$store.commit('setgamelink', response.data.uri)
-            console.log(this.$store.getters.gamelink)
+            if (response.data.status == 200) {
+              this.$store.commit('setgamelink', response.data.uri)
+              console.log(this.$store.getters.gamelink)
+            } else {
+              Swal.fire({
+                title: 'ผิดพลาด!!!',
+                text: 'Start Game : ' + response.data.message,
+                icon: 'error',
+                confirmButtonText: 'ตกลง',
+              })
+            }
           })
           .catch((error) => {
             console.error(error)
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
           })
       }
     },
@@ -448,11 +489,26 @@ export default {
           )
           .then((response) => {
             console.log(response.data)
-            this.$store.commit('setgamelink', response.data.uri)
-            console.log(this.$store.getters.gamelink)
+            if (response.data.status == 200) {
+              this.$store.commit('setgamelink', response.data.uri)
+              console.log(this.$store.getters.gamelink)
+            } else {
+              Swal.fire({
+                title: 'ผิดพลาด!!!',
+                text: 'Start Game : ' + response.data.message,
+                icon: 'error',
+                confirmButtonText: 'ตกลง',
+              })
+            }
           })
           .catch((error) => {
             console.error(error)
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
           })
       }
     },
@@ -479,7 +535,7 @@ export default {
     // this.state = this.$route.params.gametype
     // console.log('gametype URL =>', this.state)
     // this.$store.commit('setgametype', this.state)
-    console.log('gametype : ', this.$store.getters.gametype)
+    // console.log('gametype : ', this.$store.getters.gametype)
     // menu add active
     const list = document.querySelectorAll('.menu')
     function activeLink() {
@@ -494,63 +550,7 @@ export default {
       this.$router.push('/home')
     }
     // get profile
-    this.$store.commit('settoken', sessionStorage.getItem('token'))
-    this.$store.commit('setapiname', 11001)
-    this.$store.commit('setAPI')
-    const token = this.$store.getters.token
-    const headers = { Authorization: 'Bearer ' + token }
-    console.log(headers)
-    console.log(this.$store.getters.API)
-    await axios
-      .post(
-        this.$store.getters.API,
-        {},
-        {
-          headers,
-        },
-      )
-      .then((res) => {
-        console.log(res.data)
-        // ------------------------------------------------------------------------------//
-        this.$store.commit(
-          'setbkmb',
-          res.data.result.profile_mem.banking_account,
-        )
-        this.$store.commit(
-          'setbkacc',
-          this.$store.getters.bankmember[0].bank_acct,
-        )
-        this.$store.commit(
-          'setbkname',
-          this.$store.getters.bankmember[0].bank_name,
-        )
-        this.$store.commit(
-          'setbknameth',
-          this.$store.getters.bankmember[0].bank_name_th,
-        )
-        this.$store.commit('setbkid', this.$store.getters.bankmember[0].bank_id)
-        // ------------------------------------------------------------------------------//
-        this.$store.commit(
-          'setphonenumber',
-          res.data.result.profile_mem.profile.tel,
-        )
-        this.$store.commit('setfname', res.data.result.profile_mem.profile.name)
-        this.$store.commit(
-          'setlname',
-          res.data.result.profile_mem.profile.surename,
-        )
-        this.$store.commit('setidline', res.data.result.profile_mem.line_id)
-        this.$store.commit(
-          'setcreatedate',
-          res.data.result.profile_mem.create_date,
-        )
-        this.$store.commit('setstatusmem', res.data.result.profile_mem.status)
-        this.$store.commit('setusername', res.data.result.profile_mem.username)
-        this.$store.commit('setcredit', res.data.result.profile_mem.PD.credit)
-      })
-      .catch((error) => {
-        console.error(error)
-      })
+    this.getprofile()
     // get gamelists
     if (this.$store.getters.gametype != '') {
       document.querySelector('button#callspin').click()

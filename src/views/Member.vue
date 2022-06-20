@@ -242,7 +242,7 @@ export default {
     }
     this.$store.commit('setapiname', 11001)
     this.$store.commit('setAPI')
-    const token = this.$store.getters.token
+    const token = sessionStorage.getItem('token')
     const headers = { Authorization: 'Bearer ' + token }
     console.log(headers)
     console.log(this.$store.getters.API)
@@ -287,14 +287,27 @@ export default {
         } else if (res.data.status == 503) {
           Swal.fire({
             title: 'ผิดพลาด!!!',
-            text: 'พบการ Login ซ้อนกรุณาติดต่อเจ้าหน้าที่หรือ Login ใหม่อีกครั้ง',
+            text: 'ตรวจพบการ Login ซ้อน กรุณาติดต่อเจ้าหน้าที่ หรือทำการ Login ใหม่อีกครั้ง',
             icon: 'error',
             confirmButtonText: 'ตกลง',
           })
+          // sessionStorage.clear()
+          this.$store.commit('clearall')
+          this.$router.push('/home')
         } else if (res.data.status == 502) {
           Swal.fire({
             title: 'ผิดพลาด!!!',
             text: 'กรุณา Login ใหม่อีกครั้ง',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+          })
+          // sessionStorage.clear()
+          this.$store.commit('clearall')
+          this.$router.push('/home')
+        } else {
+          Swal.fire({
+            title: 'ผิดพลาด!!!',
+            text: 'Call Profile Member : ' + res.data.message,
             icon: 'error',
             confirmButtonText: 'ตกลง',
           })

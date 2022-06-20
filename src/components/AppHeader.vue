@@ -375,8 +375,9 @@ export default {
             console.log(response.data)
             if (response.data.status == '200') {
               this.$store.commit('clearall')
-              console.log(response.data.result.token)
               sessionStorage.setItem('token', response.data.result.token)
+              this.$store.commit('settoken', response.data.result.token)
+              console.log(sessionStorage.getItem('token'))
               Swal.fire({
                 title: 'สำเร็จ!!!',
                 text: 'เข้าสู่ระบบสำเร็จ ยินดีต้อนรับกลับค่ะ',

@@ -118,6 +118,7 @@ import content_slot_1 from '@/assets/images/gamescard/content_slot_1.png'
 import content_sport_1 from '@/assets/images/gamescard/content_sport_1.png'
 
 import axios from 'axios'
+import Swal from 'sweetalert2'
 
 export default {
   name: 'GameType',
@@ -171,6 +172,12 @@ export default {
           })
           .catch((error) => {
             console.error(error)
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
           })
       }
     },

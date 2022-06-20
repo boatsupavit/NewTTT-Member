@@ -138,10 +138,11 @@ export default {
     SetWithdrawValue(event) {
       this.withdrawvalue = event.target.value
     },
+    //---------------withdraw--------------//
     async withdraw() {
       this.$store.commit('setapiname', 11007)
       this.$store.commit('setAPI')
-      const token = this.$store.getters.token
+      const token = sessionStorage.getItem('token')
       const headers = { Authorization: 'Bearer ' + token }
       console.log(headers)
       if (this.withdrawvalue == 0) {
@@ -187,10 +188,11 @@ export default {
           })
       }
     },
+    //--------------get withdraw amount------------//
     async getwithdraw_amount() {
       this.$store.commit('setapiname', 11010)
       this.$store.commit('setAPI')
-      const token = this.$store.getters.token
+      const token = sessionStorage.getItem('token')
       const headers = { Authorization: 'Bearer ' + token }
       console.log(headers)
       console.log(this.$store.getters.API)
@@ -204,13 +206,23 @@ export default {
         )
         .then((res) => {
           console.log('withdraw_config => ', res.data)
-          this.withdraw_config = res.data.result.withdraw_config
+          if (res.data.status == 200) {
+            this.withdraw_config = res.data.result.withdraw_config
+          } else {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'Withdraw_Config : ' + res.data.message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+          }
         })
     },
+    //-----------------get profile--------------------//
     async getprofile() {
       this.$store.commit('setapiname', 11001)
       this.$store.commit('setAPI')
-      const token = this.$store.getters.token
+      const token = sessionStorage.getItem('token')
       const headers = { Authorization: 'Bearer ' + token }
       console.log(headers)
       console.log(this.$store.getters.API)
@@ -257,10 +269,23 @@ export default {
               icon: 'error',
               confirmButtonText: 'ตกลง',
             })
+            // sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
           } else if (res.data.status == 502) {
             Swal.fire({
               title: 'ผิดพลาด!!!',
               text: 'กรุณา Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            // sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
+          } else {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'Call Profile Member : ' + res.data.message,
               icon: 'error',
               confirmButtonText: 'ตกลง',
             })

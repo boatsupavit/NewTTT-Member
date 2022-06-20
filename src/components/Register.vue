@@ -477,6 +477,12 @@ export default {
       })
       .catch((error) => {
         console.log(error)
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
       })
     this.$store.commit('setapiname', 11011)
     this.$store.commit('setAPI')
@@ -488,6 +494,12 @@ export default {
       })
       .catch((error) => {
         console.log(error)
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
       })
     this.refreshcap()
   },

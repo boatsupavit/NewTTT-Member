@@ -119,7 +119,7 @@ export default {
     async getbankdp() {
       this.$store.commit('setapiname', 11009)
       this.$store.commit('setAPI')
-      const token = this.$store.getters.token
+      const token = sessionStorage.getItem('token')
       const headers = { Authorization: 'Bearer ' + token }
       console.log(headers)
       console.log(this.$store.getters.API)
@@ -132,26 +132,34 @@ export default {
           },
         )
         .then((res) => {
+          console.log('BKDP', res.data)
           if (res.data.status == 200) {
             this.$store.commit('setbkdp', res.data.result)
-            console.log('BKDP', res.data)
-          } else {
-            Swal.fire({
-              title: 'ผิดพลาด!!!',
-              text: 'Call Bank Deposit : ' + res.data.message,
-              icon: 'error',
-              confirmButtonText: 'ตกลง',
-            })
           }
+          // else {
+          //   Swal.fire({
+          //     title: 'ผิดพลาด!!!',
+          //     text: 'Call Bank Deposit : ' + res.data.message,
+          //     icon: 'error',
+          //     confirmButtonText: 'ตกลง',
+          //   })
+          // }
         })
         .catch((error) => {
           console.error(error)
+          Swal.fire({
+            title: 'ผิดพลาด!!!',
+            text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+          })
         })
     },
     async getprofile() {
+      this.$store.commit('clearall')
       this.$store.commit('setapiname', 11001)
       this.$store.commit('setAPI')
-      const token = this.$store.getters.token
+      const token = sessionStorage.getItem('token')
       const headers = { Authorization: 'Bearer ' + token }
       console.log(headers)
       console.log(this.$store.getters.API)
@@ -228,6 +236,9 @@ export default {
               icon: 'error',
               confirmButtonText: 'ตกลง',
             })
+            // sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
           } else if (res.data.status == 502) {
             Swal.fire({
               title: 'ผิดพลาด!!!',
@@ -235,6 +246,9 @@ export default {
               icon: 'error',
               confirmButtonText: 'ตกลง',
             })
+            // sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
           } else {
             Swal.fire({
               title: 'ผิดพลาด!!!',
