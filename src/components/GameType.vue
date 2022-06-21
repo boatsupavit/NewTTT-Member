@@ -141,6 +141,7 @@ export default {
   methods: {
     setgametype(event) {
       this.$store.commit('setgametype', event.target.id)
+      sessionStorage.setItem('GT', this.$store.getters.gametype)
     },
     async startgamesport(event) {
       let staus = this.$store.getters.statusmem

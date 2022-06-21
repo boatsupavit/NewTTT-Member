@@ -73,12 +73,13 @@
                 </router-link>
               </li>
               <li class="nav-item">
-                <button
+                <a
                   type="button"
                   class="btn btn-link px-2 text-decoration-none link-light"
+                  href="https://line.me/ti/p/@BANPONG-888"
                 >
                   ติดต่อเรา
-                </button>
+                </a>
               </li>
               <li class="nav-item">
                 <button
@@ -399,7 +400,7 @@ export default {
             icon: 'success',
             confirmButtonText: 'ตกลง',
           })
-          // sessionStorage.clear()
+          sessionStorage.clear()
           this.$store.commit('clearall')
           this.$router.push('/home')
         })
@@ -491,7 +492,7 @@ export default {
               icon: 'error',
               confirmButtonText: 'ตกลง',
             })
-            // sessionStorage.clear()
+            sessionStorage.clear()
             this.$store.commit('clearall')
             this.$router.push('/home')
           } else if (res.data.status == 502) {
@@ -501,7 +502,7 @@ export default {
               icon: 'error',
               confirmButtonText: 'ตกลง',
             })
-            // sessionStorage.clear()
+            sessionStorage.clear()
             this.$store.commit('clearall')
             this.$router.push('/home')
           } else {

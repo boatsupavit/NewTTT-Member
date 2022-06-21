@@ -5,7 +5,7 @@
         ลูกค้าต้องใช้บัญชีที่ทำการลงทะเบียนไว้เท่านั้นในการฝากเงิน
       </span>
       <hr />
-      <div class="mb-3 px-3">
+      <!-- <div class="mb-3 px-3">
         <div class="row justify-content-md-center">
           <div class="col-auto">
             <img fluid :src="imgbankmember" width="50" class="mb-2" />
@@ -67,13 +67,13 @@
                 </button>
               </div>
             </div>
-            <!-- <input /> -->
+            <input />
           </div>
         </div>
-      </div>
+      </div> -->
       <hr class="mt-4" />
       <p class="fst-italic small text-danger m-0">
-        * หากต้องการเปลี่ยนข้อมูลบัญชี กรุณาติดต่อเจ้าหน้าที่
+        *รายการฝาก/รายการถอน มีอายุ 1 เดือน
       </p>
     </div>
   </div>
@@ -85,7 +85,7 @@ import axios from 'axios'
 import Swal from 'sweetalert2'
 
 export default {
-  name: 'Deposit',
+  name: 'History',
   components: {},
   data() {
     return {

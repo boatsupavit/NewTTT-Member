@@ -81,7 +81,7 @@
             <button
               type="button"
               data-bs-toggle="modal"
-              data-bs-target="#modalsoon"
+              data-bs-target="#modalhis"
               class="btn btn-outline-secondary btn-menu"
             >
               <i class="bi bi-card-heading" style="font-size: 2rem"></i>
@@ -291,7 +291,7 @@ export default {
             icon: 'error',
             confirmButtonText: 'ตกลง',
           })
-          // sessionStorage.clear()
+          sessionStorage.clear()
           this.$store.commit('clearall')
           this.$router.push('/home')
         } else if (res.data.status == 502) {
@@ -301,7 +301,7 @@ export default {
             icon: 'error',
             confirmButtonText: 'ตกลง',
           })
-          // sessionStorage.clear()
+          sessionStorage.clear()
           this.$store.commit('clearall')
           this.$router.push('/home')
         } else {

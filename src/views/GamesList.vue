@@ -12,7 +12,7 @@
             >กีฬา</a
           >
         </li>
-        <li class="menu" id="slot">
+        <li class="menu" id="Slot">
           <a
             id="slot"
             @click="setgametype"
@@ -22,9 +22,9 @@
             >สล็อต</a
           >
         </li>
-        <li class="menu" id="casino">
+        <li class="menu" id="Casino">
           <a
-            id="casino"
+            id="Casino"
             @click="setgametype"
             href="#"
             data-bs-toggle="modal"
@@ -276,80 +276,97 @@ export default {
     window.addEventListener('scroll', this.scrollFunction)
   },
   methods: {
-    // async getprofile() {
-    //   this.$store.commit('preparevalue')
-    //   this.$store.commit('settoken', sessionStorage.getItem('token'))
-    //   this.$store.commit('setapiname', 11001)
-    //   this.$store.commit('setAPI')
-    //   const token = this.$store.getters.token
-    //   const headers = { Authorization: 'Bearer ' + token }
-    //   console.log(headers)
-    //   console.log(this.$store.getters.API)
-    //   await axios
-    //     .post(
-    //       this.$store.getters.API,
-    //       {},
-    //       {
-    //         headers,
-    //       },
-    //     )
-    //     .then((res) => {
-    //       console.log(res.data)
-    //       // ------------------------------------------------------------------------------//
-    //       this.$store.commit(
-    //         'setbkmb',
-    //         res.data.result.profile_mem.banking_account,
-    //       )
-    //       this.$store.commit(
-    //         'setbkacc',
-    //         this.$store.getters.bankmember[0].bank_acct,
-    //       )
-    //       this.$store.commit(
-    //         'setbkname',
-    //         this.$store.getters.bankmember[0].bank_name,
-    //       )
-    //       this.$store.commit(
-    //         'setbknameth',
-    //         this.$store.getters.bankmember[0].bank_name_th,
-    //       )
-    //       this.$store.commit(
-    //         'setbkid',
-    //         this.$store.getters.bankmember[0].bank_id,
-    //       )
-    //       // ------------------------------------------------------------------------------//
-    //       this.$store.commit(
-    //         'setphonenumber',
-    //         res.data.result.profile_mem.profile.tel,
-    //       )
-    //       this.$store.commit(
-    //         'setfname',
-    //         res.data.result.profile_mem.profile.name,
-    //       )
-    //       this.$store.commit(
-    //         'setlname',
-    //         res.data.result.profile_mem.profile.surename,
-    //       )
-    //       this.$store.commit('setidline', res.data.result.profile_mem.line_id)
-    //       this.$store.commit(
-    //         'setcreatedate',
-    //         res.data.result.profile_mem.create_date,
-    //       )
-    //       this.$store.commit(
-    //         'setusername',
-    //         res.data.result.profile_mem.username,
-    //       )
-    //       this.$store.commit('setcredit', res.data.result.profile_mem.PD.credit)
-    //     })
-    //     .catch((error) => {
-    //       console.error(error)
-    //       Swal.fire({
-    //         title: 'ผิดพลาด!!!',
-    //         text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
-    //         icon: 'error',
-    //         confirmButtonText: 'ตกลง',
-    //       })
-    //     })
-    // },
+    async getprofile() {
+      this.$store.commit('setcredit', '-')
+      this.$store.commit('setapiname', 11001)
+      this.$store.commit('setAPI')
+      const token = sessionStorage.getItem('token')
+      const headers = { Authorization: 'Bearer ' + token }
+      console.log(headers)
+      console.log(this.$store.getters.API)
+      await axios
+        .post(
+          this.$store.getters.API,
+          {},
+          {
+            headers,
+          },
+        )
+        .then((res) => {
+          console.log(res.data)
+          if (res.data.status == 200) {
+            this.$store.commit(
+              'setphonenumber',
+              res.data.result.profile_mem.profile.tel,
+            )
+            this.$store.commit(
+              'setfname',
+              res.data.result.profile_mem.profile.name,
+            )
+            this.$store.commit(
+              'setlname',
+              res.data.result.profile_mem.profile.surename,
+            )
+            this.$store.commit('setidline', res.data.result.profile_mem.line_id)
+            this.$store.commit(
+              'setcreatedate',
+              res.data.result.profile_mem.create_date,
+            )
+            this.$store.commit(
+              'setstatusmem',
+              res.data.result.profile_mem.status,
+            )
+            this.$store.commit(
+              'setusername',
+              res.data.result.profile_mem.username,
+            )
+            this.$store.commit(
+              'setcredit',
+              res.data.result.profile_mem.PD.credit,
+            )
+            this.$store.commit(
+              'setwdc',
+              res.data.result.profile_mem.financial.withdraw_count,
+            )
+          } else if (res.data.status == 503) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'ตรวจพบการ Login ซ้อน กรุณาติดต่อเจ้าหน้าที่ หรือทำการ Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
+          } else if (res.data.status == 502) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'กรุณา Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
+          } else {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'Call Profile Member : ' + res.data.message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          Swal.fire({
+            title: 'ผิดพลาด!!!',
+            text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+          })
+        })
+    },
     Filtergamelist(e) {
       console.log(e.target.attributes.value.value)
       const filterArray = (array, fields, value) => {
@@ -366,9 +383,7 @@ export default {
         console.log(this.gamelists)
     },
     async setgametype(event) {
-      setTimeout(function () {
-        document.querySelector('button#callspin').click()
-      }, 50)
+      document.querySelector('button#callspin').click()
       this.providerlist = []
       this.gamelists = []
       this.$store.commit('preparevalue')
@@ -412,6 +427,7 @@ export default {
               confirmButtonText: 'ตกลง',
             })
           }
+          sessionStorage.setItem('GT', this.$store.getters.gametype)
         })
     },
     async startgame(event) {
@@ -530,13 +546,15 @@ export default {
     },
   },
   async mounted() {
-    // this.$store.commit('setgametype', localStorage.getItem('GType'))
-    //-------------Get URL------------//
-    // this.state = window.location.href
-    // console.log('URL =>', this.state)
-    // this.state = this.$route.params.gametype
-    // console.log('gametype URL =>', this.state)
-    // this.$store.commit('setgametype', this.state)
+    //set modal
+    let staus = this.$store.getters.statusmem
+    if (staus.toString().toLowerCase() == 'suspend') {
+      this.modalname = '#modalsuspend'
+    } else {
+      this.modalname = '#modalGameview'
+    }
+    //setgame type
+    this.$store.commit('setgametype', sessionStorage.getItem('GT'))
     console.log('gametype : ', this.$store.getters.gametype)
     // menu add active
     const list = document.querySelectorAll('.menu')
@@ -551,10 +569,11 @@ export default {
     if (!!sessionStorage.getItem('token') == false) {
       this.$router.push('/home')
     }
-    // get profile
-    // this.getprofile()
     // get gamelists
     if (this.$store.getters.gametype != '') {
+      setTimeout(function () {
+        document.querySelector('li#' + sessionStorage.getItem('GT')).click()
+      }, 500)
       document.querySelector('button#callspin').click()
       this.$store.commit('setapiname', 45003)
       this.$store.commit('setAPI')
@@ -564,18 +583,29 @@ export default {
         .post(this.$store.getters.API, {
           gametype: this.$store.getters.gametype,
         })
-        .then(
-          (resp) => (
-            console.log(resp.data),
-            (this.providerlist = resp.data.result.data),
-            console.log('providerlist', this.providerlist),
-            (this.gamelists = this.providerlist),
+        .then((resp) => {
+          console.log(resp.data)
+          if (resp.data.status == 200) {
+            this.providerlist = resp.data.result.data
+            console.log('providerlist', this.providerlist)
+            this.gamelists = this.providerlist
             console.log('gamelists', this.gamelists)
-          ),
-          setTimeout(function () {
-            document.querySelector('button#modalspin').click()
-          }, 500),
-        )
+            setTimeout(function () {
+              document.querySelector('button#modalspin').click()
+            }, 1000)
+            localStorage.setItem('GType', this.$store.getters.gametype)
+          } else {
+            setTimeout(function () {
+              document.querySelector('button#modalspin').click()
+            }, 1000)
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'Call Games List : ' + resp.data.message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+          }
+        })
     }
   },
 }

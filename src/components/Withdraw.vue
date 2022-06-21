@@ -269,7 +269,7 @@ export default {
               icon: 'error',
               confirmButtonText: 'ตกลง',
             })
-            // sessionStorage.clear()
+            sessionStorage.clear()
             this.$store.commit('clearall')
             this.$router.push('/home')
           } else if (res.data.status == 502) {
@@ -279,7 +279,7 @@ export default {
               icon: 'error',
               confirmButtonText: 'ตกลง',
             })
-            // sessionStorage.clear()
+            sessionStorage.clear()
             this.$store.commit('clearall')
             this.$router.push('/home')
           } else {

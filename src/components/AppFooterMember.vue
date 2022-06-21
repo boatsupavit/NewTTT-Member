@@ -13,7 +13,7 @@
                 <span class="text">หน้าแรก</span>
               </router-link>
             </li>
-            <li class="list" data-bs-toggle="modal" data-bs-target="#modalsoon">
+            <li class="list" data-bs-toggle="modal" data-bs-target="#modalhis">
               <a href="#">
                 <span class="icon">
                   <i class="bi bi-card-heading"></i>
@@ -38,7 +38,7 @@
               </a>
             </li>
             <li class="list">
-              <a href="#">
+              <a href="https://line.me/ti/p/@BANPONG-888">
                 <span class="icon">
                   <i class="bi bi-telephone-forward-fill"></i>
                 </span>
@@ -51,11 +51,47 @@
       </div>
     </div>
   </footer>
+
+  <!-- Modal - History -->
+  <div
+    class="modal fade modal"
+    id="modalhis"
+    data-bs-backdrop="static"
+    data-bs-keyboard="false"
+    tabindex="-1"
+    aria-labelledby="modalhis"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content border-2 modal-shadow">
+        <div class="modal-header">
+          <h5 class="modal-title text-white" id="modalhis">
+            <i class="bi bi-card-heading"></i>
+            ประวัติรายการฝาก/รายการถอน
+          </h5>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+            aria-label="Close"
+          ></button>
+        </div>
+        <div class="modal-body">
+          <History />
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
+import History from './../components/History.vue'
+
 export default {
   name: 'AppFooterMember',
+  components: {
+    History,
+  },
   data() {
     return {
       list: '',
