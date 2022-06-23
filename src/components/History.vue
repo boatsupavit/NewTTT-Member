@@ -13,7 +13,7 @@
                 checked="checked"
               />
               <div>
-                <h4>รายการฝาก</h4>
+                <h4 id="dp">รายการฝาก</h4>
                 <div class="row justify-content-start">
                   <li
                     style="list-style: none"
@@ -23,25 +23,29 @@
                     <div class="col card bg-dark mb-1">
                       <div
                         class="card-body d-flex justify-content-between"
-                        style="padding: 6px 1em"
+                        style="padding: 10px 1em"
                       >
-                        <div>
-                          <i class="bi bi-clock"></i>
-                          {{ Convert_format(list.request_date) }}
-                          <span class="fs-6 fw-lighter m-2">
-                            <img
-                              fluid
-                              :src="getImg(list.status)"
-                              width="18"
-                              class="mb-1"
-                            />
-                            <span class="mx-1">{{ list.status }}</span></span
-                          >
-                          <span
-                            class="text-success d-flex align-items-center fs-4"
-                          >
-                            +{{ list.amount }} บาท
-                          </span>
+                        <div class="row">
+                          <div class="col-md-auto ml-auto">
+                            <i class="bi bi-clock"></i>
+                            {{ Convert_format(list.request_date) }}
+                            <span class="fs-6 fw-lighter m-5">
+                              <span class="mx-1" style="float: right">
+                                <img
+                                  fluid
+                                  :src="getImg(list.status)"
+                                  width="18"
+                                  class="mx-1"
+                                />
+                                {{ list.status }}</span
+                              >
+                            </span>
+                            <span
+                              class="text-success d-flex align-items-center mx-5"
+                            >
+                              <div class="fs-4">+{{ list.amount }} บาท</div>
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -53,7 +57,7 @@
               <label for="tab2-2" @click="gethiswd">รายการถอน</label>
               <input id="tab2-2" name="tabs-two" type="radio" />
               <div>
-                <h4>รายการถอน</h4>
+                <h4 id="wd">รายการถอน</h4>
                 <div class="row justify-content-start">
                   <li
                     v-for="list in listwithdraw"
@@ -65,22 +69,26 @@
                         class="card-body d-flex justify-content-between"
                         style="padding: 6px 1em"
                       >
-                        <div>
-                          <div>
+                        <div class="row">
+                          <div class="col-md-auto ml-auto">
                             <i class="bi bi-clock"></i>
                             {{ Convert_format(list.request_date) }}
-                            <span class="fs-6 fw-lighter m-2">
-                              <img
-                                fluid
-                                :src="getImg(list.status)"
-                                width="18"
-                                class="mb-1"
-                              />
-                              <span class="mx-1">{{ list.status }}</span></span
+                            <span class="fs-6 fw-lighter m-5">
+                              <span class="mx-1" style="float: right">
+                                <img
+                                  fluid
+                                  :src="getImg(list.status)"
+                                  width="18"
+                                  class="mx-1"
+                                />
+                                {{ list.status }}</span
+                              >
+                            </span>
+                            <span
+                              class="text-danger d-flex align-items-center mx-5"
                             >
-                          </div>
-                          <div class="text-danger d-flex align-items-center">
-                            <div class="fs-4">-{{ list.amount }} บาท</div>
+                              <div class="fs-4">-{{ list.amount }} บาท</div>
+                            </span>
                           </div>
                         </div>
                       </div>
@@ -135,10 +143,11 @@ export default {
         )
         .then((res) => {
           console.log('History WD => ', res.data)
-          if ((res.data.status == 200) | (res.data.status == 201)) {
+          if (res.data.status == 200) {
             this.listwithdraw = res.data.history_withdraw
             console.log(this.listwithdraw)
-            // console.log(this.listwithdraw.length)
+          } else if (res.data.status == 201) {
+            document.getElementById('wd').innerHTML = 'ไม่มีรายการถอน'
           } else if (res.data.status == 503) {
             Swal.fire({
               title: 'ผิดพลาด!!!',
@@ -195,10 +204,11 @@ export default {
         )
         .then((res) => {
           console.log('History DP => ', res.data)
-          if ((res.data.status == 200) | (res.data.status == 201)) {
+          if (res.data.status == 200) {
             this.listdeposit = res.data.history_deposit
             console.log(this.listdeposit)
-            // console.log(this.listdeposit.length)
+          } else if (res.data.status == 201) {
+            document.getElementById('dp').innerHTML = 'ไม่มีรายการฝาก'
           } else if (res.data.status == 503) {
             Swal.fire({
               title: 'ผิดพลาด!!!',
