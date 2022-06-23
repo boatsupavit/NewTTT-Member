@@ -62,7 +62,7 @@
     aria-labelledby="modalhis"
     aria-hidden="true"
   >
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-dialog-scrollable">
       <div class="modal-content border-2 modal-shadow">
         <div class="modal-header">
           <h5 class="modal-title text-white" id="modalhis">
@@ -78,6 +78,11 @@
         </div>
         <div class="modal-body">
           <History />
+        </div>
+        <div class="modal-footer">
+          <p class="fst-italic small text-danger">
+            *รายการฝาก/รายการถอน มีอายุ 1 เดือน
+          </p>
         </div>
       </div>
     </div>

@@ -135,15 +135,34 @@ export default {
           console.log('BKDP', res.data)
           if (res.data.status == 200) {
             this.$store.commit('setbkdp', res.data.result)
+          } else if (res.data.status == 503) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'พบการ Login ซ้อนกรุณาติดต่อเจ้าหน้าที่หรือ Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
+          } else if (res.data.status == 502) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'กรุณา Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
+          } else {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'Call Bank Deposit : ' + res.data.message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
           }
-          // else {
-          //   Swal.fire({
-          //     title: 'ผิดพลาด!!!',
-          //     text: 'Call Bank Deposit : ' + res.data.message,
-          //     icon: 'error',
-          //     confirmButtonText: 'ตกลง',
-          //   })
-          // }
         })
         .catch((error) => {
           console.error(error)

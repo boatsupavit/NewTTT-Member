@@ -4,6 +4,7 @@ export default createStore({
   state: {
     token: sessionStorage.getItem('token'),
     IP: 'taetrueteam.fun',
+    // IP: 'localhost',
     apiname: '',
     API: '',
     phonenumber: '',
@@ -173,9 +174,7 @@ export default createStore({
       this.state.API = 'http://' + this.state.IP + ':' + this.state.apiname
     },
     setapiname(state, apicode) {
-      if (apicode == 12000) {
-        state.apiname = apicode + '/whitelist'
-      } else if (apicode == 11000) {
+      if (apicode == 11000) {
         state.apiname = apicode + '/register'
       } else if (apicode == 11001) {
         state.apiname = '10000/member/getprofileuser'
@@ -197,6 +196,12 @@ export default createStore({
         state.apiname = '10000/member/getwithdrawamount'
       } else if (apicode == 11011) {
         state.apiname = apicode + '/getchannel'
+      } else if (apicode == 11012) {
+        state.apiname = '10000/member/getwithdrawhistory'
+      } else if (apicode == 11013) {
+        state.apiname = apicode + '/whitelist'
+      } else if (apicode == 11014) {
+        state.apiname = '10000/member/getdeposithistory'
       } else if (apicode == 45003) {
         state.apiname = apicode + '/getgamelist'
       } else if (apicode == 45004) {
