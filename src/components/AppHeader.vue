@@ -48,26 +48,29 @@
 
           <!-- Left links -->
           <div class="d-flex align-items-center">
-            <button
+            <router-link
+              to="/"
               type="button"
               class="btn btn-link px-2 text-decoration-none link-light"
             >
               หน้าบ้าน
-            </button>
+            </router-link>
 
             <button
               type="button"
               class="btn btn-link px-2 text-decoration-none link-light"
+              disabled
             >
               บทความ
             </button>
 
-            <button
+            <a
               type="button"
               class="btn btn-link px-2 text-decoration-none link-light"
+              href="https://line.me/ti/p/@BANPONG-888"
             >
               ติดต่อเรา
-            </button>
+            </a>
 
             <button
               type="button"
@@ -134,22 +137,24 @@
             <button
               type="button"
               class="btn btn-link px-2 text-decoration-none link-light"
+              disabled
             >
               <i class="bi bi-book mx-3" style="font-size: 2rem"></i>
               บทความ
             </button>
           </li>
           <li>
-            <button
+            <a
               type="button"
               class="btn btn-link px-2 text-decoration-none link-light"
+              href="https://line.me/ti/p/@BANPONG-888"
             >
               <i
                 class="bi bi-telephone-forward-fill mx-3"
                 style="font-size: 2rem"
               ></i>
               ติดต่อเรา
-            </button>
+            </a>
           </li>
           <li class="mb-3 mt-2">
             <button
@@ -392,6 +397,7 @@ export default {
                 icon: 'error',
                 confirmButtonText: 'ตกลง',
               })
+              this.$store.commit('clearall')
             }
           })
           .catch((error) => {
@@ -401,6 +407,7 @@ export default {
               icon: 'error',
               confirmButtonText: 'ตกลง',
             })
+            this.$store.commit('clearall')
             console.log(error)
           })
       }

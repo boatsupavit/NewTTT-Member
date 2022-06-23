@@ -182,7 +182,7 @@
               type="button"
               class="btn btn-link px-2 text-decoration-none link-light"
               data-bs-toggle="modal"
-              data-bs-target="#modalsoon"
+              data-bs-target="#modalhis"
             >
               <i class="bi bi-card-heading mx-3" style="font-size: 2rem"></i>
               ประวัติ
@@ -192,6 +192,7 @@
             <button
               type="button"
               class="btn btn-link px-2 text-decoration-none link-light"
+              disabled
               data-bs-toggle="modal"
               data-bs-target="#modalsoon"
             >
@@ -203,6 +204,7 @@
             <button
               type="button"
               class="btn btn-link px-2 text-decoration-none link-light"
+              disabled
               data-bs-toggle="modal"
               data-bs-target="#modalsoon"
             >
@@ -214,6 +216,7 @@
             <button
               type="button"
               class="btn btn-link px-2 text-decoration-none link-light"
+              disabled
               data-bs-toggle="modal"
               data-bs-target="#modalsoon"
             >
@@ -225,6 +228,7 @@
             <button
               type="button"
               class="btn btn-link px-2 text-decoration-none link-light"
+              disabled
               data-bs-toggle="modal"
               data-bs-target="#modalsoon"
             >
@@ -236,6 +240,7 @@
             <button
               type="button"
               class="btn btn-link px-2 text-decoration-none link-light"
+              disabled
               data-bs-toggle="modal"
               data-bs-target="#modalsoon"
             >

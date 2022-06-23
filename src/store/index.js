@@ -4,7 +4,7 @@ export default createStore({
   state: {
     token: sessionStorage.getItem('token'),
     IP: 'taetrueteam.fun',
-    // IP: 'localhost',
+    // IP: '192.168.1.33',
     apiname: '',
     API: '',
     phonenumber: '',

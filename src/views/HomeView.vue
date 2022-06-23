@@ -261,7 +261,7 @@
             <h3 class="m-0">
               <strong>ฝาก - ถอน อัตโนมัติ</strong>
             </h3>
-            <p class="mb-3 text-muted">ตลอด 20 ชั่วโมง</p>
+            <p class="mb-3 text-muted">ตลอด 24 ชั่วโมง</p>
             <div>
               <img fluid :src="imgBank.ttb" width="50" class="ms-1 me-1" />
               <img fluid :src="imgBank.bay" width="50" class="ms-1 me-1" />

@@ -1,11 +1,11 @@
 <template>
   <div>
     <div class="container text-content-color">
-      <div class="mb-3 px-1">
+      <div class="mb-1 px-1">
         <div class="row justify-content-md-center">
           <div class="tabs">
             <div class="tab-2">
-              <label for="tab2-1">รายการฝาก</label>
+              <label for="tab2-1" @click="gethisdp">รายการฝาก</label>
               <input
                 id="tab2-1"
                 name="tabs-two"
@@ -13,18 +13,6 @@
                 checked="checked"
               />
               <div>
-                <i
-                  class="fas fa-history fa-3x amber-text"
-                  aria-hidden="true"
-                ></i>
-                <i
-                  class="fas fa-window-close fa-3x red-text pr-3"
-                  aria-hidden="true"
-                ></i>
-                <i
-                  class="fas fa-check-circle fa-3x green-text pr-3"
-                  aria-hidden="true"
-                ></i>
                 <h4>รายการฝาก</h4>
                 <div class="row justify-content-start">
                   <li
@@ -38,16 +26,22 @@
                         style="padding: 6px 1em"
                       >
                         <div>
-                          <div>
-                            <i class="bi bi-clock"></i>
-                            {{ Convert_format(list.request_date) }}
-                            <span class="fs-6 fw-lighter m-2">
-                              {{ list.status }}</span
-                            >
-                          </div>
-                          <div class="text-success d-flex align-items-center">
-                            <div class="fs-4">+{{ list.amount }} บาท</div>
-                          </div>
+                          <i class="bi bi-clock"></i>
+                          {{ Convert_format(list.request_date) }}
+                          <span class="fs-6 fw-lighter m-2">
+                            <img
+                              fluid
+                              :src="getImg(list.status)"
+                              width="18"
+                              class="mb-1"
+                            />
+                            <span class="mx-1">{{ list.status }}</span></span
+                          >
+                          <span
+                            class="text-success d-flex align-items-center fs-4"
+                          >
+                            +{{ list.amount }} บาท
+                          </span>
                         </div>
                       </div>
                     </div>
@@ -56,7 +50,7 @@
               </div>
             </div>
             <div class="tab-2">
-              <label for="tab2-2">รายการถอน</label>
+              <label for="tab2-2" @click="gethiswd">รายการถอน</label>
               <input id="tab2-2" name="tabs-two" type="radio" />
               <div>
                 <h4>รายการถอน</h4>
@@ -75,9 +69,15 @@
                           <div>
                             <i class="bi bi-clock"></i>
                             {{ Convert_format(list.request_date) }}
-                            <span class="fs-6 fw-lighter m-2">{{
-                              list.status
-                            }}</span>
+                            <span class="fs-6 fw-lighter m-2">
+                              <img
+                                fluid
+                                :src="getImg(list.status)"
+                                width="18"
+                                class="mb-1"
+                              />
+                              <span class="mx-1">{{ list.status }}</span></span
+                            >
                           </div>
                           <div class="text-danger d-flex align-items-center">
                             <div class="fs-4">-{{ list.amount }} บาท</div>
@@ -112,6 +112,9 @@ export default {
     }
   },
   methods: {
+    getImg(pic) {
+      return require('../assets/images/' + pic + '.png')
+    },
     Convert_format(input) {
       return moment(input).format('DD / MM / yyyy HH : mm : ss')
     },
@@ -135,7 +138,7 @@ export default {
           if ((res.data.status == 200) | (res.data.status == 201)) {
             this.listwithdraw = res.data.history_withdraw
             console.log(this.listwithdraw)
-            console.log(this.listwithdraw.length)
+            // console.log(this.listwithdraw.length)
           } else if (res.data.status == 503) {
             Swal.fire({
               title: 'ผิดพลาด!!!',
@@ -195,7 +198,7 @@ export default {
           if ((res.data.status == 200) | (res.data.status == 201)) {
             this.listdeposit = res.data.history_deposit
             console.log(this.listdeposit)
-            console.log(this.listdeposit.length)
+            // console.log(this.listdeposit.length)
           } else if (res.data.status == 503) {
             Swal.fire({
               title: 'ผิดพลาด!!!',

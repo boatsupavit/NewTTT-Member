@@ -21,7 +21,7 @@
                 <span class="text">ประวัติ</span>
               </a>
             </li>
-            <li class="list" data-bs-toggle="modal" data-bs-target="#modalsoon">
+            <!-- <li class="list" data-bs-toggle="modal" data-bs-target="#modalsoon">
               <a href="#">
                 <span class="icon">
                   <i class="bi bi-person-badge"></i>
@@ -36,7 +36,7 @@
                 </span>
                 <span class="text">โปรโมชั่น</span>
               </a>
-            </li>
+            </li> -->
             <li class="list">
               <a href="https://line.me/ti/p/@BANPONG-888">
                 <span class="icon">
@@ -67,7 +67,7 @@
         <div class="modal-header">
           <h5 class="modal-title text-white" id="modalhis">
             <i class="bi bi-card-heading"></i>
-            ประวัติรายการฝาก/รายการถอน
+            ประวัติรายการฝาก / รายการถอน
           </h5>
           <button
             type="button"

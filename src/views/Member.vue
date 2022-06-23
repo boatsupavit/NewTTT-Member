@@ -83,6 +83,7 @@
               data-bs-toggle="modal"
               data-bs-target="#modalhis"
               class="btn btn-outline-secondary btn-menu"
+              @click="gethisdp(), gethiswd()"
             >
               <i class="bi bi-card-heading" style="font-size: 2rem"></i>
               <p class="m-0"><strong>ประวัติ</strong></p>
@@ -92,6 +93,7 @@
             <button
               type="button"
               class="btn btn-outline-secondary btn-menu"
+              disabled
               data-bs-toggle="modal"
               data-bs-target="#modalsoon"
             >
@@ -103,6 +105,7 @@
             <button
               type="button"
               class="btn btn-outline-secondary btn-menu"
+              disabled
               data-bs-toggle="modal"
               data-bs-target="#modalsoon"
             >
@@ -114,6 +117,7 @@
             <button
               type="button"
               class="btn btn-outline-secondary btn-menu"
+              disabled
               data-bs-toggle="modal"
               data-bs-target="#modalsoon"
             >
@@ -221,6 +225,7 @@ import GameCard from '@/components/GameType.vue'
 // import LastGames from '@/components/GameLasted.vue'
 import axios from 'axios'
 import Swal from 'sweetalert2'
+import moment from 'moment'
 
 export default {
   name: 'HomeView',
@@ -324,6 +329,132 @@ export default {
       })
   },
   methods: {
+    getImg(pic) {
+      return require('../assets/images/' + pic + '.png')
+    },
+    Convert_format(input) {
+      return moment(input).format('DD / MM / yyyy HH : mm : ss')
+    },
+    async gethiswd() {
+      this.$store.commit('setapiname', 11012)
+      this.$store.commit('setAPI')
+      const token = sessionStorage.getItem('token')
+      const headers = { Authorization: 'Bearer ' + token }
+      console.log(headers)
+      console.log(this.$store.getters.API)
+      await axios
+        .post(
+          this.$store.getters.API,
+          {},
+          {
+            headers,
+          },
+        )
+        .then((res) => {
+          console.log('History WD => ', res.data)
+          if ((res.data.status == 200) | (res.data.status == 201)) {
+            this.listwithdraw = res.data.history_withdraw
+            console.log(this.listwithdraw)
+            // console.log(this.listwithdraw.length)
+          } else if (res.data.status == 503) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'พบการ Login ซ้อนกรุณาติดต่อเจ้าหน้าที่หรือ Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
+          } else if (res.data.status == 502) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'กรุณา Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
+          } else {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'Call History Withdraw : ' + res.data.message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          Swal.fire({
+            title: 'ผิดพลาด!!!',
+            text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+          })
+        })
+    },
+    async gethisdp() {
+      this.$store.commit('setapiname', 11014)
+      this.$store.commit('setAPI')
+      const token = sessionStorage.getItem('token')
+      const headers = { Authorization: 'Bearer ' + token }
+      console.log(headers)
+      console.log(this.$store.getters.API)
+      await axios
+        .post(
+          this.$store.getters.API,
+          {},
+          {
+            headers,
+          },
+        )
+        .then((res) => {
+          console.log('History DP => ', res.data)
+          if ((res.data.status == 200) | (res.data.status == 201)) {
+            this.listdeposit = res.data.history_deposit
+            console.log(this.listdeposit)
+            // console.log(this.listdeposit.length)
+          } else if (res.data.status == 503) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'พบการ Login ซ้อนกรุณาติดต่อเจ้าหน้าที่หรือ Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
+          } else if (res.data.status == 502) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'กรุณา Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
+          } else {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'Call History Deposit : ' + res.data.message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          Swal.fire({
+            title: 'ผิดพลาด!!!',
+            text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+          })
+        })
+    },
     importAll(r) {
       r.keys().forEach((key) =>
         this.imgHallArray.push({ pathLong: r(key), pathShort: key }),
