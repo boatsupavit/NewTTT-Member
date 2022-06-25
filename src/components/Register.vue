@@ -160,7 +160,7 @@
               <option
                 v-for="(item, index) in channel"
                 :key="index"
-                :value="item._id"
+                :value="item.channel_id"
               >
                 {{ item.channel }}
               </option>
@@ -581,7 +581,7 @@ export default {
             console.log(this.$store.getters.API)
             if (response.data.status == '200') {
               setTimeout(function () {
-                document.querySelector('button#login').click()
+                document.querySelector('button#loginbtn').click()
               }, 50)
             } else if (response.data.status == '300') {
               Swal.fire({
@@ -620,10 +620,13 @@ export default {
     this.$store.commit('setapiname', 11004)
     this.$store.commit('setAPI')
     await axios
-      .post(this.$store.getters.API, {})
+      .post(this.$store.getters.API, {
+        status: 'Active',
+      })
       .then((resp) => {
-        this.listbank = resp.data.result.banking
+        console.log(resp.data)
         console.log(resp.data.result.banking)
+        this.listbank = resp.data.result.banking
       })
       .catch((error) => {
         console.log(error)

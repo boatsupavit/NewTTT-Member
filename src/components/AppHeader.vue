@@ -513,7 +513,7 @@ export default {
             console.log(this.$store.getters.API)
             if (response.data.status == '200') {
               setTimeout(function () {
-                document.querySelector('button#login').click()
+                document.querySelector('button#loginbtn').click()
               }, 50)
             } else if (response.data.status == '300') {
               Swal.fire({
