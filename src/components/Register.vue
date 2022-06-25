@@ -73,13 +73,163 @@
             <small>รหัสลับ 4 ตัว อีกครั้ง</small>
           </span>
         </div>
-        <br />
+        <hr />
+        <div class="mb-2">
+          <label for="bankID" class="form-label mb-1">ธนาคาร</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-bank2"></i>
+            </span>
+            <select class="form-select" @input="SetbankValue">
+              <option selected>กรุณาเลือกธนาคาร...</option>
+              <option
+                v-for="(item, index) in listbank"
+                :key="index"
+                :value="item.banknameth"
+              >
+                {{ item.banknameth }}
+              </option>
+            </select>
+          </div>
+          <label for="bankAcctID" class="form-label mb-1 mt-2">
+            เลขที่บัญชี
+          </label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-credit-card-2-front-fill"></i>
+            </span>
+            <input
+              id="bankAcctID"
+              type="number"
+              class="form-control"
+              placeholder="กรุณากรอกเลขที่บัญชี"
+              :value="this.$store.getters.bankaccount"
+              @input="SetbankAccountValue"
+            />
+          </div>
+          <span class="small text-muted">
+            <small>ตัวเลขล้วนไม่มีช่องว่าง</small>
+          </span>
+        </div>
+        <div class="mb-2">
+          <label for="nameID" class="form-label mb-1">ชื่อจริง</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-person-lines-fill"></i>
+            </span>
+            <input
+              id="nameID"
+              type="text"
+              class="form-control"
+              placeholder=""
+              :value="this.$store.getters.fname"
+              @input="SetNameValue"
+            />
+          </div>
+          <label for="surnameID" class="form-label mb-1">นามสกุล</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-person-lines-fill"></i>
+            </span>
+            <input
+              id="surnameID"
+              type="text"
+              class="form-control"
+              placeholder=""
+              :value="this.$store.getters.lname"
+              @input="SetLastNameValue"
+            />
+          </div>
+        </div>
+        <hr />
+        <div class="mb-2">
+          <label for="applyID" class="form-label mb-1">รู้จักเราผ่านทาง</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-diagram-3-fill"></i>
+            </span>
+            <select
+              id="applyID"
+              class="form-select"
+              :value="this.$store.getters.chanel"
+              @input="SetSocialMediaValue"
+            >
+              <option value="กรุณาเลือกช่องทาง..." selected>
+                กรุณาเลือกช่องทาง...
+              </option>
+              <option
+                v-for="(item, index) in channel"
+                :key="index"
+                :value="item._id"
+              >
+                {{ item.channel }}
+              </option>
+            </select>
+          </div>
+          <label for="lineID" class="form-label mb-1 mt-2">
+            ไลน์ (ไม่บังคับ)
+          </label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-line"></i>
+            </span>
+            <input
+              id="lineID"
+              type="text"
+              class="form-control"
+              placeholder="Line ID"
+              :value="this.$store.getters.idline"
+              @input="SetIDLineValue"
+            />
+          </div>
+        </div>
+        <div class="mb-2">
+          <label for="captchaID" class="form-label mb-1 mt-2">
+            ฉันไม่ใช่โปรแกรมอัตโนมัติ
+          </label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-robot"></i>
+            </span>
+            <input
+              id="captchaID"
+              type="text"
+              class="form-control"
+              placeholder="XXXXXX"
+              :value="this.$store.getters.captcha"
+              @input="SetCaptchaValue"
+            />
+            <span class="input-group-text p-1">
+              <img height="50" :src="this.$store.getters.imgcaptcha" />
+            </span>
+            <span class="input-group-text p-1">
+              <a
+                class="bi bi-arrow-repeat"
+                style="font-size: 32px"
+                href="#"
+                @click="refreshcap"
+              ></a>
+            </span>
+          </div>
+          <br />
+          <!-- <div class="modal-footer px-4">
+            <button type="button" class="btn btn-secondary">Back</button>
+            <button
+              type="button"
+              class="btn btn-warning"
+              data-bs-dismiss="modal"
+              @click="submit"
+            >
+              สมัครสมาชิก
+            </button>
+          </div> -->
+        </div>
         <!-- <div class="modal-footer px-4">
           <button type="button" class="btn btn-warning">Next</button>
         </div> -->
       </div>
     </swiper-slide>
-    <swiper-slide id="tab2">
+    <!--  <swiper-slide id="tab2">
       <br />
       <div class="mb-2">
         <label for="bankID" class="form-label mb-1">ธนาคาร</label>
@@ -147,11 +297,11 @@
             @input="SetLastNameValue"
           />
         </div>
-        <br />
-        <!-- <div class="modal-footer px-4">
+      <br />
+      <div class="modal-footer px-4">
           <button type="button" class="btn btn-secondary">Back</button>
           <button type="button" class="btn btn-warning">Next</button>
-        </div> -->
+        </div>
       </div>
     </swiper-slide>
     <swiper-slide
@@ -229,7 +379,7 @@
         <br />
         <br />
         <div class="modal-footer px-4">
-          <!-- <button type="button" class="btn btn-secondary">Back</button> -->
+         <button type="button" class="btn btn-secondary">Back</button>
           <button
             type="button"
             class="btn btn-warning"
@@ -240,7 +390,7 @@
           </button>
         </div>
       </div>
-    </swiper-slide>
+    </swiper-slide> -->
   </swiper>
 </template>
 

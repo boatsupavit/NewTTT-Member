@@ -248,8 +248,8 @@
         <div class="modal-body">
           <Register />
         </div>
-        <!-- <div class="modal-footer px-4">
-          <button
+        <div class="modal-footer px-4">
+          <!-- <button
             type="button"
             class="btn btn-secondary"
             data-bs-dismiss="modal"
@@ -257,10 +257,15 @@
           >
             ยกเลิก
           </button> -->
-        <!-- <button type="button" class="btn btn-warning" @click="submit">
+          <button
+            type="button"
+            class="btn btn-warning"
+            data-bs-dismiss="modal"
+            @click="submit"
+          >
             สมัครสมาชิก
-          </button> -->
-        <!-- </div> -->
+          </button>
+        </div>
       </div>
     </div>
   </div>
@@ -407,6 +412,136 @@ export default {
               icon: 'error',
               confirmButtonText: 'ตกลง',
             })
+            this.$store.commit('clearall')
+            console.log(error)
+          })
+      }
+    },
+    async submit() {
+      if (this.$store.getters.phonenumber === '') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่หมายเลขโทรศัพท์',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.$store.getters.bankName === 'กรุณาเลือกธนาคาร...') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาเลือกบัญชีธนาคาร',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.$store.getters.bankaccount === '') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่หมายเลขเลขบัญชีธนาคาร',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.$store.getters.fname === '') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่ชื่อจริง',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.$store.getters.lname === '') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่ชื่อนามสกุลจริง',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.$store.getters.pin === '') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่รหัสลับ 4 ตัว',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.PasswordConfirm === '') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณายืนยันรหัสลับ 4 ตัว',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.$store.getters.pin !== this.$store.getters.password) {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'Pin 4 ตัวไม่ตรงกันกรุณาตรวจสอบ',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.$store.getters.captcha == '') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่ Captcha เพื่อยืนยันตัวตน',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else {
+        // -------call API---------//
+        this.$store.commit('setapiname', 11000)
+        this.$store.commit('setAPI')
+        console.log(this.$store.getters.API)
+        const body = {
+          agent_id: '629e381cb4839cabb5622da1',
+          username: '',
+          password: this.$store.getters.password,
+          tel: this.$store.getters.phonenumber,
+          pin: this.$store.getters.pin,
+          line_id: this.$store.getters.idline,
+          name: this.$store.getters.fname,
+          surename: this.$store.getters.lname,
+          tag: ['6281446d5aa7df0156f3b467'],
+          channel: this.$store.getters.chanel,
+          bank_id: this.$store.getters.bankid,
+          bank_acct: this.$store.getters.bankaccount,
+          domain_name: 'https://www.banpong888.com',
+          captchaID: this.$store.getters.captchaID,
+          value: this.$store.getters.captcha,
+        }
+        console.log(body)
+        await axios
+          .post(this.$store.getters.API, { body })
+          .then((response) => {
+            console.log(response.data)
+            this.$store.commit('setapiname', 11005)
+            this.$store.commit('setAPI')
+            console.log(this.$store.getters.API)
+            if (response.data.status == '200') {
+              setTimeout(function () {
+                document.querySelector('button#login').click()
+              }, 50)
+            } else if (response.data.status == '300') {
+              Swal.fire({
+                title: 'ผิดพลาด!!!',
+                text: 'Captcha ไม่ถูกต้องกรุณาใส่ให้ถูกต้อง',
+                icon: 'error',
+                confirmButtonText: 'ตกลง',
+              })
+              this.$store.commit('setcaptcha', '')
+            } else {
+              Swal.fire({
+                title: 'ผิดพลาด!!!',
+                text: response.data.message,
+                icon: 'error',
+                confirmButtonText: 'ตกลง',
+              })
+              this.refreshcap()
+              this.$store.commit('clearall')
+            }
+          })
+          .catch((error) => {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'ระบบขัดข้อง กรุณาสมัครอีกครั้งภายหลัง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            this.refreshcap()
             this.$store.commit('clearall')
             console.log(error)
           })
