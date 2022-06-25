@@ -277,6 +277,7 @@ export default {
   },
   methods: {
     async getprofile() {
+      this.$store.commit('clearall')
       this.$store.commit('setcredit', '-')
       this.$store.commit('setapiname', 11001)
       this.$store.commit('setAPI')
