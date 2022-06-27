@@ -56,13 +56,13 @@
               หน้าบ้าน
             </router-link>
 
-            <button
+            <!-- <button
               type="button"
               class="btn btn-link px-2 text-decoration-none link-light"
               disabled
             >
               บทความ
-            </button>
+            </button> -->
 
             <a
               type="button"
@@ -133,7 +133,7 @@
               หน้าบ้าน
             </button>
           </li>
-          <li>
+          <!-- <li>
             <button
               type="button"
               class="btn btn-link px-2 text-decoration-none link-light"
@@ -142,7 +142,7 @@
               <i class="bi bi-book mx-3" style="font-size: 2rem"></i>
               บทความ
             </button>
-          </li>
+          </li> -->
           <li>
             <a
               type="button"
