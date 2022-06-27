@@ -321,6 +321,7 @@
             class="btn-close btn-close-white"
             data-bs-dismiss="modal"
             aria-label="Close"
+            @click="resetvalue"
           ></button>
         </div>
         <div class="modal-body">
@@ -379,6 +380,9 @@ export default {
     Withdraw,
   },
   methods: {
+    resetvalue() {
+      document.querySelector('button#resetvalue').click()
+    },
     //---------------clear token----------------//
     async cleartoken() {
       this.$store.commit('clearall')

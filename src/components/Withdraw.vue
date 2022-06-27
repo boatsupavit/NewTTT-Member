@@ -99,6 +99,7 @@
       </p>
     </div>
   </div>
+  <button @click="resetvalue" id="resetvalue" hidden></button>
 </template>
 
 <script>
@@ -126,6 +127,9 @@ export default {
       return require('../assets/images/banking/th/smooth-corner/' +
         pet +
         '.png')
+    },
+    resetvalue() {
+      this.withdrawvalue = 0
     },
     sum(e) {
       console.log(e.target.value)
@@ -173,6 +177,7 @@ export default {
                 confirmButtonText: 'ตกลง',
               })
               this.$store.commit('setwdc', respon.data.withdraw_count)
+              this.withdrawvalue = 0
             } else {
               Swal.fire({
                 title: 'ผิดพลาด!!!',
@@ -185,6 +190,7 @@ export default {
           })
           .catch((error) => {
             console.log(error)
+            this.withdrawvalue = 0
           })
       }
     },

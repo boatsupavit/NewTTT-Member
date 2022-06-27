@@ -15,7 +15,8 @@ import ibank from '@/assets/images/banking/th/smooth-corner/ibank.png'
 import icbc from '@/assets/images/banking/th/smooth-corner/icbc.png'
 import jpm from '@/assets/images/banking/th/smooth-corner/jpm.png'
 import kbank from '@/assets/images/banking/th/smooth-corner/kbank.png'
-import kk from '@/assets/images/banking/th/smooth-corner/kk.png'
+import kk from '@/assets/images/banking/th/smooth-corner/kkp.png'
+import kkp from '@/assets/images/banking/th/smooth-corner/kkp.png'
 import ktb from '@/assets/images/banking/th/smooth-corner/ktb.png'
 import lhb from '@/assets/images/banking/th/smooth-corner/lhb.png'
 import mb from '@/assets/images/banking/th/smooth-corner/mb.png'
@@ -52,6 +53,7 @@ export const imgBankSmoothSet = Object.assign(
     jpm,
     kbank,
     kk,
+    kkp,
     ktb,
     lhb,
     mb,
