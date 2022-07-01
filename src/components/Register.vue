@@ -416,6 +416,7 @@ export default {
   },
   data() {
     return {
+      ipinfo: {},
       listbank: [],
       channel: [],
       isActive: true,
@@ -436,6 +437,12 @@ export default {
     }
   },
   methods: {
+    // async getvanip() {
+    //   await axios.get('https://ipinfo.io/json').then((response) => {
+    //     this.ipinfo = response.data
+    //     console.log('ipinfo => ', this.ipinfo)
+    //   })
+    // },
     SetmobileNumberValue(event) {
       this.$store.commit('setphonenumber', event.target.value)
     },
@@ -485,143 +492,146 @@ export default {
         })
     },
     //---------------register--------------//
-    async submit() {
-      if (this.$store.getters.phonenumber === '') {
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'กรุณาใส่หมายเลขโทรศัพท์',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      } else if (this.$store.getters.bankName === 'กรุณาเลือกธนาคาร...') {
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'กรุณาเลือกบัญชีธนาคาร',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      } else if (this.$store.getters.bankaccount === '') {
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'กรุณาใส่หมายเลขเลขบัญชีธนาคาร',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      } else if (this.$store.getters.fname === '') {
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'กรุณาใส่ชื่อจริง',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      } else if (this.$store.getters.lname === '') {
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'กรุณาใส่ชื่อนามสกุลจริง',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      } else if (this.$store.getters.pin === '') {
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'กรุณาใส่รหัสลับ 4 ตัว',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      } else if (this.PasswordConfirm === '') {
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'กรุณายืนยันรหัสลับ 4 ตัว',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      } else if (this.$store.getters.pin !== this.$store.getters.password) {
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'Pin 4 ตัวไม่ตรงกันกรุณาตรวจสอบ',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      } else if (this.$store.getters.captcha == '') {
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'กรุณาใส่ Captcha เพื่อยืนยันตัวตน',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      } else {
-        // -------call API---------//
-        this.$store.commit('setapiname', 11000)
-        this.$store.commit('setAPI')
-        console.log(this.$store.getters.API)
-        const body = {
-          agent_id: this.$store.getters.agent_id,
-          // username: '',
-          password: this.$store.getters.password,
-          tel: this.$store.getters.phonenumber,
-          pin: this.$store.getters.pin,
-          line_id: this.$store.getters.idline,
-          name: this.$store.getters.fname,
-          surename: this.$store.getters.lname,
-          // tag: ['6281446d5aa7df0156f3b467'],
-          channel: this.$store.getters.chanel,
-          bank_id: this.$store.getters.bankid,
-          bank_acct: this.$store.getters.bankaccount,
-          // domain_name: 'https://www.banpong888.com',
-          captchaID: this.$store.getters.captchaID,
-          value: this.$store.getters.captcha,
-        }
-        console.log(body)
-        await axios
-          .post(this.$store.getters.API, { body })
-          .then((response) => {
-            console.log(response.data)
-            this.$store.commit('setapiname', 11005)
-            this.$store.commit('setAPI')
-            console.log(this.$store.getters.API)
-            if (response.data.status == '200') {
-              setTimeout(function () {
-                document.querySelector('button#loginbtn').click()
-              }, 50)
-            } else if (response.data.status == '300') {
-              Swal.fire({
-                title: 'ผิดพลาด!!!',
-                text: 'Captcha ไม่ถูกต้องกรุณาใส่ให้ถูกต้อง',
-                icon: 'error',
-                confirmButtonText: 'ตกลง',
-              })
-              this.$store.commit('setcaptcha', '')
-            } else {
-              Swal.fire({
-                title: 'ผิดพลาด!!!',
-                text: response.data.message,
-                icon: 'error',
-                confirmButtonText: 'ตกลง',
-              })
-              this.refreshcap()
-              this.$store.commit('clearall')
-            }
-          })
-          .catch((error) => {
-            Swal.fire({
-              title: 'ผิดพลาด!!!',
-              text: 'ระบบขัดข้อง กรุณาสมัครอีกครั้งภายหลัง',
-              icon: 'error',
-              confirmButtonText: 'ตกลง',
-            })
-            this.refreshcap()
-            this.$store.commit('clearall')
-            console.log(error)
-          })
-      }
-    },
+    // async submit() {
+    //   if (this.$store.getters.phonenumber === '') {
+    //     Swal.fire({
+    //       title: 'ผิดพลาด!!!',
+    //       text: 'กรุณาใส่หมายเลขโทรศัพท์',
+    //       icon: 'error',
+    //       confirmButtonText: 'ตกลง',
+    //     })
+    //   } else if (this.$store.getters.bankName === 'กรุณาเลือกธนาคาร...') {
+    //     Swal.fire({
+    //       title: 'ผิดพลาด!!!',
+    //       text: 'กรุณาเลือกบัญชีธนาคาร',
+    //       icon: 'error',
+    //       confirmButtonText: 'ตกลง',
+    //     })
+    //   } else if (this.$store.getters.bankaccount === '') {
+    //     Swal.fire({
+    //       title: 'ผิดพลาด!!!',
+    //       text: 'กรุณาใส่หมายเลขเลขบัญชีธนาคาร',
+    //       icon: 'error',
+    //       confirmButtonText: 'ตกลง',
+    //     })
+    //   } else if (this.$store.getters.fname === '') {
+    //     Swal.fire({
+    //       title: 'ผิดพลาด!!!',
+    //       text: 'กรุณาใส่ชื่อจริง',
+    //       icon: 'error',
+    //       confirmButtonText: 'ตกลง',
+    //     })
+    //   } else if (this.$store.getters.lname === '') {
+    //     Swal.fire({
+    //       title: 'ผิดพลาด!!!',
+    //       text: 'กรุณาใส่ชื่อนามสกุลจริง',
+    //       icon: 'error',
+    //       confirmButtonText: 'ตกลง',
+    //     })
+    //   } else if (this.$store.getters.pin === '') {
+    //     Swal.fire({
+    //       title: 'ผิดพลาด!!!',
+    //       text: 'กรุณาใส่รหัสลับ 4 ตัว',
+    //       icon: 'error',
+    //       confirmButtonText: 'ตกลง',
+    //     })
+    //   } else if (this.PasswordConfirm === '') {
+    //     Swal.fire({
+    //       title: 'ผิดพลาด!!!',
+    //       text: 'กรุณายืนยันรหัสลับ 4 ตัว',
+    //       icon: 'error',
+    //       confirmButtonText: 'ตกลง',
+    //     })
+    //   } else if (this.$store.getters.pin !== this.$store.getters.password) {
+    //     Swal.fire({
+    //       title: 'ผิดพลาด!!!',
+    //       text: 'Pin 4 ตัวไม่ตรงกันกรุณาตรวจสอบ',
+    //       icon: 'error',
+    //       confirmButtonText: 'ตกลง',
+    //     })
+    //   } else if (this.$store.getters.captcha == '') {
+    //     Swal.fire({
+    //       title: 'ผิดพลาด!!!',
+    //       text: 'กรุณาใส่ Captcha เพื่อยืนยันตัวตน',
+    //       icon: 'error',
+    //       confirmButtonText: 'ตกลง',
+    //     })
+    //   } else {
+    //     // -------call API---------//
+    //     this.$store.commit('setapiname', 11000)
+    //     this.$store.commit('setAPI')
+    //     console.log(this.$store.getters.API)
+    //     const body = {
+    //       agent_id: this.$store.getters.agent_id,
+    //       // username: '',
+    //       password: this.$store.getters.password,
+    //       tel: this.$store.getters.phonenumber,
+    //       pin: this.$store.getters.pin,
+    //       line_id: this.$store.getters.idline,
+    //       name: this.$store.getters.fname,
+    //       surename: this.$store.getters.lname,
+    //       // tag: ['6281446d5aa7df0156f3b467'],
+    //       channel: this.$store.getters.chanel,
+    //       bank_id: this.$store.getters.bankid,
+    //       bank_acct: this.$store.getters.bankaccount,
+    //       // domain_name: 'https://www.banpong888.com',
+    //       captchaID: this.$store.getters.captchaID,
+    //       value: this.$store.getters.captcha,
+    //       request: '',
+    //       ipinfo: [this.ipinfo],
+    //     }
+    //     console.log(body)
+    //     await axios
+    //       .post(this.$store.getters.API, { body })
+    //       .then((response) => {
+    //         console.log(response.data)
+    //         this.$store.commit('setapiname', 11005)
+    //         this.$store.commit('setAPI')
+    //         console.log(this.$store.getters.API)
+    //         if (response.data.status == '200') {
+    //           setTimeout(function () {
+    //             document.querySelector('button#loginbtn').click()
+    //           }, 50)
+    //         } else if (response.data.status == '300') {
+    //           Swal.fire({
+    //             title: 'ผิดพลาด!!!',
+    //             text: 'Captcha ไม่ถูกต้องกรุณาใส่ให้ถูกต้อง',
+    //             icon: 'error',
+    //             confirmButtonText: 'ตกลง',
+    //           })
+    //           this.$store.commit('setcaptcha', '')
+    //         } else {
+    //           Swal.fire({
+    //             title: 'ผิดพลาด!!!',
+    //             text: response.data.message,
+    //             icon: 'error',
+    //             confirmButtonText: 'ตกลง',
+    //           })
+    //           this.refreshcap()
+    //           this.$store.commit('clearall')
+    //         }
+    //       })
+    //       .catch((error) => {
+    //         Swal.fire({
+    //           title: 'ผิดพลาด!!!',
+    //           text: 'ระบบขัดข้อง กรุณาสมัครอีกครั้งภายหลัง',
+    //           icon: 'error',
+    //           confirmButtonText: 'ตกลง',
+    //         })
+    //         this.refreshcap()
+    //         this.$store.commit('clearall')
+    //         console.log(error)
+    //       })
+    //   }
+    // },
   },
   async mounted() {
+    // this.getvanip()
     this.$store.commit('setapiname', 11004)
     this.$store.commit('setAPI')
     await axios
       .post(this.$store.getters.API, {
-        status: 'Active',
+        status: 'active',
       })
       .then((resp) => {
         console.log(resp.data)

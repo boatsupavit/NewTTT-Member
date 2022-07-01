@@ -305,6 +305,7 @@ export default {
     }
   },
   mounted() {
+    this.callwhitelist()
     this.importAll(
       require.context('../assets/images/gameshall/', true, /\.png$/),
     )
@@ -318,7 +319,6 @@ export default {
         document.querySelector('button#login').click()
       }, 500)
     }
-    this.callwhitelist()
   },
 
   methods: {

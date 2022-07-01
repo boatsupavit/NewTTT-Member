@@ -344,6 +344,11 @@ import Login from './../components/Login.vue'
 
 export default {
   name: 'AppHeader',
+  data() {
+    return {
+      ipinfo: {},
+    }
+  },
   setup() {
     return {
       imgSocial,
@@ -353,7 +358,16 @@ export default {
     Register,
     Login,
   },
+  async mounted() {
+    this.getvanip()
+  },
   methods: {
+    async getvanip() {
+      await axios.get('https://ipinfo.io/json').then((response) => {
+        this.ipinfo = response.data
+        console.log('ipinfo => ', this.ipinfo)
+      })
+    },
     clearValue() {
       this.$store.commit('clearall')
     },
@@ -487,21 +501,22 @@ export default {
         this.$store.commit('setAPI')
         console.log(this.$store.getters.API)
         const body = {
-          agent_id: '629e381cb4839cabb5622da1',
-          username: '',
+          agent_id: this.$store.getters.agent_id,
+          // username: '',
           password: this.$store.getters.password,
           tel: this.$store.getters.phonenumber,
           pin: this.$store.getters.pin,
           line_id: this.$store.getters.idline,
           name: this.$store.getters.fname,
           surename: this.$store.getters.lname,
-          tag: ['6281446d5aa7df0156f3b467'],
+          // tag: ['6281446d5aa7df0156f3b467'],
           channel: this.$store.getters.chanel,
           bank_id: this.$store.getters.bankid,
           bank_acct: this.$store.getters.bankaccount,
-          domain_name: 'https://www.banpong888.com',
+          // domain_name: 'https://www.banpong888.com',
           captchaID: this.$store.getters.captchaID,
           value: this.$store.getters.captcha,
+          ipinfo: this.ipinfo,
         }
         console.log(body)
         await axios
