@@ -213,7 +213,7 @@ export default {
         .then((res) => {
           console.log('withdraw_config => ', res.data)
           if (res.data.status == 200) {
-            this.withdraw_config = res.data.result.withdraw_config
+            this.withdraw_config = res.data.result
           } else {
             Swal.fire({
               title: 'ผิดพลาด!!!',
