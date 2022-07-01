@@ -32,6 +32,7 @@ export default createStore({
     captchaID: '',
     imgcaptcha: '',
     withdraw_count: 0,
+    agent_id: '',
   },
   getters: {
     token: (state) => state.token,
@@ -62,6 +63,7 @@ export default createStore({
     captchaID: (state) => state.captchaID,
     imgcaptcha: (state) => state.imgcaptcha,
     withdraw_count: (state) => state.withdraw_count,
+    agent_id: (state) => state.agent_id,
   },
   mutations: {
     preparevalue(state) {
@@ -94,6 +96,7 @@ export default createStore({
       state.gamelink = ''
       state.captchaID = ''
       state.withdraw_count = 0
+      state.agent_id = ''
     },
     setphonenumber(state, phonenumber) {
       state.phonenumber = phonenumber
@@ -169,6 +172,9 @@ export default createStore({
     },
     setwdc(state, withdraw_count) {
       state.withdraw_count = withdraw_count
+    },
+    setagentid(state, agent_id) {
+      state.agent_id = agent_id
     },
     setAPI() {
       this.state.API = 'http://' + this.state.IP + ':' + this.state.apiname

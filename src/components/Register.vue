@@ -555,8 +555,8 @@ export default {
         this.$store.commit('setAPI')
         console.log(this.$store.getters.API)
         const body = {
-          agent_id: '629e381cb4839cabb5622da1',
-          username: '',
+          agent_id: this.$store.getters.agent_id,
+          // username: '',
           password: this.$store.getters.password,
           tel: this.$store.getters.phonenumber,
           pin: this.$store.getters.pin,

@@ -17,11 +17,11 @@
           </Vue3Marquee>
         </div>
       </div>
-      <div>
+      <!-- <div>
         <button class="btn btn-warning btn-lg" @click="callwhitelist">
           call whitelist
         </button>
-      </div>
+      </div> -->
       <!-- <div class="container my-2">
         <div
           class="row row-cols-2 row-cols-sm-4 row-cols-md-4 justify-content-center"
@@ -318,6 +318,7 @@ export default {
         document.querySelector('button#login').click()
       }, 500)
     }
+    this.callwhitelist()
   },
 
   methods: {
@@ -335,6 +336,8 @@ export default {
         })
         .then((resp) => {
           console.log(resp.data)
+          this.$store.commit('setagentid', resp.data.result.agent_id)
+          console.log(this.$store.getters.agent_id)
         })
         .catch((error) => {
           console.log(error)
