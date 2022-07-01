@@ -17,6 +17,11 @@
           </Vue3Marquee>
         </div>
       </div>
+      <div>
+        <button class="btn btn-warning btn-lg" @click="callwhitelist">
+          call whitelist
+        </button>
+      </div>
       <!-- <div class="container my-2">
         <div
           class="row row-cols-2 row-cols-sm-4 row-cols-md-4 justify-content-center"
@@ -284,6 +289,7 @@ import { imgBankSmoothSet as imgBank } from '@/assets/images/banking/th/smooth-c
 import { imgSocialMedia as imgSocial } from '@/assets/images/social'
 
 import BannerSlider from './../widgets/BannerSlider.vue'
+import axios from 'axios'
 
 export default {
   name: 'HomeView',
@@ -319,6 +325,20 @@ export default {
       r.keys().forEach((key) =>
         this.imgHallArray.push({ pathLong: r(key), pathShort: key }),
       )
+    },
+    async callwhitelist() {
+      this.$store.commit('setapiname', 11013)
+      this.$store.commit('setAPI')
+      await axios
+        .post(this.$store.getters.API, {
+          domain_name: 'https://www.banpong888.com',
+        })
+        .then((resp) => {
+          console.log(resp.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
     },
   },
   setup() {

@@ -563,11 +563,11 @@ export default {
           line_id: this.$store.getters.idline,
           name: this.$store.getters.fname,
           surename: this.$store.getters.lname,
-          tag: ['6281446d5aa7df0156f3b467'],
+          // tag: ['6281446d5aa7df0156f3b467'],
           channel: this.$store.getters.chanel,
           bank_id: this.$store.getters.bankid,
           bank_acct: this.$store.getters.bankaccount,
-          domain_name: 'https://www.banpong888.com',
+          // domain_name: 'https://www.banpong888.com',
           captchaID: this.$store.getters.captchaID,
           value: this.$store.getters.captcha,
         }
