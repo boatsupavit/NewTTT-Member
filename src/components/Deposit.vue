@@ -29,7 +29,7 @@
         :key="bank.id"
       >
         <div class="card bg-dark text-bg-dark border-secondary mb-3">
-          <div class="card-body">
+          <div class="card-body tabs-qr">
             <div class="row justify-content-start">
               <div class="col-auto">
                 <img
@@ -71,7 +71,11 @@
                 </button>
               </div>
             </div>
-            <div class="row justify-content-start"></div>
+            <div class="row justify-content-start d-flex mt-2">
+              <div class="col d-grid gap-1">
+                <div class="navbar-collapse collapse" id="qr"><img /></div>
+              </div>
+            </div>
             <!-- <input /> -->
           </div>
         </div>
