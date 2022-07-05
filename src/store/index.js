@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-    webname: 'BANPONG-168',
+    webname: 'BANPONG-888',
     social_line: 'https://line.me/ti/p/@',
     token: sessionStorage.getItem('token'),
     IP: 'taetrueteam.fun',
