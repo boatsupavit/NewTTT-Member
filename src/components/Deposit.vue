@@ -77,7 +77,7 @@
               </div>
             </div>
             <!-- qr code -->
-            <div class="collapse mt-2 mx-auto" :id="bank.bank_account">
+            <div class="qr collapse mt-2 mx-auto" :id="bank.bank_account">
               <div class="row justify-content-start d-flex mt-2">
                 <div class="col d-grid gap-1">
                   <img
@@ -312,6 +312,15 @@ export default {
   mounted() {
     this.getprofile()
     this.getbankdp()
+    const list = document.querySelectorAll('.qr')
+    function activeLink() {
+      console.log('clicked')
+      list.forEach((item) => {
+        item.classList.add('')
+      })
+      this.classList.remove('collapse')
+    }
+    list.forEach((item) => item.addEventListener('click', activeLink))
   },
 }
 </script>
