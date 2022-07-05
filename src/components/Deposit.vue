@@ -73,7 +73,11 @@
             </div>
             <div class="row justify-content-start d-flex mt-2">
               <div class="col d-grid gap-1">
-                <div class="navbar-collapse collapse" id="qr"><img /></div>
+                <div class="navbar-collapse" id="qr">
+                  <img
+                    src="https://www.seekpng.com/png/detail/28-282694_qr-code-qr-code-pay-bank.png"
+                  />
+                </div>
               </div>
             </div>
             <!-- <input /> -->
