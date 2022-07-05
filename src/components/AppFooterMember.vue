@@ -38,7 +38,7 @@
               </a>
             </li> -->
             <li class="list">
-              <a href="https://line.me/ti/p/@BANPONG-888">
+              <a :href="this.$store.getters.social_line">
                 <span class="icon">
                   <i class="bi bi-telephone-forward-fill"></i>
                 </span>

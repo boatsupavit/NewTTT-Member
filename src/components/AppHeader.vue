@@ -16,7 +16,7 @@
         </a> -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link" href="#">BANPONG-888</a>
+            <a class="nav-link" href="#">{{ this.$store.getters.webname }}</a>
           </li>
         </ul>
 
@@ -36,7 +36,7 @@
           <!-- Left links -->
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <!-- <li class="nav-item">
-              <a class="nav-link" href="#">BANPONG-888</a>
+              <a class="nav-link" href="#">{{ this.$store.getters.webname }}</a>
             </li> -->
           </ul>
           <!-- <button
@@ -67,7 +67,7 @@
             <a
               type="button"
               class="btn btn-link px-2 text-decoration-none link-light"
-              href="https://line.me/ti/p/@BANPONG-888"
+              :href="this.$store.getters.social_line"
             >
               ติดต่อเรา
             </a>
@@ -110,7 +110,7 @@
     <div class="offcanvas-header">
       <li class="nav-item">
         <h1 class="text-decoration-none link-light" data-bs-dismiss="offcanvas">
-          BANPONG-888
+          {{ this.$store.getters.webname }}
         </h1>
       </li>
       <button
@@ -147,7 +147,7 @@
             <a
               type="button"
               class="btn btn-link px-2 text-decoration-none link-light"
-              href="https://line.me/ti/p/@BANPONG-888"
+              :href="this.$store.getters.social_line"
             >
               <i
                 class="bi bi-telephone-forward-fill mx-3"
@@ -195,11 +195,11 @@
           <strong>ติดต่อผ่านช่องทางออนไลน์</strong>
           <p class="mb-3">
             <a
-              href="https://line.me/ti/p/@BANPONG-888"
+              :href="this.$store.getters.social_line"
               class="link-warning"
               data-bs-dismiss="offcanvas"
             >
-              @BANPONG-888
+              {{ this.$store.getters.webname }}
             </a>
           </p>
           <span>

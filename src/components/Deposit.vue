@@ -25,7 +25,7 @@
       </div>
       <div
         class="mb-2"
-        v-for="bank in this.$store.getters.bankdeposit"
+        v-for="(bank, index) in this.$store.getters.bankdeposit"
         :key="bank.id"
       >
         <div class="card bg-dark text-bg-dark border-secondary mb-3">
@@ -44,18 +44,18 @@
                 <p class="small lh-1 text-white m-0">{{ bank.account_name }}</p>
                 <p
                   class="fs-5 fw-bold fw-bolder lh-1 mb-2 text-warning"
-                  id="wdvalue"
-                  :value="bank.bank_account"
+                  :value="index"
                 >
                   {{ bank.bank_account }}
                 </p>
               </div>
-              <div class="col d-grid gap-2 d-flex justify-content-end">
+              <div class="col d-grid gap-1 justify-content-end">
                 <button
                   type="button"
                   class="btn btn-secondary btn-sm"
                   @click="copyText"
                   @mouseover="outfocus"
+                  :value="bank.bank_account"
                 >
                   <i class="bi bi-clipboard-check"></i>
                   <div class="tooltip">
@@ -65,8 +65,13 @@
                   </div>
                   คัดลอก
                 </button>
+                <button class="btn btn-secondary btn-sm">
+                  <i class="bi bi-search"></i>
+                  QR Code
+                </button>
               </div>
             </div>
+            <div class="row justify-content-start"></div>
             <!-- <input /> -->
           </div>
         </div>
@@ -98,8 +103,8 @@ export default {
     }
   },
   methods: {
-    copyText() {
-      var copyText = document.getElementById('wdvalue').innerText
+    copyText(e) {
+      var copyText = e.target.value
       console.log(copyText)
       navigator.clipboard.writeText(copyText)
       var tooltip = document.getElementById('myTooltip')
@@ -296,6 +301,7 @@ export default {
 </script>
 
 <style scoped>
+@import './../styles/_qrcode.css';
 .tooltip {
   position: relative;
   display: inline-block;

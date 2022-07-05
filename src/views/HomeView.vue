@@ -222,8 +222,8 @@
               <strong>ติดต่อผ่านช่องทางออนไลน์</strong>
             </h3>
             <p class="mb-3">
-              <a href="https://line.me/ti/p/@BANPONG-888" class="link-warning">
-                @BANPONG-888
+              <a :href="this.$store.getters.social_line" class="link-warning">
+                @{{ this.$store.getters.webname }}
               </a>
             </p>
             <div>

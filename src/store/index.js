@@ -2,6 +2,8 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
+    webname: 'BANGPONG-888',
+    social_line: 'https://line.me/ti/p/@',
     token: sessionStorage.getItem('token'),
     IP: 'taetrueteam.fun',
     // IP: '192.168.1.33',
@@ -35,6 +37,8 @@ export default createStore({
     agent_id: '',
   },
   getters: {
+    webname: (state) => state.webname,
+    social_line: (state) => state.social_line + state.webname,
     token: (state) => state.token,
     IP: (state) => state.IP,
     password: (state) => state.password,

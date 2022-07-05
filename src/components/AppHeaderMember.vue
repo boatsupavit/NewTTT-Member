@@ -16,9 +16,9 @@
         </a> -->
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item px-auto">
-            <router-link to="/member" class="nav-link" href="#"
-              >BANPONG-888</router-link
-            >
+            <router-link to="/member" class="nav-link" href="#">{{
+              this.$store.getters.webname
+            }}</router-link>
           </li>
         </ul>
 
@@ -76,7 +76,7 @@
                 <a
                   type="button"
                   class="btn btn-link px-2 text-decoration-none link-light"
-                  href="https://line.me/ti/p/@BANPONG-888"
+                  :href="this.$store.getters.social_line"
                 >
                   ติดต่อเรา
                 </a>
@@ -130,7 +130,7 @@
     <div class="offcanvas-header">
       <li class="nav-item">
         <h1 class="text-decoration-none link-light" data-bs-dismiss="offcanvas">
-          BANPONG-888
+          {{ this.$store.getters.webname }}
         </h1>
       </li>
 
