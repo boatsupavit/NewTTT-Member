@@ -23,68 +23,79 @@
           </div>
         </div>
       </div>
-      <div
-        class="mb-2"
-        v-for="(bank, index) in this.$store.getters.bankdeposit"
-        :key="bank.id"
-      >
-        <div class="card bg-dark text-bg-dark border-secondary mb-3">
-          <div class="card-body tabs-qr">
-            <div class="row justify-content-start">
-              <div class="col-auto">
-                <img
-                  fluid
-                  :src="getImgUrl(bank.bank_name_en)"
-                  width="50"
-                  class="mb-2"
-                />
-              </div>
-              <div class="col-auto">
-                <p class="fs-6 fw-lighter m-0">{{ bank.bank_name_th }}</p>
-                <p class="small lh-1 text-white m-0">{{ bank.account_name }}</p>
-                <p
-                  class="fs-5 fw-bold fw-bolder lh-1 mb-1 text-warning"
-                  :value="index"
-                >
-                  {{ bank.bank_account }}
-                </p>
-              </div>
-              <div class="col d-grid gap-1 justify-content-end">
-                <button
-                  type="button"
-                  class="btn btn-secondary btn-sm"
-                  @click="copyText"
-                  @mouseover="outfocus"
-                  :value="bank.bank_account"
-                >
-                  <i class="bi bi-clipboard-check"></i>
-                  <div class="tooltip">
-                    <span class="tooltiptext" id="myTooltip"
-                      >Copy to clipboard</span
-                    >
-                  </div>
-                  คัดลอก
-                </button>
-                <button
-                  class="btn btn-secondary btn-sm"
-                  type="button"
-                  data-toggle="collapse"
-                  :data-target="'#' + bank.bank_account"
-                >
-                  <i class="bi bi-search"></i>
-                  QR Code
-                </button>
-              </div>
-            </div>
-            <!-- qr code -->
-            <div class="qr collapse mt-2 mx-auto" :id="bank.bank_account">
-              <div class="row justify-content-start d-flex mt-2">
-                <div class="col d-grid gap-1">
+      <div class="accordion accordion-flush" id="accordionFlush">
+        <div
+          class="mb-2"
+          v-for="(bank, index) in this.$store.getters.bankdeposit"
+          :key="bank.id"
+        >
+          <div class="card bg-dark text-bg-dark border-secondary mb-3">
+            <div class="card-body tabs-qr">
+              <div class="row justify-content-start">
+                <div class="col-auto">
                   <img
-                    src="https://www.seekpng.com/png/detail/28-282694_qr-code-qr-code-pay-bank.png"
-                    width="200"
-                    class="mx-auto"
+                    fluid
+                    :src="getImgUrl(bank.bank_name_en)"
+                    width="50"
+                    class="mb-2"
                   />
+                </div>
+                <div class="col-auto">
+                  <p class="fs-6 fw-lighter m-0">{{ bank.bank_name_th }}</p>
+                  <p class="small lh-1 text-white m-0">
+                    {{ bank.account_name }}
+                  </p>
+                  <p
+                    class="fs-5 fw-bold fw-bolder lh-1 mb-1 text-warning"
+                    :value="index"
+                  >
+                    {{ bank.bank_account }}
+                  </p>
+                </div>
+                <div class="col d-grid gap-1 justify-content-end">
+                  <button
+                    type="button"
+                    class="btn btn-secondary btn-sm"
+                    @click="copyText"
+                    @mouseover="outfocus"
+                    :value="bank.bank_account"
+                  >
+                    <i class="bi bi-clipboard-check"></i>
+                    <div class="tooltip">
+                      <span class="tooltiptext" id="myTooltip"
+                        >Copy to clipboard</span
+                      >
+                    </div>
+                    คัดลอก
+                  </button>
+                  <button
+                    class="collapsed btn btn-secondary btn-sm"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    :data-bs-target="'#' + 'bank' + bank.bank_account"
+                    aria-expanded="false"
+                    :aria-controls="'flush-' + 'bank' + bank.bank_account"
+                  >
+                    <i class="bi bi-search"></i>
+                    QR Code
+                  </button>
+                </div>
+              </div>
+              <!-- qr code -->
+              <div
+                :id="'bank' + bank.bank_account"
+                class="accordion-collapse collapse"
+                :aria-labelledby="'flush-' + 'bank' + bank.bank_account"
+                data-bs-parent="#accordionFlush"
+              >
+                <div class="row justify-content-start d-flex mt-2">
+                  <div class="col d-grid gap-1">
+                    <img
+                      src="https://www.seekpng.com/png/detail/28-282694_qr-code-qr-code-pay-bank.png"
+                      width="200"
+                      class="mx-auto"
+                    />
+                  </div>
                 </div>
               </div>
             </div>
@@ -119,6 +130,12 @@ export default {
     }
   },
   methods: {
+    openqr() {
+      document.querySelector('#dpbtn').click()
+      setTimeout(function () {
+        document.querySelector('#qrbtn').click()
+      }, 100)
+    },
     copyText(e) {
       var copyText = e.target.value
       console.log(copyText)
@@ -312,21 +329,13 @@ export default {
   mounted() {
     this.getprofile()
     this.getbankdp()
-    const list = document.querySelectorAll('.qr')
-    function activeLink() {
-      console.log('clicked')
-      list.forEach((item) => {
-        item.classList.add('')
-      })
-      this.classList.remove('collapse')
-    }
-    list.forEach((item) => item.addEventListener('click', activeLink))
   },
 }
 </script>
 
 <style scoped>
 @import './../styles/_qrcode.css';
+
 .tooltip {
   position: relative;
   display: inline-block;

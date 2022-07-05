@@ -84,6 +84,7 @@
               <li class="nav-item">
                 <button
                   type="button"
+                  id="dpbtn"
                   class="btn btn-link px-2 text-decoration-none link-light"
                   data-bs-toggle="modal"
                   data-bs-target="#modalDeposit"
