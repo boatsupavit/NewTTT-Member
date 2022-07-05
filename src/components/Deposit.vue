@@ -43,7 +43,7 @@
                 <p class="fs-6 fw-lighter m-0">{{ bank.bank_name_th }}</p>
                 <p class="small lh-1 text-white m-0">{{ bank.account_name }}</p>
                 <p
-                  class="fs-5 fw-bold fw-bolder lh-1 mb-2 text-warning"
+                  class="fs-5 fw-bold fw-bolder lh-1 mb-1 text-warning"
                   :value="index"
                 >
                   {{ bank.bank_account }}
@@ -65,17 +65,25 @@
                   </div>
                   คัดลอก
                 </button>
-                <button class="btn btn-secondary btn-sm">
+                <button
+                  class="btn btn-secondary btn-sm"
+                  type="button"
+                  data-toggle="collapse"
+                  :data-target="'#' + bank.bank_account"
+                >
                   <i class="bi bi-search"></i>
                   QR Code
                 </button>
               </div>
             </div>
-            <div class="row justify-content-start d-flex mt-2">
-              <div class="col d-grid gap-1">
-                <div class="navbar-collapse" id="qr">
+            <!-- qr code -->
+            <div class="collapse mt-2 mx-auto" :id="bank.bank_account">
+              <div class="row justify-content-start d-flex mt-2">
+                <div class="col d-grid gap-1">
                   <img
                     src="https://www.seekpng.com/png/detail/28-282694_qr-code-qr-code-pay-bank.png"
+                    width="200"
+                    class="mx-auto"
                   />
                 </div>
               </div>
