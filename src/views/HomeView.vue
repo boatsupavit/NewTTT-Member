@@ -332,7 +332,7 @@ export default {
       this.$store.commit('setAPI')
       await axios
         .post(this.$store.getters.API, {
-          domain_name: 'https://www.banpong168.com',
+          // domain_name: 'http://banpong888.taetrueteam.fun',
         })
         .then((resp) => {
           console.log(resp.data)
