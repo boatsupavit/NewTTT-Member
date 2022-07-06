@@ -26,6 +26,7 @@
           type="number"
           class="form-control"
           style="text-align: right"
+          placeholder="กรุณาระบุจำนวนเงินที่ต้องการถอน"
           :value="this.withdrawvalue"
           @input="SetWithdrawValue"
         />
@@ -112,7 +113,7 @@ export default {
   components: {},
   data() {
     return {
-      withdrawvalue: 0,
+      withdrawvalue: '',
       imgbankmember: '',
       withdraw_config: [],
     }
@@ -129,7 +130,7 @@ export default {
         '.png')
     },
     resetvalue() {
-      this.withdrawvalue = 0
+      this.withdrawvalue = ''
     },
     sum(e) {
       console.log(e.target.value)
