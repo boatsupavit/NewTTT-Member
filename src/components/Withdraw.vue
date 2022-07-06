@@ -150,7 +150,7 @@ export default {
       const token = sessionStorage.getItem('token')
       const headers = { Authorization: 'Bearer ' + token }
       console.log(headers)
-      if (this.withdrawvalue == 0) {
+      if (this.withdrawvalue == 0 || this.withdrawvalue == '') {
         Swal.fire({
           title: 'ผิดพลาด!!!',
           text: 'กรุณาระบุจำนวนที่ต้องการถอน',
@@ -178,7 +178,7 @@ export default {
                 confirmButtonText: 'ตกลง',
               })
               this.$store.commit('setwdc', respon.data.withdraw_count)
-              this.withdrawvalue = 0
+              this.withdrawvalue = ''
             } else {
               Swal.fire({
                 title: 'ผิดพลาด!!!',
@@ -186,12 +186,12 @@ export default {
                 icon: 'error',
                 confirmButtonText: 'ตกลง',
               })
-              this.withdrawvalue = 0
+              this.withdrawvalue = ''
             }
           })
           .catch((error) => {
             console.log(error)
-            this.withdrawvalue = 0
+            this.withdrawvalue = ''
           })
       }
     },
