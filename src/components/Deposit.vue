@@ -35,7 +35,7 @@
                 <div class="col-auto">
                   <img
                     fluid
-                    :src="getImgUrl(bank.bank_name_en)"
+                    :src="getImgUrl(bank.bank_code)"
                     width="50"
                     class="mb-2"
                   />
@@ -91,7 +91,7 @@
                 <div class="row justify-content-start d-flex mt-2">
                   <div class="col d-grid gap-1">
                     <img
-                      src="https://www.seekpng.com/png/detail/28-282694_qr-code-qr-code-pay-bank.png"
+                      :src="bank.bank_auto_config.qr_code"
                       width="200"
                       class="mx-auto"
                     />

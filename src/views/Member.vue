@@ -72,6 +72,7 @@
               class="btn btn-outline-secondary btn-menu"
               data-bs-toggle="modal"
               data-bs-target="#modalWithdraw"
+              @click="getprofileWD"
             >
               <i class="bi bi-cash-coin" style="font-size: 2rem"></i>
               <p class="m-0"><strong>ถอน</strong></p>
@@ -463,6 +464,89 @@ export default {
     setgametype(event) {
       this.$store.commit('preparevalue')
       this.$store.commit('setgametype', event.target.id)
+    },
+    //-----------------get profile WD--------------------//
+    async getprofileWD() {
+      this.$store.commit('setapiname', 11001)
+      this.$store.commit('setAPI')
+      const token = sessionStorage.getItem('token')
+      const headers = { Authorization: 'Bearer ' + token }
+      console.log(headers)
+      console.log(this.$store.getters.API)
+      await axios
+        .post(
+          this.$store.getters.API,
+          {},
+          {
+            headers,
+          },
+        )
+        .then((res) => {
+          console.log(res.data)
+          if (res.data.status == 200) {
+            // ------------------------------------------------------------------------------//
+            this.$store.commit(
+              'setbkmb',
+              res.data.result.profile_mem.banking_account,
+            )
+            this.$store.commit(
+              'setbkacc',
+              this.$store.getters.bankmember[0].bank_acct,
+            )
+            this.$store.commit(
+              'setbkname',
+              this.$store.getters.bankmember[0].bank_name,
+            )
+            this.bank_name = this.$store.getters.bankmember[0].bank_name
+            // console.log('bank_name', this.bank_name)
+            // this.imgbankmember = this.getImgUrl(this.bank_name)
+            this.$store.commit(
+              'setbknameth',
+              this.$store.getters.bankmember[0].bank_name_th,
+            )
+            this.$store.commit(
+              'setbkid',
+              this.$store.getters.bankmember[0].bank_id,
+            )
+            // ------------------------------------------------------------------------------//
+          } else if (res.data.status == 503) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'พบการ Login ซ้อนกรุณาติดต่อเจ้าหน้าที่หรือ Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
+          } else if (res.data.status == 502) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'กรุณา Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
+          } else {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'Call Profile Member : ' + res.data.message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          Swal.fire({
+            title: 'ผิดพลาด!!!',
+            text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+          })
+        })
     },
   },
   setup() {

@@ -164,9 +164,12 @@
           <button
             type="button"
             data-bs-dismiss="modal"
-            class="btn-close btn-close btn-close-white"
-            @click="getprofile"
-          ></button>
+            class="btn btn-close-white"
+            @click="getprofile, removeHandler"
+          >
+            <i class="bi bi-x"></i>
+            ปิดเกม
+          </button>
         </div>
       </div>
     </div>
@@ -276,6 +279,9 @@ export default {
     window.addEventListener('scroll', this.scrollFunction)
   },
   methods: {
+    removeHandler() {
+      window.onbeforeunload = null
+    },
     async getprofile() {
       this.$store.commit('clearall')
       this.$store.commit('setcredit', '-')
