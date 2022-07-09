@@ -257,7 +257,7 @@ export default {
               'setbkname',
               this.$store.getters.bankmember[0].bank_name,
             )
-            this.bank_name = this.$store.getters.bankmember[0].bank_name
+            this.bank_name = this.$store.getters.bankmember[0].bank_code
             // console.log('bank_name', this.bank_name)
             this.imgbankmember = this.getImgUrl(this.bank_name)
             this.$store.commit(
