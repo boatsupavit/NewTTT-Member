@@ -69,6 +69,7 @@
                     คัดลอก
                   </button>
                   <button
+                    v-show="bank.bank_auto_config.qr_code"
                     class="collapsed btn btn-secondary btn-sm"
                     type="button"
                     data-bs-toggle="collapse"
@@ -83,6 +84,7 @@
               </div>
               <!-- qr code -->
               <div
+                v-show="bank.bank_auto_config.qr_code"
                 :id="'bank' + bank.bank_account"
                 class="accordion-collapse collapse"
                 :aria-labelledby="'flush-' + 'bank' + bank.bank_account"
