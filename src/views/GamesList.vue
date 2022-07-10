@@ -110,6 +110,7 @@
               href="#"
               :gameCategory="game.gameCategory"
               :gameprovider="game.provider"
+              :gamename="game.gameName"
               :gameid="game.id"
               @click="startgame"
             >
@@ -119,6 +120,7 @@
                 :src="game.image.horizontal"
                 :gameCategory="game.gameCategory"
                 :gameprovider="game.provider"
+                :gamename="game.gameName"
                 :gameid="game.id"
               />
               <figcaption
@@ -126,6 +128,7 @@
                 :data-bs-target="modalname"
                 :gameCategory="game.gameCategory"
                 :gameprovider="game.provider"
+                :gamename="game.gameName"
                 :gameid="game.id"
               >
                 {{ game.gameName }}
@@ -159,8 +162,11 @@
   >
     <div class="modal-dialog modal-fullscreen">
       <div class="modal-content border-2 modal-shadow">
-        <div class="modal-body">
-          <Iframe />
+        <div class="modal-header">
+          <h5 class="modal-title text-white" id="modalhis">
+            <i class="bi bi-controller mx-1"></i>
+            {{ provider }} : {{ gamename }}
+          </h5>
           <button
             type="button"
             data-bs-dismiss="modal"
@@ -170,6 +176,9 @@
             <i class="bi bi-x"></i>
             ปิดเกม
           </button>
+        </div>
+        <div class="modal-body">
+          <Iframe />
         </div>
       </div>
     </div>
@@ -273,6 +282,8 @@ export default {
       providerlist: [],
       modalname: '',
       state: '',
+      gamename: '',
+      provider: '',
     }
   },
   created() {
@@ -451,6 +462,7 @@ export default {
         console.log(event.target.attributes.gameid.value)
         console.log(event.target.attributes.gameprovider.value)
         console.log(event.target.attributes.gameCategory.value)
+        console.log(event.target.attributes.gameName.value)
         await axios
           .post(
             this.$store.getters.API,
@@ -466,6 +478,8 @@ export default {
           .then((response) => {
             console.log(response.data)
             if (response.data.status == 200) {
+              this.provider = event.target.attributes.gameprovider.value
+              this.gamename = event.target.attributes.gameName.value
               this.$store.commit('setgamelink', response.data.uri)
               console.log(this.$store.getters.gamelink)
             } else {

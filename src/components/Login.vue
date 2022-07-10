@@ -5,9 +5,7 @@
     </span>
     <hr />
     <div class="mb-2">
-      <label for="phoneID" class="form-label mb-1"
-        >เบอร์โทรศัพท์ 8888 {{ this.$store.getters.phonenumber }}</label
-      >
+      <label for="phoneID" class="form-label mb-1">เบอร์โทรศัพท์</label>
       <div class="input-group">
         <span class="input-group-text">
           <i class="bi bi-phone-fill"></i>
@@ -24,9 +22,7 @@
       </div>
     </div>
     <div class="mb-2">
-      <label for="pinID" class="form-label mb-1"
-        >PIN (รหัสลับ 4 ตัว) 8888 {{ this.$store.getters.pin }}</label
-      >
+      <label for="pinID" class="form-label mb-1">PIN (รหัสลับ 4 ตัว)</label>
       <div class="input-group">
         <span class="input-group-text">
           <i class="bi bi-key-fill"></i>

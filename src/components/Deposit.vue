@@ -69,7 +69,7 @@
                     คัดลอก
                   </button>
                   <button
-                    v-show="bank.bank_auto_config.qr_code"
+                    v-if="bank?.qr_code"
                     class="collapsed btn btn-secondary btn-sm"
                     type="button"
                     data-bs-toggle="collapse"
@@ -84,7 +84,7 @@
               </div>
               <!-- qr code -->
               <div
-                v-show="bank.bank_auto_config.qr_code"
+                v-if="bank?.qr_code"
                 :id="'bank' + bank.bank_account"
                 class="accordion-collapse collapse"
                 :aria-labelledby="'flush-' + 'bank' + bank.bank_account"
@@ -92,11 +92,7 @@
               >
                 <div class="row justify-content-start d-flex mt-2">
                   <div class="col d-grid gap-1">
-                    <img
-                      :src="bank.bank_auto_config.qr_code"
-                      width="200"
-                      class="mx-auto"
-                    />
+                    <img :src="bank.qr_code" width="200" class="mx-auto" />
                   </div>
                 </div>
               </div>

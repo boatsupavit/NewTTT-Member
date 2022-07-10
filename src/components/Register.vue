@@ -17,17 +17,17 @@
           >
           <div class="input-group">
             <span class="input-group-text">
-              <i class="bi bi-phone-fill"></i>
+              <i class="bi bi-phone-fill" id="iphoneID"></i>
             </span>
             <input
               id="phoneID"
               type="text"
               maxlength="10"
-              pattern="^[\d\W]{9,11}$"
               class="form-control"
               placeholder="เบอร์โทรศัพท์"
               :value="this.$store.getters.phonenumber"
               @input="SetmobileNumberValue"
+              @keypress="onlyNumber"
             />
           </div>
           <span class="small text-muted"><small>เช่น: 0912345678</small></span>
@@ -46,10 +46,11 @@
               maxlength="4"
               :value="this.$store.getters.pin"
               @input="SetPasswordValue"
+              @keypress="onlyNumber"
             />
           </div>
           <span class="small text-muted">
-            <small>ใช้สำหรับ Login</small>
+            <small>ใช้ตัวเลข 4 ตัวสำหรับ Login</small>
           </span>
           <br />
           <label for="pinID" class="form-label mb-1"
@@ -60,176 +61,28 @@
               <i class="bi bi-key-fill"></i>
             </span>
             <input
-              id="pinID"
+              id="pinconfirmID"
               type="password"
               class="form-control"
               placeholder="XXXX"
               maxlength="4"
               :value="this.$store.getters.password"
               @input="SetPasswordConfirmValue"
+              @keypress="onlyNumber"
             />
           </div>
           <span class="small text-muted">
             <small>รหัสลับ 4 ตัว อีกครั้ง</small>
           </span>
         </div>
-        <hr />
-        <div class="mb-2">
-          <label for="bankID" class="form-label mb-1">ธนาคาร</label>
-          <div class="input-group">
-            <span class="input-group-text">
-              <i class="bi bi-bank2"></i>
-            </span>
-            <select class="form-select" @input="SetbankValue">
-              <option selected>กรุณาเลือกธนาคาร...</option>
-              <option
-                v-for="(item, index) in listbank"
-                :key="index"
-                :value="item.banknameth"
-              >
-                {{ item.banknameth }}
-              </option>
-            </select>
-          </div>
-          <label for="bankAcctID" class="form-label mb-1 mt-2">
-            เลขที่บัญชี
-          </label>
-          <div class="input-group">
-            <span class="input-group-text">
-              <i class="bi bi-credit-card-2-front-fill"></i>
-            </span>
-            <input
-              id="bankAcctID"
-              type="number"
-              class="form-control"
-              placeholder="กรุณากรอกเลขที่บัญชี"
-              :value="this.$store.getters.bankaccount"
-              @input="SetbankAccountValue"
-            />
-          </div>
-          <span class="small text-muted">
-            <small>ตัวเลขล้วนไม่มีช่องว่าง</small>
-          </span>
+        <div class="modal-footer px-4">
+          <button type="button" class="btn btn-warning" @click="next1">
+            Next
+          </button>
         </div>
-        <div class="mb-2">
-          <label for="nameID" class="form-label mb-1">ชื่อจริง</label>
-          <div class="input-group">
-            <span class="input-group-text">
-              <i class="bi bi-person-lines-fill"></i>
-            </span>
-            <input
-              id="nameID"
-              type="text"
-              class="form-control"
-              placeholder=""
-              :value="this.$store.getters.fname"
-              @input="SetNameValue"
-            />
-          </div>
-          <label for="surnameID" class="form-label mb-1">นามสกุล</label>
-          <div class="input-group">
-            <span class="input-group-text">
-              <i class="bi bi-person-lines-fill"></i>
-            </span>
-            <input
-              id="surnameID"
-              type="text"
-              class="form-control"
-              placeholder=""
-              :value="this.$store.getters.lname"
-              @input="SetLastNameValue"
-            />
-          </div>
-        </div>
-        <hr />
-        <div class="mb-2">
-          <label for="applyID" class="form-label mb-1">รู้จักเราผ่านทาง</label>
-          <div class="input-group">
-            <span class="input-group-text">
-              <i class="bi bi-diagram-3-fill"></i>
-            </span>
-            <select
-              id="applyID"
-              class="form-select"
-              :value="this.$store.getters.chanel"
-              @input="SetSocialMediaValue"
-            >
-              <option value="กรุณาเลือกช่องทาง..." selected>
-                กรุณาเลือกช่องทาง...
-              </option>
-              <option
-                v-for="(item, index) in channel"
-                :key="index"
-                :value="item.channel_id"
-              >
-                {{ item.channel }}
-              </option>
-            </select>
-          </div>
-          <label for="lineID" class="form-label mb-1 mt-2">
-            ไลน์ (ไม่บังคับ)
-          </label>
-          <div class="input-group">
-            <span class="input-group-text">
-              <i class="bi bi-line"></i>
-            </span>
-            <input
-              id="lineID"
-              type="text"
-              class="form-control"
-              placeholder="Line ID"
-              :value="this.$store.getters.idline"
-              @input="SetIDLineValue"
-            />
-          </div>
-        </div>
-        <div class="mb-2">
-          <label for="captchaID" class="form-label mb-1 mt-2">
-            ฉันไม่ใช่โปรแกรมอัตโนมัติ
-          </label>
-          <div class="input-group">
-            <span class="input-group-text">
-              <i class="bi bi-robot"></i>
-            </span>
-            <input
-              id="captchaID"
-              type="text"
-              class="form-control"
-              placeholder="XXXXXX"
-              :value="this.$store.getters.captcha"
-              @input="SetCaptchaValue"
-            />
-            <span class="input-group-text p-1">
-              <img height="50" :src="this.$store.getters.imgcaptcha" />
-            </span>
-            <span class="input-group-text p-1">
-              <a
-                class="bi bi-arrow-repeat"
-                style="font-size: 32px"
-                href="#"
-                @click="refreshcap"
-              ></a>
-            </span>
-          </div>
-          <br />
-          <!-- <div class="modal-footer px-4">
-            <button type="button" class="btn btn-secondary">Back</button>
-            <button
-              type="button"
-              class="btn btn-warning"
-              data-bs-dismiss="modal"
-              @click="submit"
-            >
-              สมัครสมาชิก
-            </button>
-          </div> -->
-        </div>
-        <!-- <div class="modal-footer px-4">
-          <button type="button" class="btn btn-warning">Next</button>
-        </div> -->
       </div>
     </swiper-slide>
-    <!--  <swiper-slide id="tab2">
+    <swiper-slide id="tab2">
       <br />
       <div class="mb-2">
         <label for="bankID" class="form-label mb-1">ธนาคาร</label>
@@ -262,6 +115,7 @@
             placeholder="กรุณากรอกเลขที่บัญชี"
             :value="this.$store.getters.bankaccount"
             @input="SetbankAccountValue"
+            @keypress="onlyNumber"
           />
         </div>
         <span class="small text-muted">
@@ -297,10 +151,14 @@
             @input="SetLastNameValue"
           />
         </div>
-      <br />
-      <div class="modal-footer px-4">
-          <button type="button" class="btn btn-secondary">Back</button>
-          <button type="button" class="btn btn-warning">Next</button>
+        <br />
+        <div class="modal-footer px-4">
+          <button type="button" class="btn btn-secondary" @click="back1">
+            Back
+          </button>
+          <button type="button" class="btn btn-warning" @click="next2">
+            Next
+          </button>
         </div>
       </div>
     </swiper-slide>
@@ -325,7 +183,7 @@
             <option
               v-for="(item, index) in channel"
               :key="index"
-              :value="item._id"
+              :value="item.channel_id"
             >
               {{ item.channel }}
             </option>
@@ -359,8 +217,9 @@
           <input
             id="captchaID"
             type="text"
+            maxlength="4"
             class="form-control"
-            placeholder="XXXXXX"
+            placeholder="XXXX"
             :value="this.$store.getters.captcha"
             @input="SetCaptchaValue"
           />
@@ -379,7 +238,9 @@
         <br />
         <br />
         <div class="modal-footer px-4">
-         <button type="button" class="btn btn-secondary">Back</button>
+          <button type="button" class="btn btn-secondary" @click="back2">
+            Back
+          </button>
           <button
             type="button"
             class="btn btn-warning"
@@ -390,7 +251,7 @@
           </button>
         </div>
       </div>
-    </swiper-slide> -->
+    </swiper-slide>
   </swiper>
 </template>
 
@@ -437,12 +298,26 @@ export default {
     }
   },
   methods: {
-    // async getvanip() {
-    //   await axios.get('https://ipinfo.io/json').then((response) => {
-    //     this.ipinfo = response.data
-    //     console.log('ipinfo => ', this.ipinfo)
-    //   })
-    // },
+    next1() {
+      document.querySelector('#bankAcctID').focus()
+    },
+    next2() {
+      document.querySelector('#lineID').focus()
+    },
+    back1() {
+      document.querySelector('#pinconfirmID').focus()
+    },
+    back2() {
+      document.querySelector('#bankAcctID').focus()
+    },
+    onlyNumber($event) {
+      //console.log($event.keyCode); //keyCodes value
+      let keyCode = $event.keyCode ? $event.keyCode : $event.which
+      if (keyCode < 48 || (keyCode > 57 && keyCode !== 46)) {
+        // 46 is dot
+        $event.preventDefault()
+      }
+    },
     SetmobileNumberValue(event) {
       this.$store.commit('setphonenumber', event.target.value)
     },
@@ -492,138 +367,137 @@ export default {
         })
     },
     //---------------register--------------//
-    // async submit() {
-    //   if (this.$store.getters.phonenumber === '') {
-    //     Swal.fire({
-    //       title: 'ผิดพลาด!!!',
-    //       text: 'กรุณาใส่หมายเลขโทรศัพท์',
-    //       icon: 'error',
-    //       confirmButtonText: 'ตกลง',
-    //     })
-    //   } else if (this.$store.getters.bankName === 'กรุณาเลือกธนาคาร...') {
-    //     Swal.fire({
-    //       title: 'ผิดพลาด!!!',
-    //       text: 'กรุณาเลือกบัญชีธนาคาร',
-    //       icon: 'error',
-    //       confirmButtonText: 'ตกลง',
-    //     })
-    //   } else if (this.$store.getters.bankaccount === '') {
-    //     Swal.fire({
-    //       title: 'ผิดพลาด!!!',
-    //       text: 'กรุณาใส่หมายเลขเลขบัญชีธนาคาร',
-    //       icon: 'error',
-    //       confirmButtonText: 'ตกลง',
-    //     })
-    //   } else if (this.$store.getters.fname === '') {
-    //     Swal.fire({
-    //       title: 'ผิดพลาด!!!',
-    //       text: 'กรุณาใส่ชื่อจริง',
-    //       icon: 'error',
-    //       confirmButtonText: 'ตกลง',
-    //     })
-    //   } else if (this.$store.getters.lname === '') {
-    //     Swal.fire({
-    //       title: 'ผิดพลาด!!!',
-    //       text: 'กรุณาใส่ชื่อนามสกุลจริง',
-    //       icon: 'error',
-    //       confirmButtonText: 'ตกลง',
-    //     })
-    //   } else if (this.$store.getters.pin === '') {
-    //     Swal.fire({
-    //       title: 'ผิดพลาด!!!',
-    //       text: 'กรุณาใส่รหัสลับ 4 ตัว',
-    //       icon: 'error',
-    //       confirmButtonText: 'ตกลง',
-    //     })
-    //   } else if (this.PasswordConfirm === '') {
-    //     Swal.fire({
-    //       title: 'ผิดพลาด!!!',
-    //       text: 'กรุณายืนยันรหัสลับ 4 ตัว',
-    //       icon: 'error',
-    //       confirmButtonText: 'ตกลง',
-    //     })
-    //   } else if (this.$store.getters.pin !== this.$store.getters.password) {
-    //     Swal.fire({
-    //       title: 'ผิดพลาด!!!',
-    //       text: 'Pin 4 ตัวไม่ตรงกันกรุณาตรวจสอบ',
-    //       icon: 'error',
-    //       confirmButtonText: 'ตกลง',
-    //     })
-    //   } else if (this.$store.getters.captcha == '') {
-    //     Swal.fire({
-    //       title: 'ผิดพลาด!!!',
-    //       text: 'กรุณาใส่ Captcha เพื่อยืนยันตัวตน',
-    //       icon: 'error',
-    //       confirmButtonText: 'ตกลง',
-    //     })
-    //   } else {
-    //     // -------call API---------//
-    //     this.$store.commit('setapiname', 11000)
-    //     this.$store.commit('setAPI')
-    //     console.log(this.$store.getters.API)
-    //     const body = {
-    //       agent_id: this.$store.getters.agent_id,
-    //       // username: '',
-    //       password: this.$store.getters.password,
-    //       tel: this.$store.getters.phonenumber,
-    //       pin: this.$store.getters.pin,
-    //       line_id: this.$store.getters.idline,
-    //       name: this.$store.getters.fname,
-    //       surename: this.$store.getters.lname,
-    //       // tag: ['6281446d5aa7df0156f3b467'],
-    //       channel: this.$store.getters.chanel,
-    //       bank_id: this.$store.getters.bankid,
-    //       bank_acct: this.$store.getters.bankaccount,
-    //       // domain_name: 'https://www.banpong888.com',
-    //       captchaID: this.$store.getters.captchaID,
-    //       value: this.$store.getters.captcha,
-    //       request: '',
-    //       ipinfo: [this.ipinfo],
-    //     }
-    //     console.log(body)
-    //     await axios
-    //       .post(this.$store.getters.API, { body })
-    //       .then((response) => {
-    //         console.log(response.data)
-    //         this.$store.commit('setapiname', 11005)
-    //         this.$store.commit('setAPI')
-    //         console.log(this.$store.getters.API)
-    //         if (response.data.status == '200') {
-    //           setTimeout(function () {
-    //             document.querySelector('button#loginbtn').click()
-    //           }, 50)
-    //         } else if (response.data.status == '300') {
-    //           Swal.fire({
-    //             title: 'ผิดพลาด!!!',
-    //             text: 'Captcha ไม่ถูกต้องกรุณาใส่ให้ถูกต้อง',
-    //             icon: 'error',
-    //             confirmButtonText: 'ตกลง',
-    //           })
-    //           this.$store.commit('setcaptcha', '')
-    //         } else {
-    //           Swal.fire({
-    //             title: 'ผิดพลาด!!!',
-    //             text: response.data.message,
-    //             icon: 'error',
-    //             confirmButtonText: 'ตกลง',
-    //           })
-    //           this.refreshcap()
-    //           this.$store.commit('clearall')
-    //         }
-    //       })
-    //       .catch((error) => {
-    //         Swal.fire({
-    //           title: 'ผิดพลาด!!!',
-    //           text: 'ระบบขัดข้อง กรุณาสมัครอีกครั้งภายหลัง',
-    //           icon: 'error',
-    //           confirmButtonText: 'ตกลง',
-    //         })
-    //         this.refreshcap()
-    //         this.$store.commit('clearall')
-    //         console.log(error)
-    //       })
-    //   }
-    // },
+    async submit() {
+      if (this.$store.getters.phonenumber === '') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่หมายเลขโทรศัพท์',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.$store.getters.bankName === 'กรุณาเลือกธนาคาร...') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาเลือกบัญชีธนาคาร',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.$store.getters.bankaccount === '') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่หมายเลขเลขบัญชีธนาคาร',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.$store.getters.fname === '') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่ชื่อจริง',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.$store.getters.lname === '') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่ชื่อนามสกุลจริง',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.$store.getters.pin === '') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่รหัสลับ 4 ตัว',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.PasswordConfirm === '') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณายืนยันรหัสลับ 4 ตัว',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.$store.getters.pin !== this.$store.getters.password) {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'Pin 4 ตัวไม่ตรงกันกรุณาตรวจสอบ',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.$store.getters.captcha == '') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่ Captcha เพื่อยืนยันตัวตน',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else {
+        // -------call API---------//
+        this.$store.commit('setapiname', 11000)
+        this.$store.commit('setAPI')
+        console.log(this.$store.getters.API)
+        const body = {
+          agent_id: this.$store.getters.agent_id,
+          // username: '',
+          password: this.$store.getters.password,
+          tel: this.$store.getters.phonenumber,
+          pin: this.$store.getters.pin,
+          line_id: this.$store.getters.idline,
+          name: this.$store.getters.fname,
+          surename: this.$store.getters.lname,
+          // tag: ['6281446d5aa7df0156f3b467'],
+          channel: this.$store.getters.chanel,
+          bank_id: this.$store.getters.bankid,
+          bank_acct: this.$store.getters.bankaccount,
+          // domain_name: 'https://www.banpong888.com',
+          captchaID: this.$store.getters.captchaID,
+          value: this.$store.getters.captcha,
+          ipinfo: this.ipinfo,
+        }
+        console.log(body)
+        await axios
+          .post(this.$store.getters.API, { body })
+          .then((response) => {
+            console.log(response.data)
+            this.$store.commit('setapiname', 11005)
+            this.$store.commit('setAPI')
+            console.log(this.$store.getters.API)
+            if (response.data.status == '200') {
+              setTimeout(function () {
+                document.querySelector('button#loginbtn').click()
+              }, 50)
+            } else if (response.data.status == '300') {
+              Swal.fire({
+                title: 'ผิดพลาด!!!',
+                text: 'Captcha ไม่ถูกต้องกรุณาใส่ให้ถูกต้อง',
+                icon: 'error',
+                confirmButtonText: 'ตกลง',
+              })
+              this.$store.commit('setcaptcha', '')
+            } else {
+              Swal.fire({
+                title: 'ผิดพลาด!!!',
+                text: response.data.message,
+                icon: 'error',
+                confirmButtonText: 'ตกลง',
+              })
+              this.refreshcap()
+              this.$store.commit('clearall')
+            }
+          })
+          .catch((error) => {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'ระบบขัดข้อง กรุณาสมัครอีกครั้งภายหลัง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            this.refreshcap()
+            this.$store.commit('clearall')
+            console.log(error)
+          })
+      }
+    },
   },
   async mounted() {
     // this.getvanip()
