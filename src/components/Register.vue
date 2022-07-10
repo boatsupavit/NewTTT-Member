@@ -531,6 +531,13 @@ export default {
           icon: 'error',
           confirmButtonText: 'ตกลง',
         })
+      } else if (this.$store.getters.chanel == 'กรุณาเลือกช่องทาง...') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาเลือกช่องทาง ที่รู้จักเรา',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
       } else {
         // -------call API---------//
         this.$store.commit('setapiname', 11000)
