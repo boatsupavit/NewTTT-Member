@@ -337,7 +337,7 @@ export default {
         .then((resp) => {
           console.log(resp.data)
           this.$store.commit('setagentid', resp.data.result.agent_id)
-          console.log(this.$store.getters.agent_id)
+          console.log('agentid =>', this.$store.getters.agent_id)
         })
         .catch((error) => {
           console.log(error)

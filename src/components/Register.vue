@@ -3,7 +3,7 @@
     :pagination="{
       type: 'progressbar',
     }"
-    :navigation="false"
+    :navigation="true"
     :modules="modules"
     class="mySwiper text-content-color"
     ref="hits"
@@ -78,7 +78,7 @@
           </span>
         </div>
         <div class="modal-footer px-4">
-          <button type="button" class="btn btn-warning" @click="next1">
+          <button type="button" class="btn btn-warning" @click="next">
             Next
           </button>
         </div>
@@ -92,7 +92,11 @@
           <span class="input-group-text">
             <i class="bi bi-bank2"></i>
           </span>
-          <select class="form-select" @input="SetbankValue">
+          <select
+            class="form-select"
+            :value="this.$store.getters.bankNameth"
+            @input="SetbankValue"
+          >
             <option selected>กรุณาเลือกธนาคาร...</option>
             <option
               v-for="(item, index) in listbank"
@@ -113,7 +117,7 @@
           <input
             id="inputbankAcctID"
             type="text"
-            maxlength="14"
+            maxlength="12"
             class="form-control"
             placeholder="กรุณากรอกเลขที่บัญชี"
             :value="this.$store.getters.bankaccount"
@@ -135,9 +139,10 @@
             id="nameID"
             type="text"
             class="form-control"
-            placeholder=""
+            placeholder="กรุณากรอกชื่อจริง"
             :value="this.$store.getters.fname"
             @input="SetNameValue"
+            @keypress="controlkey"
           />
         </div>
         <label for="surnameID" class="form-label mb-1">นามสกุล</label>
@@ -149,17 +154,18 @@
             id="surnameID"
             type="text"
             class="form-control"
-            placeholder=""
+            placeholder="กรุณากรอกนามสกุลจริง"
             :value="this.$store.getters.lname"
             @input="SetLastNameValue"
+            @keypress="controlkey"
           />
         </div>
         <br />
         <div class="modal-footer px-4">
-          <button type="button" class="btn btn-secondary" @click="back1">
+          <button type="button" class="btn btn-secondary" @click="back">
             Back
           </button>
-          <button type="button" class="btn btn-warning" @click="next2">
+          <button type="button" class="btn btn-warning" @click="next">
             Next
           </button>
         </div>
@@ -241,7 +247,7 @@
         <br />
         <br />
         <div class="modal-footer px-4">
-          <button type="button" class="btn btn-secondary" @click="back2">
+          <button type="button" class="btn btn-secondary" @click="back">
             Back
           </button>
           <button
@@ -270,6 +276,7 @@ import 'swiper/css/navigation'
 
 // import required modules
 import { Pagination, Navigation } from 'swiper'
+
 import axios from 'axios'
 import Swal from 'sweetalert2'
 
@@ -301,23 +308,25 @@ export default {
     }
   },
   methods: {
-    next1() {
-      document.querySelector('#bankAcctID').focus()
+    next() {
+      document.querySelector('.swiper-button-next').click()
     },
-    next2() {
-      document.querySelector('#lineID').focus()
+    back() {
+      document.querySelector('.swiper-button-prev').click()
     },
-    back1() {
-      document.querySelector('#pinconfirmID').focus()
-    },
-    back2() {
-      document.querySelector('#bankAcctID').focus()
+    controlkey($event) {
+      let keyCode = $event.keyCode ? $event.keyCode : $event.which
+      console.log(keyCode)
+      if (
+        ((keyCode < 65 || keyCode > 122) && keyCode < 3585) ||
+        (keyCode > 3675 && keyCode !== 32)
+      ) {
+        $event.preventDefault()
+      }
     },
     onlyNumber($event) {
-      //console.log($event.keyCode); //keyCodes value
       let keyCode = $event.keyCode ? $event.keyCode : $event.which
       if (keyCode < 48 || (keyCode > 57 && keyCode !== 46)) {
-        // 46 is dot
         $event.preventDefault()
       }
     },
@@ -329,6 +338,7 @@ export default {
           '2px solid #FA402A'
         document.querySelector('#lbphoneID').textContent =
           'กรุณาใส่หมายเลขโทรศัพท์ให้ครบ 10 หลัก'
+        document.querySelector('#lbphoneID').style.color = '#FA402A'
         this.$store.commit('setphonenumber', event.target.value)
       } else if (input.length == 10 || input.length == 0) {
         document.querySelector('#inputphoneID').style.borderColor = null
@@ -577,47 +587,54 @@ export default {
           })
       }
     },
+    async getchanel() {
+      this.$store.commit('setapiname', 11011)
+      this.$store.commit('setAPI')
+      await axios
+        .post(this.$store.getters.API, {})
+        .then((resp) => {
+          console.log(resp.data.channel)
+          this.channel = resp.data.channel
+        })
+        .catch((error) => {
+          console.log(error)
+          Swal.fire({
+            title: 'ผิดพลาด!!!',
+            text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+          })
+        })
+    },
+    async getbank() {
+      this.$store.commit('setapiname', 11004)
+      this.$store.commit('setAPI')
+      await axios
+        .post(this.$store.getters.API, {
+          status: 'active',
+        })
+        .then((resp) => {
+          console.log(resp.data)
+          console.log(resp.data.result.banking)
+          this.listbank = resp.data.result.banking
+        })
+        .catch((error) => {
+          console.log(error)
+          Swal.fire({
+            title: 'ผิดพลาด!!!',
+            text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+          })
+        })
+    },
   },
   async mounted() {
-    // this.getvanip()
-    this.$store.commit('setapiname', 11004)
-    this.$store.commit('setAPI')
-    await axios
-      .post(this.$store.getters.API, {
-        status: 'active',
-      })
-      .then((resp) => {
-        console.log(resp.data)
-        console.log(resp.data.result.banking)
-        this.listbank = resp.data.result.banking
-      })
-      .catch((error) => {
-        console.log(error)
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      })
-    this.$store.commit('setapiname', 11011)
-    this.$store.commit('setAPI')
-    await axios
-      .post(this.$store.getters.API, {})
-      .then((resp) => {
-        console.log(resp.data.channel)
-        this.channel = resp.data.channel
-      })
-      .catch((error) => {
-        console.log(error)
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      })
+    this.getbank()
+    this.getchanel()
     this.refreshcap()
+    document.querySelector('.swiper-button-next').style.display = 'none'
+    document.querySelector('.swiper-button-prev').style.display = 'none'
   },
 }
 </script>

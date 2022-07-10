@@ -100,7 +100,6 @@ export default createStore({
       state.gamelink = ''
       state.captchaID = ''
       state.withdraw_count = 0
-      state.agent_id = ''
     },
     setphonenumber(state, phonenumber) {
       state.phonenumber = phonenumber
