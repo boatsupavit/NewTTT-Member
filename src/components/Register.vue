@@ -17,10 +17,10 @@
           >
           <div class="input-group">
             <span class="input-group-text">
-              <i class="bi bi-phone-fill" id="iphoneID"></i>
+              <i class="bi bi-phone-fill" id="phoneID"></i>
             </span>
             <input
-              id="phoneID"
+              id="inputphoneID"
               type="text"
               maxlength="10"
               class="form-control"
@@ -30,7 +30,9 @@
               @keypress="onlyNumber"
             />
           </div>
-          <span class="small text-muted"><small>เช่น: 0912345678</small></span>
+          <span class="small text-muted" id="lbphoneID"
+            ><small>เช่น: 0912345678</small></span
+          >
         </div>
         <div class="mb-2">
           <label for="pinID" class="form-label mb-1">PIN (รหัสลับ 4 ตัว)</label>
@@ -39,7 +41,7 @@
               <i class="bi bi-key-fill"></i>
             </span>
             <input
-              id="pinID"
+              id="inputpinID"
               type="password"
               class="form-control"
               placeholder="XXXX"
@@ -49,8 +51,8 @@
               @keypress="onlyNumber"
             />
           </div>
-          <span class="small text-muted">
-            <small>ใช้ตัวเลข 4 ตัวสำหรับ Login</small>
+          <span class="small text-muted" id="lbpinID">
+            <small>ตัวเลข 4 ตัวสำหรับ Login</small>
           </span>
           <br />
           <label for="pinID" class="form-label mb-1"
@@ -61,7 +63,7 @@
               <i class="bi bi-key-fill"></i>
             </span>
             <input
-              id="pinconfirmID"
+              id="inputpinconfirmID"
               type="password"
               class="form-control"
               placeholder="XXXX"
@@ -71,7 +73,7 @@
               @keypress="onlyNumber"
             />
           </div>
-          <span class="small text-muted">
+          <span class="small text-muted" id="lbpinconfirmID">
             <small>รหัสลับ 4 ตัว อีกครั้ง</small>
           </span>
         </div>
@@ -109,8 +111,9 @@
             <i class="bi bi-credit-card-2-front-fill"></i>
           </span>
           <input
-            id="bankAcctID"
-            type="number"
+            id="inputbankAcctID"
+            type="text"
+            maxlength="14"
             class="form-control"
             placeholder="กรุณากรอกเลขที่บัญชี"
             :value="this.$store.getters.bankaccount"
@@ -118,7 +121,7 @@
             @keypress="onlyNumber"
           />
         </div>
-        <span class="small text-muted">
+        <span class="small text-muted" id="lbbankAcctID">
           <small>ตัวเลขล้วนไม่มีช่องว่าง</small>
         </span>
       </div>
@@ -320,6 +323,18 @@ export default {
     },
     SetmobileNumberValue(event) {
       this.$store.commit('setphonenumber', event.target.value)
+      let input = event.target.value
+      if (input.length < 10 && input.length > 0) {
+        document.querySelector('#inputphoneID').style.border =
+          '2px solid #FA402A'
+        document.querySelector('#lbphoneID').textContent =
+          'กรุณาใส่หมายเลขโทรศัพท์ให้ครบ 10 หลัก'
+        this.$store.commit('setphonenumber', event.target.value)
+      } else if (input.length == 10 || input.length == 0) {
+        document.querySelector('#inputphoneID').style.borderColor = null
+        document.querySelector('#lbphoneID').textContent = 'เช่น: 0912345678'
+        this.$store.commit('setphonenumber', event.target.value)
+      }
     },
     SetbankValue(event) {
       let bank = this.listbank[event.target.options.selectedIndex - 1]
@@ -329,6 +344,19 @@ export default {
     },
     SetbankAccountValue(event) {
       this.$store.commit('setbkacc', event.target.value)
+      let input = event.target.value
+      if (input.length < 10 && input.length > 0) {
+        document.querySelector('#inputbankAcctID').style.border =
+          '2px solid #FA402A'
+        document.querySelector('#lbbankAcctID').textContent =
+          'กรุณาใส่เลขบัญชีให้ถูกต้อง'
+        this.$store.commit('setbkacc', event.target.value)
+      } else if (input.length == 10 || input.length == 0) {
+        document.querySelector('#inputbankAcctID').style.borderColor = null
+        document.querySelector('#lbbankAcctID').textContent =
+          'ตัวเลขล้วนไม่มีช่องว่าง'
+        this.$store.commit('setbkacc', event.target.value)
+      }
     },
     SetNameValue(event) {
       this.$store.commit('setfname', event.target.value)
@@ -341,9 +369,51 @@ export default {
     },
     SetPasswordValue(event) {
       this.$store.commit('setpin', event.target.value)
+      let input = event.target.value
+      if (input.length < 4 && input.length > 0) {
+        document.querySelector('#inputpinID').style.border = '2px solid #FA402A'
+        document.querySelector('#lbpinID').textContent =
+          'กรุณาใส่ตัวเลขรหัสลับให้ครบ 4 ตัว'
+        this.$store.commit('setpin', event.target.value)
+      } else if (input.length == 4 || input.length == 0) {
+        document.querySelector('#inputpinID').style.borderColor = null
+        document.querySelector('#lbpinID').textContent =
+          'ตัวเลขรหัสลับ 4 ตัวใช้สำหรับ Login'
+        this.$store.commit('setpin', event.target.value)
+      }
     },
     SetPasswordConfirmValue(event) {
       this.$store.commit('setpassword', event.target.value)
+      let input = event.target.value
+      if (input.length < 4 && input.length > 0) {
+        document.querySelector('#inputpinconfirmID').style.border =
+          '2px solid #FA402A'
+        document.querySelector('#lbpinconfirmID').textContent =
+          'กรุณาใส่ตัวเลขรหัสลับให้ครบ 4 ตัว'
+        this.$store.commit('setpassword', event.target.value)
+      } else if (input.length == 0) {
+        document.querySelector('#inputpinconfirmID').style.borderColor = null
+        document.querySelector('#lbpinconfirmID').textContent =
+          'รหัสลับ 4 ตัว อีกครั้ง'
+        this.$store.commit('setpassword', event.target.value)
+      } else if (
+        input.length == 4 &&
+        this.$store.getters.pin !== this.$store.getters.password
+      ) {
+        document.querySelector('#inputpinconfirmID').style.border =
+          '2px solid #FA402A'
+        document.querySelector('#lbpinconfirmID').textContent =
+          'ตัวเลขรหัสลับไม่ตรงกัน'
+        this.$store.commit('setpassword', event.target.value)
+      } else if (
+        input.length == 4 &&
+        this.$store.getters.pin == this.$store.getters.password
+      ) {
+        document.querySelector('#inputpinconfirmID').style.border = null
+        document.querySelector('#lbpinconfirmID').textContent =
+          'ตัวเลขรหัสลับสามารถใช้ได้'
+        this.$store.commit('setpassword', event.target.value)
+      }
     },
     SetIDLineValue(event) {
       this.$store.commit('setidline', event.target.value)
@@ -368,10 +438,13 @@ export default {
     },
     //---------------register--------------//
     async submit() {
-      if (this.$store.getters.phonenumber === '') {
+      if (
+        this.$store.getters.phonenumber === '' ||
+        this.$store.getters.phonenumber.length !== 10
+      ) {
         Swal.fire({
           title: 'ผิดพลาด!!!',
-          text: 'กรุณาใส่หมายเลขโทรศัพท์',
+          text: 'กรุณาใส่หมายเลขโทรศัพท์ให้ถูกต้อง',
           icon: 'error',
           confirmButtonText: 'ตกลง',
         })
@@ -382,10 +455,13 @@ export default {
           icon: 'error',
           confirmButtonText: 'ตกลง',
         })
-      } else if (this.$store.getters.bankaccount === '') {
+      } else if (
+        this.$store.getters.bankaccount === '' ||
+        this.$store.getters.bankaccount.length < 10
+      ) {
         Swal.fire({
           title: 'ผิดพลาด!!!',
-          text: 'กรุณาใส่หมายเลขเลขบัญชีธนาคาร',
+          text: 'กรุณาใส่หมายเลขเลขบัญชีธนาคารให้ถูกต้อง',
           icon: 'error',
           confirmButtonText: 'ตกลง',
         })
@@ -403,7 +479,10 @@ export default {
           icon: 'error',
           confirmButtonText: 'ตกลง',
         })
-      } else if (this.$store.getters.pin === '') {
+      } else if (
+        this.$store.getters.pin === '' ||
+        this.$store.getters.pin.length !== 4
+      ) {
         Swal.fire({
           title: 'ผิดพลาด!!!',
           text: 'กรุณาใส่รหัสลับ 4 ตัว',
