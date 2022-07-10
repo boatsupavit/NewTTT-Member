@@ -3,6 +3,7 @@
     :pagination="{
       type: 'progressbar',
     }"
+    :allowTouchMove="false"
     :navigation="true"
     :modules="modules"
     class="mySwiper text-content-color"
@@ -78,7 +79,7 @@
           </span>
         </div>
         <div class="modal-footer px-4">
-          <button type="button" class="btn btn-warning" @click="next">
+          <button type="button" class="btn btn-warning" @click="next1">
             Next
           </button>
         </div>
@@ -165,7 +166,7 @@
           <button type="button" class="btn btn-secondary" @click="back">
             Back
           </button>
-          <button type="button" class="btn btn-warning" @click="next">
+          <button type="button" class="btn btn-warning" @click="next2">
             Next
           </button>
         </div>
@@ -250,12 +251,7 @@
           <button type="button" class="btn btn-secondary" @click="back">
             Back
           </button>
-          <button
-            type="button"
-            class="btn btn-warning"
-            data-bs-dismiss="modal"
-            @click="submit"
-          >
+          <button type="button" class="btn btn-warning" @click="submit">
             สมัครสมาชิก
           </button>
         </div>
@@ -292,6 +288,7 @@ export default {
       channel: [],
       isActive: true,
       swiperOption: {
+        followFinger: false,
         slidesPerView: 7,
         spaceBetween: 30,
         loop: true,
@@ -308,15 +305,87 @@ export default {
     }
   },
   methods: {
-    next() {
-      document.querySelector('.swiper-button-next').click()
+    next1() {
+      if (
+        this.$store.getters.phonenumber === '' ||
+        this.$store.getters.phonenumber.length !== 10 ||
+        this.$store.getters.phonenumber.charAt(0) != 0
+      ) {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่หมายเลขโทรศัพท์ให้ถูกต้อง',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (
+        this.$store.getters.pin === '' ||
+        this.$store.getters.pin.length !== 4
+      ) {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่รหัสลับ 4 ตัว',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.PasswordConfirm === '') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณายืนยันรหัสลับ 4 ตัว',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.$store.getters.pin !== this.$store.getters.password) {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'Pin 4 ตัวไม่ตรงกันกรุณาตรวจสอบ',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else {
+        document.querySelector('.swiper-button-next').click()
+      }
+    },
+    next2() {
+      if (this.$store.getters.bankNameth === 'กรุณาเลือกธนาคาร...') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาเลือกบัญชีธนาคาร',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (
+        this.$store.getters.bankaccount === '' ||
+        this.$store.getters.bankaccount.length < 10
+      ) {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่หมายเลขเลขบัญชีธนาคารให้ถูกต้อง',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.$store.getters.fname === '') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่ชื่อจริง',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (this.$store.getters.lname === '') {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่ชื่อนามสกุลจริง',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else {
+        document.querySelector('.swiper-button-next').click()
+      }
     },
     back() {
       document.querySelector('.swiper-button-prev').click()
     },
     controlkey($event) {
       let keyCode = $event.keyCode ? $event.keyCode : $event.which
-      console.log(keyCode)
       if (
         ((keyCode < 65 || keyCode > 122) && keyCode < 3585) ||
         (keyCode > 3675 && keyCode !== 32)
@@ -338,6 +407,13 @@ export default {
           '2px solid #FA402A'
         document.querySelector('#lbphoneID').textContent =
           'กรุณาใส่หมายเลขโทรศัพท์ให้ครบ 10 หลัก'
+        document.querySelector('#lbphoneID').style.color = '#FA402A'
+        this.$store.commit('setphonenumber', event.target.value)
+      } else if (input.charAt(0) != 0) {
+        document.querySelector('#inputphoneID').style.border =
+          '2px solid #FA402A'
+        document.querySelector('#lbphoneID').textContent =
+          'กรุณาใส่หมายเลขโทรศัพท์ให้ถูกต้อง'
         document.querySelector('#lbphoneID').style.color = '#FA402A'
         this.$store.commit('setphonenumber', event.target.value)
       } else if (input.length == 10 || input.length == 0) {
@@ -448,72 +524,7 @@ export default {
     },
     //---------------register--------------//
     async submit() {
-      if (
-        this.$store.getters.phonenumber === '' ||
-        this.$store.getters.phonenumber.length !== 10
-      ) {
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'กรุณาใส่หมายเลขโทรศัพท์ให้ถูกต้อง',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      } else if (this.$store.getters.bankName === 'กรุณาเลือกธนาคาร...') {
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'กรุณาเลือกบัญชีธนาคาร',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      } else if (
-        this.$store.getters.bankaccount === '' ||
-        this.$store.getters.bankaccount.length < 10
-      ) {
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'กรุณาใส่หมายเลขเลขบัญชีธนาคารให้ถูกต้อง',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      } else if (this.$store.getters.fname === '') {
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'กรุณาใส่ชื่อจริง',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      } else if (this.$store.getters.lname === '') {
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'กรุณาใส่ชื่อนามสกุลจริง',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      } else if (
-        this.$store.getters.pin === '' ||
-        this.$store.getters.pin.length !== 4
-      ) {
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'กรุณาใส่รหัสลับ 4 ตัว',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      } else if (this.PasswordConfirm === '') {
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'กรุณายืนยันรหัสลับ 4 ตัว',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      } else if (this.$store.getters.pin !== this.$store.getters.password) {
-        Swal.fire({
-          title: 'ผิดพลาด!!!',
-          text: 'Pin 4 ตัวไม่ตรงกันกรุณาตรวจสอบ',
-          icon: 'error',
-          confirmButtonText: 'ตกลง',
-        })
-      } else if (this.$store.getters.captcha == '') {
+      if (this.$store.getters.captcha == '') {
         Swal.fire({
           title: 'ผิดพลาด!!!',
           text: 'กรุณาใส่ Captcha เพื่อยืนยันตัวตน',
@@ -554,6 +565,7 @@ export default {
             if (response.data.status == '200') {
               setTimeout(function () {
                 document.querySelector('button#loginbtn').click()
+                document.querySelector('#btnclose').click()
               }, 50)
             } else if (response.data.status == '300') {
               Swal.fire({

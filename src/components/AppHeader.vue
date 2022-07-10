@@ -77,6 +77,7 @@
               class="btn btn-warning mx-1"
               data-bs-toggle="modal"
               data-bs-target="#modalRegisterID"
+              @click="clickback"
             >
               <i class="bi bi-person-plus-fill"></i>
               สมัครสมาชิก
@@ -163,6 +164,7 @@
               class="btn btn-link px-2 text-decoration-none link-light"
               data-bs-toggle="modal"
               data-bs-target="#modalRegisterID"
+              @click="document.querySelector('.swiper-button-prev').click()"
             >
               <i
                 class="bi bi-person-plus-fill mx-3"
@@ -239,6 +241,7 @@
           </h5>
           <button
             type="button"
+            id="btnclose"
             class="btn-close btn-close btn-close-white"
             data-bs-dismiss="modal"
             aria-label="Close"
@@ -344,6 +347,12 @@ export default {
     this.getvanip()
   },
   methods: {
+    clickback() {
+      setTimeout(function () {
+        document.querySelector('.swiper-button-prev').click()
+        document.querySelector('.swiper-button-prev').click()
+      }, 500)
+    },
     async getvanip() {
       await axios.get('https://ipinfo.io/json').then((response) => {
         this.ipinfo = response.data
