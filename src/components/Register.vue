@@ -22,6 +22,7 @@
             </span>
             <input
               id="inputphoneID"
+              tabindex="-1"
               type="text"
               maxlength="10"
               class="form-control"
@@ -44,6 +45,7 @@
             <input
               id="inputpinID"
               type="password"
+              tabindex="-1"
               class="form-control"
               placeholder="XXXX"
               maxlength="4"
@@ -66,6 +68,7 @@
             <input
               id="inputpinconfirmID"
               type="password"
+              tabindex="-1"
               class="form-control"
               placeholder="XXXX"
               maxlength="4"
@@ -79,7 +82,12 @@
           </span>
         </div>
         <div class="modal-footer px-4">
-          <button type="button" class="btn btn-warning" @click="next1">
+          <button
+            type="button"
+            class="btn btn-warning"
+            tabindex="-1"
+            @click="next1"
+          >
             Next
           </button>
         </div>
@@ -95,6 +103,7 @@
           </span>
           <select
             class="form-select"
+            tabindex="-1"
             :value="this.$store.getters.bankNameth"
             @input="SetbankValue"
           >
@@ -118,6 +127,7 @@
           <input
             id="inputbankAcctID"
             type="text"
+            tabindex="-1"
             maxlength="12"
             class="form-control"
             placeholder="กรุณากรอกเลขที่บัญชี"
@@ -139,6 +149,7 @@
           <input
             id="nameID"
             type="text"
+            tabindex="-1"
             class="form-control"
             placeholder="กรุณากรอกชื่อจริง"
             :value="this.$store.getters.fname"
@@ -153,6 +164,7 @@
           </span>
           <input
             id="surnameID"
+            tabindex="-1"
             type="text"
             class="form-control"
             placeholder="กรุณากรอกนามสกุลจริง"
@@ -163,10 +175,20 @@
         </div>
         <br />
         <div class="modal-footer px-4">
-          <button type="button" class="btn btn-secondary" @click="back">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            tabindex="-1"
+            @click="back"
+          >
             Back
           </button>
-          <button type="button" class="btn btn-warning" @click="next2">
+          <button
+            type="button"
+            class="btn btn-warning"
+            tabindex="-1"
+            @click="next2"
+          >
             Next
           </button>
         </div>
@@ -183,6 +205,7 @@
           </span>
           <select
             id="applyID"
+            tabindex="-1"
             class="form-select"
             :value="this.$store.getters.chanel"
             @input="SetSocialMediaValue"
@@ -209,6 +232,7 @@
           <input
             id="lineID"
             type="text"
+            tabindex="-1"
             class="form-control"
             placeholder="Line ID"
             :value="this.$store.getters.idline"
@@ -228,6 +252,7 @@
             id="captchaID"
             type="text"
             maxlength="4"
+            tabindex="-1"
             class="form-control"
             placeholder="XXXX"
             :value="this.$store.getters.captcha"
@@ -238,6 +263,7 @@
           </span>
           <span class="input-group-text p-1">
             <a
+              tabindex="-1"
               class="bi bi-arrow-repeat"
               style="font-size: 32px"
               href="#"
@@ -248,10 +274,20 @@
         <br />
         <br />
         <div class="modal-footer px-4">
-          <button type="button" class="btn btn-secondary" @click="back">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            tabindex="-1"
+            @click="back"
+          >
             Back
           </button>
-          <button type="button" class="btn btn-warning" @click="submit">
+          <button
+            type="button"
+            class="btn btn-warning"
+            tabindex="-1"
+            @click="submit"
+          >
             สมัครสมาชิก
           </button>
         </div>
