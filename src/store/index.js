@@ -20,6 +20,7 @@ export default createStore({
     bankid: '',
     fname: '',
     lname: '',
+    imgbank: '',
     chanel: 'กรุณาเลือกช่องทาง...',
     statusmem: '',
     password: '',
@@ -51,6 +52,7 @@ export default createStore({
     bankNameth: (state) => state.bankNameth,
     bankid: (state) => state.bankid,
     bankaccount: (state) => state.bankaccount,
+    imgbank: (state) => state.imgbank,
     fname: (state) => state.fname,
     lname: (state) => state.lname,
     name: (state) => state.fname + '  ' + state.lname,
@@ -85,6 +87,7 @@ export default createStore({
       state.bankNameth = 'กรุณาเลือกธนาคาร...'
       state.bankid = ''
       state.bankaccount = ''
+      state.imgbank = ''
       state.fname = ''
       state.lname = ''
       state.password = ''
@@ -124,6 +127,9 @@ export default createStore({
     },
     setbknameth(state, bankNameth) {
       state.bankNameth = bankNameth
+    },
+    setimgbk(state, imgbank) {
+      state.imgbank = imgbank
     },
     setbkid(state, bankid) {
       state.bankid = bankid

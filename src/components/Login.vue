@@ -64,56 +64,15 @@ export default {
   methods: {
     onlyNumber($event) {
       let keyCode = $event.keyCode ? $event.keyCode : $event.which
-      console.log(keyCode)
       if (keyCode < 48 || (keyCode > 57 && keyCode !== 46)) {
         $event.preventDefault()
       }
     },
     SetmobileNumberValue(event) {
       this.$store.commit('setphonenumber', event.target.value)
-      let input = event.target.value
-      if (input.length < 10 && input.length > 0) {
-        document.querySelector('#inputphoneID').style.border =
-          '2px solid #FA402A'
-        document.querySelector('#lbphoneID').textContent =
-          'กรุณาใส่หมายเลขโทรศัพท์ให้ครบ 10 หลัก'
-        document.querySelector('#lbphoneID').classList.remove('text-muted')
-        document.querySelector('#lbphoneID').classList.add('text-danger')
-        this.$store.commit('setphonenumber', event.target.value)
-      } else if (input.charAt(0) != 0) {
-        document.querySelector('#inputphoneID').style.border =
-          '2px solid #FA402A'
-        document.querySelector('#lbphoneID').textContent =
-          'กรุณาใส่หมายเลขโทรศัพท์ให้ถูกต้อง'
-        document.querySelector('#lbphoneID').classList.remove('text-muted')
-        document.querySelector('#lbphoneID').classList.add('text-danger')
-        this.$store.commit('setphonenumber', event.target.value)
-      } else if (input.length == 10 || input.length == 0) {
-        document.querySelector('#inputphoneID').style.borderColor = null
-        document.querySelector('#lbphoneID').textContent = 'เช่น: 0912345678'
-        document.querySelector('#lbphoneID').classList.remove('text-danger')
-        document.querySelector('#lbphoneID').classList.add('text-muted')
-        this.$store.commit('setphonenumber', event.target.value)
-      }
     },
     SetPasswordValue(event) {
       this.$store.commit('setpin', event.target.value)
-      let input = event.target.value
-      if (input.length < 4 && input.length > 0) {
-        document.querySelector('#inputpinID').style.border = '2px solid #FA402A'
-        document.querySelector('#lbpinID').textContent =
-          'กรุณาใส่ตัวเลขรหัสลับให้ครบ 4 ตัว'
-        document.querySelector('#lbpinID').classList.remove('text-muted')
-        document.querySelector('#lbpinID').classList.add('text-danger')
-        this.$store.commit('setpin', event.target.value)
-      } else if (input.length == 4 || input.length == 0) {
-        document.querySelector('#inputpinID').style.borderColor = null
-        document.querySelector('#lbpinID').textContent =
-          'ตัวเลขรหัสลับ 4 ตัวใช้สำหรับ Login'
-        document.querySelector('#lbpinID').classList.remove('text-danger')
-        document.querySelector('#lbpinID').classList.add('text-muted')
-        this.$store.commit('setpin', event.target.value)
-      }
     },
     login() {
       setTimeout(function () {

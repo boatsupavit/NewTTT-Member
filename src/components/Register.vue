@@ -99,7 +99,12 @@
         <label for="bankID" class="form-label mb-1">ธนาคาร</label>
         <div class="input-group">
           <span class="input-group-text">
-            <i class="bi bi-bank2"></i>
+            <i
+              v-if="this.$store.getters.imgbank == ''"
+              class="bi bi-bank2"
+              id="banklist"
+            ></i>
+            <img v-else :src="this.$store.getters.imgbank" width="20" />
           </span>
           <select
             class="form-select"
@@ -322,6 +327,7 @@ export default {
       ipinfo: {},
       listbank: [],
       channel: [],
+      img: '',
       isActive: true,
       swiperOption: {
         followFinger: false,
@@ -475,7 +481,6 @@ export default {
     },
     onlyNumber($event) {
       let keyCode = $event.keyCode ? $event.keyCode : $event.which
-      console.log(keyCode)
       if (keyCode < 48 || (keyCode > 57 && keyCode !== 46)) {
         $event.preventDefault()
       }
@@ -507,11 +512,18 @@ export default {
         this.$store.commit('setphonenumber', event.target.value)
       }
     },
+    getImgUrl(pic) {
+      return require('../assets/images/banking/th/smooth-corner/' +
+        pic +
+        '.png')
+    },
     SetbankValue(event) {
       let bank = this.listbank[event.target.options.selectedIndex - 1]
       this.$store.commit('setbkname', bank.banknameen)
       this.$store.commit('setbknameth', bank.banknameth)
       this.$store.commit('setbkid', bank._id)
+      this.img = this.getImgUrl(bank.bankcode)
+      this.$store.commit('setimgbk', this.img)
     },
     SetbankAccountValue(event) {
       this.$store.commit('setbkacc', event.target.value)
