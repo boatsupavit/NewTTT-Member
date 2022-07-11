@@ -14,7 +14,7 @@
         </li>
         <li class="menu" id="Slot">
           <a
-            id="slot"
+            id="Slot"
             @click="setgametype"
             href="#"
             data-bs-toggle="modal"
@@ -409,6 +409,7 @@ export default {
       this.$store.commit('setAPI')
       this.$store.commit('setgametype', event.target.id)
       console.log(event.target.id)
+      console.log('API', this.$store.getters.API)
       console.log('gametype', this.$store.getters.gametype)
       const token = this.$store.getters.token
       const headers = { Authorization: 'Bearer ' + token }

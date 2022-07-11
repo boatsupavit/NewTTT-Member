@@ -364,17 +364,40 @@ export default {
     },
     // -----------login-----------//
     async login() {
-      if (this.$store.getters.phonenumber === '') {
+      let phonenumber = /^\d+$/.test(this.$store.getters.phonenumber)
+      let pin = /^\d+$/.test(this.$store.getters.pin)
+      if (
+        this.$store.getters.phonenumber === '' ||
+        this.$store.getters.phonenumber.length !== 10 ||
+        this.$store.getters.phonenumber.charAt(0) != 0
+      ) {
         Swal.fire({
           title: 'ผิดพลาด!!!',
-          text: 'กรุณาใส่หมายเลขโทรศัพท์',
+          text: 'กรุณาใส่หมายเลขโทรศัพท์ให้ถูกต้อง',
           icon: 'error',
           confirmButtonText: 'ตกลง',
         })
-      } else if (this.$store.getters.pin === '') {
+      } else if (phonenumber == false) {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่หมายเลขโทรศัพท์เป็นตัวเลขเท่านั้น',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (
+        this.$store.getters.pin === '' ||
+        this.$store.getters.pin.length !== 4
+      ) {
         Swal.fire({
           title: 'ผิดพลาด!!!',
           text: 'กรุณาใส่รหัสลับ 4 ตัว',
+          icon: 'error',
+          confirmButtonText: 'ตกลง',
+        })
+      } else if (pin == false) {
+        Swal.fire({
+          title: 'ผิดพลาด!!!',
+          text: 'กรุณาใส่รหัสลับเป็นตัวเลขเท่านั้น',
           icon: 'error',
           confirmButtonText: 'ตกลง',
         })
