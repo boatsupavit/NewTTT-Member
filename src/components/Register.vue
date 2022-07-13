@@ -626,6 +626,7 @@ export default {
     },
     //--------------captcha---------------//
     async refreshcap() {
+      this.$store.commit('setcaptchaID', '')
       this.$store.commit('setapiname', 11008)
       this.$store.commit('setAPI')
       await axios
@@ -633,7 +634,7 @@ export default {
         .then((resp) => {
           this.$store.commit('setimgcaptcha', resp.data.result.image)
           this.$store.commit('setcaptchaID', resp.data.result.captchaID)
-          console.log(this.$store.getters.captchaID)
+          console.log('captchaID =>', this.$store.getters.captchaID)
         })
         .catch((error) => {
           console.log(error)
@@ -772,18 +773,15 @@ export default {
         console.log(this.$store.getters.API)
         const body = {
           agent_id: this.$store.getters.agent_id,
-          // username: '',
           password: this.$store.getters.password,
           tel: this.$store.getters.phonenumber,
           pin: this.$store.getters.pin,
           line_id: this.$store.getters.idline,
           name: this.$store.getters.fname,
           surename: this.$store.getters.lname,
-          // tag: ['6281446d5aa7df0156f3b467'],
           channel: this.$store.getters.chanel,
           bank_id: this.$store.getters.bankid,
           bank_acct: this.$store.getters.bankaccount,
-          // domain_name: 'https://www.banpong888.com',
           captchaID: this.$store.getters.captchaID,
           value: this.$store.getters.captcha,
           ipinfo: this.ipinfo,
@@ -801,7 +799,10 @@ export default {
                 document.querySelector('button#loginbtn').click()
                 document.querySelector('#btnclose').click()
               }, 50)
-            } else if (response.data.status == '300') {
+            } else if (
+              response.data.status == '300' ||
+              response.data.status == '100'
+            ) {
               Swal.fire({
                 title: 'ผิดพลาด!!!',
                 text: 'Captcha ไม่ถูกต้องกรุณาใส่ให้ถูกต้อง',
@@ -818,6 +819,10 @@ export default {
               })
               this.refreshcap()
               this.$store.commit('clearall')
+              setTimeout(function () {
+                document.querySelector('.swiper-button-prev').click()
+                document.querySelector('.swiper-button-prev').click()
+              }, 100)
             }
           })
           .catch((error) => {

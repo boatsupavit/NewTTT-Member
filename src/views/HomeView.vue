@@ -312,7 +312,6 @@ export default {
     this.state = window.location.href
     this.state = this.$route.params.tel
     this.page = this.$route.params.page
-    console.log(this.page)
     if (this.page == 'login' && this.state != '') {
       this.$store.commit('setphonenumber', this.state)
       setTimeout(function () {
@@ -332,7 +331,7 @@ export default {
       this.$store.commit('setAPI')
       await axios
         .post(this.$store.getters.API, {
-          // domain_name: 'http://banpong888.taetrueteam.fun',
+          domain_name: 'http://banpong888.taetrueteam.fun',
         })
         .then((resp) => {
           console.log(resp.data)

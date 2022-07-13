@@ -107,6 +107,16 @@
         <div class="cards">
           <figure class="card" v-for="game in data.games" :key="game.id">
             <a
+              v-if="
+                game.gameName !== 'Temujin Treasures' ||
+                game.gameName !== 'Eye of the Storm' ||
+                game.gameName !== 'Fishin Reels' ||
+                game.gameName !== 'John Hunter And The Mayan Gods' ||
+                game.gameName !== 'Return of the Dead' ||
+                game.gameName !== 'Emerald King Rainbow Road' ||
+                game.gameName !== 'Joker King' ||
+                game.gameName !== 'Voodoo Magic'
+              "
               href="#"
               :gameCategory="game.gameCategory"
               :gameprovider="game.provider"
