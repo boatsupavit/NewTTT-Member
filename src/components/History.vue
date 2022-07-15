@@ -27,8 +27,10 @@
                       >
                         <div class="row">
                           <div class="col-md-auto ml-auto">
+                            <i class="bi bi-calendar3"></i>
+                            {{ Convert_formatdate(list.request_date) }}
                             <i class="bi bi-clock"></i>
-                            {{ Convert_format(list.request_date) }}
+                            {{ Convert_formattime(list.request_date) }}
                             <span class="fs-6 fw-lighter m-5">
                               <span class="mx-1" style="float: right">
                                 <img
@@ -123,8 +125,11 @@ export default {
     getImg(pic) {
       return require('../assets/images/' + pic + '.png')
     },
-    Convert_format(input) {
-      return moment(input).format('DD / MM / yyyy HH : mm : ss')
+    Convert_formatdate(input) {
+      return moment(input).format('DD / MM / yyyy')
+    },
+    Convert_formattime(input) {
+      return moment(input).format('HH : mm : ss')
     },
     async gethiswd() {
       this.$store.commit('setapiname', 11012)
