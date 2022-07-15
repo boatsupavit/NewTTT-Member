@@ -73,8 +73,10 @@
                       >
                         <div class="row">
                           <div class="col-md-auto ml-auto">
+                            <i class="bi bi-calendar3"></i>
+                            {{ Convert_formatdate(list.request_date) }}
                             <i class="bi bi-clock"></i>
-                            {{ Convert_format(list.request_date) }}
+                            {{ Convert_formattime(list.request_date) }}
                             <span class="fs-6 fw-lighter m-5">
                               <span class="mx-1" style="float: right">
                                 <img
