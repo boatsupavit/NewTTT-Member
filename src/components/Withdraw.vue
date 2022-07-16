@@ -10,8 +10,8 @@
       <hr class="mt-1 mb-0" />
       <div class="text-center">
         <small class="small" style="font-size: 0.73rem">
-          จำนวนการถอนต่อวัน : <span class="text-danger">5</span> ครั้ง /
-          ถอนไปแล้ว
+          จำนวนการถอนต่อวัน :
+          <span class="text-danger">{{ max_withdraw }}</span> ครั้ง / ถอนไปแล้ว
           <span class="text-info">{{
             this.$store.getters.withdraw_count
           }}</span>
@@ -113,6 +113,7 @@ export default {
   components: {},
   data() {
     return {
+      max_withdraw: '',
       withdrawvalue: '',
       imgbankmember: '',
       withdraw_config: [],
@@ -214,7 +215,8 @@ export default {
         .then((res) => {
           console.log('withdraw_config => ', res.data)
           if (res.data.status == 200) {
-            this.withdraw_config = res.data.result
+            this.withdraw_config = res.data.result.withdraw_config
+            this.max_withdraw = res.data.result.max_withdraw_counter
           } else {
             Swal.fire({
               title: 'ผิดพลาด!!!',

@@ -3,14 +3,7 @@
     <nav class="skew-menu mt-2" id="navmenu">
       <ul>
         <li class="menu" id="Sports">
-          <a
-            id="Sports"
-            @click="startgamesport"
-            data-bs-toggle="modal"
-            :data-bs-target="modalname"
-            href="#"
-            >กีฬา</a
-          >
+          <a id="Sports" @click="startgamesport" href="#">กีฬา</a>
         </li>
         <li class="menu" id="Slot">
           <a
@@ -125,8 +118,6 @@
               @click="startgame"
             >
               <img
-                data-bs-toggle="modal"
-                :data-bs-target="modalname"
                 :src="game.image.horizontal"
                 :gameCategory="game.gameCategory"
                 :gameprovider="game.provider"
@@ -134,8 +125,6 @@
                 :gameid="game.id"
               />
               <figcaption
-                data-bs-toggle="modal"
-                :data-bs-target="modalname"
                 :gameCategory="game.gameCategory"
                 :gameprovider="game.provider"
                 :gamename="game.gameName"
@@ -194,13 +183,14 @@
     </div>
   </div>
 
-  <div>
+  <div hidden>
+    <button id="suspend" data-bs-toggle="modal" data-bs-target="#modalsusp" />
     <button
-      id="callspin"
+      id="modalGameview"
       data-bs-toggle="modal"
-      data-bs-target="#modalspin"
-      hidden
+      data-bs-target="#modalGameview"
     />
+    <button id="callspin" data-bs-toggle="modal" data-bs-target="#modalspin" />
   </div>
 
   <!-- Modal - Spinner -->
@@ -225,20 +215,21 @@
       </div>
     </div>
   </div>
+
   <!-- Modal - SUSPEND -->
   <div
     class="modal fade modal"
-    id="modalsuspend"
+    id="modalsusp"
     data-bs-backdrop="static"
-    data-bs-keyboard="false"
+    data-bs-keyboard="true"
     tabindex="-1"
-    aria-labelledby="modalsuspend"
+    aria-labelledby="modalsusp"
     aria-hidden="true"
   >
     <div class="modal-dialog">
       <div class="modal-content border-2 modal-shadow">
         <div class="modal-header">
-          <h5 class="modal-title text-white" id="modalsuspend">
+          <h5 class="modal-title text-white" id="modalsusp">
             <i class="bi bi-exclamation-circle-fill"></i>
             Warning !!!
           </h5>
@@ -290,7 +281,6 @@ export default {
     return {
       gamelists: [],
       providerlist: [],
-      modalname: '',
       state: '',
       gamename: '',
       provider: '',
@@ -304,6 +294,8 @@ export default {
       window.onbeforeunload = null
     },
     async getprofile() {
+      this.gamename = ''
+      this.provider = ''
       this.$store.commit('clearall')
       this.$store.commit('setcredit', '-')
       this.$store.commit('setapiname', 11001)
@@ -460,11 +452,16 @@ export default {
         })
     },
     async startgame(event) {
+      await this.getprofile()
       let staus = this.$store.getters.statusmem
       if (staus.toString().toLowerCase() == 'suspend') {
-        this.modalname = '#modalsuspend'
+        setTimeout(function () {
+          document.querySelector('button#suspend').click()
+        }, 50)
       } else {
-        this.modalname = '#modalGameview'
+        setTimeout(function () {
+          document.querySelector('button#modalGameview').click()
+        }, 50)
         this.$store.commit('preparevalue')
         this.$store.commit('setapiname', 45004)
         this.$store.commit('setAPI')
@@ -514,11 +511,17 @@ export default {
       }
     },
     async startgamesport(event) {
+      await this.getprofile()
+      this.gamename = 'Sports'
       let staus = this.$store.getters.statusmem
       if (staus.toString().toLowerCase() == 'suspend') {
-        this.modalname = '#modalsuspend'
+        setTimeout(function () {
+          document.querySelector('button#suspend').click()
+        }, 50)
       } else {
-        this.modalname = '#modalGameview'
+        setTimeout(function () {
+          document.querySelector('button#modalGameview').click()
+        }, 50)
         this.$store.commit('preparevalue')
         this.$store.commit('setapiname', 45004)
         this.$store.commit('setAPI')
@@ -578,13 +581,6 @@ export default {
     },
   },
   async mounted() {
-    //set modal
-    let staus = this.$store.getters.statusmem
-    if (staus.toString().toLowerCase() == 'suspend') {
-      this.modalname = '#modalsuspend'
-    } else {
-      this.modalname = '#modalGameview'
-    }
     //setgame type
     this.$store.commit('setgametype', sessionStorage.getItem('GT'))
     console.log('gametype : ', this.$store.getters.gametype)

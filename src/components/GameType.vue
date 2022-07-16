@@ -2,14 +2,7 @@
   <div>
     <section class="hero-section">
       <div class="card1-grid">
-        <a
-          class="card1"
-          id="Sports"
-          @click="startgamesport"
-          data-bs-toggle="modal"
-          :data-bs-target="modalname"
-          href="#"
-        >
+        <a class="card1" id="Sports" @click="startgamesport" href="#">
           <div
             class="card1__background"
             id="Sports"
@@ -103,6 +96,19 @@
       </div>
     </section>
   </div>
+
+  <div hidden>
+    <button
+      id="suspend"
+      data-bs-toggle="modal"
+      data-bs-target="#modalSuspend"
+    />
+    <button
+      id="Gameview"
+      data-bs-toggle="modal"
+      data-bs-target="#modalGameview"
+    />
+  </div>
 </template>
 
 <style lang="css">
@@ -122,11 +128,6 @@ import Swal from 'sweetalert2'
 
 export default {
   name: 'GameType',
-  data() {
-    return {
-      modalname: '',
-    }
-  },
   setup() {
     return {
       content_card_1: content_card_1,
@@ -144,11 +145,17 @@ export default {
       sessionStorage.setItem('GT', this.$store.getters.gametype)
     },
     async startgamesport(event) {
+      this.gamename = 'Sports'
+      await this.getprofile()
       let staus = this.$store.getters.statusmem
       if (staus.toString().toLowerCase() == 'suspend') {
-        this.modalname = '#modalsuspend'
+        setTimeout(function () {
+          document.querySelector('button#suspend').click()
+        }, 50)
       } else {
-        this.modalname = '#modalGameview'
+        setTimeout(function () {
+          document.querySelector('button#Gameview').click()
+        }, 50)
         this.$store.commit('preparevalue')
         this.$store.commit('setapiname', 45004)
         this.$store.commit('setAPI')
@@ -182,14 +189,98 @@ export default {
           })
       }
     },
-  },
-  mounted() {
-    let staus = this.$store.getters.statusmem
-    if (staus.toString().toLowerCase() == 'suspend') {
-      this.modalname = '#modalsuspend'
-    } else {
-      this.modalname = '#modalGameview'
-    }
+    async getprofile() {
+      this.$store.commit('clearall')
+      this.$store.commit('setcredit', '-')
+      this.$store.commit('setapiname', 11001)
+      this.$store.commit('setAPI')
+      const token = sessionStorage.getItem('token')
+      const headers = { Authorization: 'Bearer ' + token }
+      console.log(headers)
+      console.log(this.$store.getters.API)
+      await axios
+        .post(
+          this.$store.getters.API,
+          {},
+          {
+            headers,
+          },
+        )
+        .then((res) => {
+          console.log(res.data)
+          if (res.data.status == 200) {
+            this.$store.commit(
+              'setphonenumber',
+              res.data.result.profile_mem.profile.tel,
+            )
+            this.$store.commit(
+              'setfname',
+              res.data.result.profile_mem.profile.name,
+            )
+            this.$store.commit(
+              'setlname',
+              res.data.result.profile_mem.profile.surename,
+            )
+            this.$store.commit('setidline', res.data.result.profile_mem.line_id)
+            this.$store.commit(
+              'setcreatedate',
+              res.data.result.profile_mem.create_date,
+            )
+            this.$store.commit(
+              'setstatusmem',
+              res.data.result.profile_mem.status,
+            )
+            this.$store.commit(
+              'setusername',
+              res.data.result.profile_mem.username,
+            )
+            this.$store.commit(
+              'setcredit',
+              res.data.result.profile_mem.PD.credit,
+            )
+            this.$store.commit(
+              'setwdc',
+              res.data.result.profile_mem.financial.withdraw_count,
+            )
+          } else if (res.data.status == 503) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'ตรวจพบการ Login ซ้อน กรุณาติดต่อเจ้าหน้าที่ หรือทำการ Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
+          } else if (res.data.status == 502) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'กรุณา Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
+          } else {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'Call Profile Member : ' + res.data.message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          Swal.fire({
+            title: 'ผิดพลาด!!!',
+            text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+          })
+        })
+    },
   },
 }
 </script>

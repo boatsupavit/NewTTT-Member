@@ -141,6 +141,7 @@
       </div>
     </div>
   </div>
+
   <!-- Modal - GameView -->
   <div
     class="modal fade modal"
@@ -153,13 +154,23 @@
   >
     <div class="modal-dialog modal-fullscreen">
       <div class="modal-content border-2 modal-shadow">
-        <div class="modal-body">
-          <Iframe />
+        <div class="modal-header">
+          <h5 class="modal-title text-white" id="modalhis">
+            <i class="bi bi-controller mx-1"></i>
+            Sports
+          </h5>
           <button
             type="button"
             data-bs-dismiss="modal"
-            class="btn-close btn-close btn-close-white"
-          ></button>
+            class="btn btn-close-white"
+            @click="getprofile, removeHandler"
+          >
+            <i class="bi bi-x"></i>
+            ปิดเกม
+          </button>
+        </div>
+        <div class="modal-body">
+          <Iframe />
         </div>
       </div>
     </div>
@@ -168,17 +179,17 @@
   <!-- Modal - SUSPEND -->
   <div
     class="modal fade modal"
-    id="modalsuspend"
+    id="modalSuspend"
     data-bs-backdrop="static"
     data-bs-keyboard="false"
     tabindex="-1"
-    aria-labelledby="modalsuspend"
+    aria-labelledby="modalSuspend"
     aria-hidden="true"
   >
     <div class="modal-dialog">
       <div class="modal-content border-2 modal-shadow">
         <div class="modal-header">
-          <h5 class="modal-title text-white" id="modalsuspend">
+          <h5 class="modal-title text-white" id="modalSuspend">
             <i class="bi bi-exclamation-circle-fill"></i>
             Warning !!!
           </h5>
@@ -330,6 +341,101 @@ export default {
       })
   },
   methods: {
+    removeHandler() {
+      window.onbeforeunload = null
+    },
+    async getprofile() {
+      this.$store.commit('clearall')
+      this.$store.commit('setcredit', '-')
+      this.$store.commit('setapiname', 11001)
+      this.$store.commit('setAPI')
+      const token = sessionStorage.getItem('token')
+      const headers = { Authorization: 'Bearer ' + token }
+      console.log(headers)
+      console.log(this.$store.getters.API)
+      await axios
+        .post(
+          this.$store.getters.API,
+          {},
+          {
+            headers,
+          },
+        )
+        .then((res) => {
+          console.log(res.data)
+          if (res.data.status == 200) {
+            this.$store.commit(
+              'setphonenumber',
+              res.data.result.profile_mem.profile.tel,
+            )
+            this.$store.commit(
+              'setfname',
+              res.data.result.profile_mem.profile.name,
+            )
+            this.$store.commit(
+              'setlname',
+              res.data.result.profile_mem.profile.surename,
+            )
+            this.$store.commit('setidline', res.data.result.profile_mem.line_id)
+            this.$store.commit(
+              'setcreatedate',
+              res.data.result.profile_mem.create_date,
+            )
+            this.$store.commit(
+              'setstatusmem',
+              res.data.result.profile_mem.status,
+            )
+            this.$store.commit(
+              'setusername',
+              res.data.result.profile_mem.username,
+            )
+            this.$store.commit(
+              'setcredit',
+              res.data.result.profile_mem.PD.credit,
+            )
+            this.$store.commit(
+              'setwdc',
+              res.data.result.profile_mem.financial.withdraw_count,
+            )
+          } else if (res.data.status == 503) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'ตรวจพบการ Login ซ้อน กรุณาติดต่อเจ้าหน้าที่ หรือทำการ Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
+          } else if (res.data.status == 502) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'กรุณา Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
+          } else {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'Call Profile Member : ' + res.data.message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          Swal.fire({
+            title: 'ผิดพลาด!!!',
+            text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+          })
+        })
+    },
     getImg(pic) {
       return require('../assets/images/' + pic + '.png')
     },
