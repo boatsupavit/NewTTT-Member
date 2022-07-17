@@ -52,20 +52,14 @@
                     {{ bank.bank_account }}
                   </p>
                 </div>
-                <div class="col d-grid gap-1 justify-content-end">
+                <div class="col d-grid gap-1">
                   <button
                     type="button"
                     class="btn btn-secondary btn-sm"
                     @click="copyText"
-                    @mouseover="outfocus"
                     :value="bank.bank_account"
                   >
                     <i class="bi bi-clipboard-check"></i>
-                    <div class="tooltip">
-                      <span class="tooltiptext" id="myTooltip"
-                        >Copy to clipboard</span
-                      >
-                    </div>
                     คัดลอก
                   </button>
                   <button
@@ -77,7 +71,7 @@
                     aria-expanded="false"
                     :aria-controls="'flush-' + 'bank' + bank.bank_account"
                   >
-                    <i class="bi bi-search"></i>
+                    <i class="bi bi-qr-code-scan"></i>
                     QR Code
                   </button>
                 </div>
@@ -134,18 +128,9 @@ export default {
         document.querySelector('#qrbtn').click()
       }, 100)
     },
-    copyText(e) {
-      var copyText = e.target.value
-      console.log(copyText)
-      navigator.clipboard.writeText(copyText)
-      var tooltip = document.getElementById('myTooltip')
-      tooltip.innerHTML = 'Copied: ' + copyText
-      console.log(tooltip.innerHTML)
-    },
-    outfocus() {
-      var tooltip = document.getElementById('myTooltip')
-      tooltip.innerHTML = 'Copy to clipboard'
-      console.log(tooltip.innerHTML)
+    async copyText(e) {
+      let valueText = e.target.value
+      console.log('Copy Text =>', valueText)
     },
     getImgUrl(pic) {
       return require('../assets/images/banking/th/smooth-corner/' +
