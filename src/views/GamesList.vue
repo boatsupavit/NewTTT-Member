@@ -170,7 +170,7 @@
             type="button"
             data-bs-dismiss="modal"
             class="btn btn-close-white"
-            @click="getprofile, removeHandler"
+            @click="getprofile(), removeHandler()"
           >
             <i class="bi bi-x"></i>
             ปิดเกม

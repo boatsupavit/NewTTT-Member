@@ -88,6 +88,7 @@
                   class="btn btn-link px-2 text-decoration-none link-light"
                   data-bs-toggle="modal"
                   data-bs-target="#modalDeposit"
+                  @click="refreshprofile(), getbankdp()"
                 >
                   ฝากเงิน
                 </button>
@@ -98,6 +99,7 @@
                   class="btn btn-link px-2 text-decoration-none link-light"
                   data-bs-toggle="modal"
                   data-bs-target="#modalWithdraw"
+                  @click="refreshprofile"
                 >
                   ถอนเงิน
                 </button>
@@ -162,6 +164,7 @@
               class="btn btn-link px-2 text-decoration-none link-light"
               data-bs-toggle="modal"
               data-bs-target="#modalDeposit"
+              @click="refreshprofile(), getbankdp()"
             >
               <i class="bi bi-wallet2 mx-3" style="font-size: 2rem"></i>
               ฝากเงิน
@@ -173,6 +176,7 @@
               class="btn btn-link px-2 text-decoration-none link-light"
               data-bs-toggle="modal"
               data-bs-target="#modalWithdraw"
+              @click="refreshprofile"
             >
               <i class="bi bi-cash-coin mx-3" style="font-size: 2rem"></i>
               ถอนเงิน
@@ -534,6 +538,65 @@ export default {
           })
         })
     },
+    //-----------------get bank DP--------------//
+    async getbankdp() {
+      this.$store.commit('setapiname', 11009)
+      this.$store.commit('setAPI')
+      const token = sessionStorage.getItem('token')
+      const headers = { Authorization: 'Bearer ' + token }
+      console.log(headers)
+      console.log(this.$store.getters.API)
+      await axios
+        .post(
+          this.$store.getters.API,
+          {},
+          {
+            headers,
+          },
+        )
+        .then((res) => {
+          console.log('BKDP', res.data)
+          if (res.data.status == 200) {
+            this.$store.commit('setbkdp', res.data.result)
+          } else if (res.data.status == 503) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'พบการ Login ซ้อนกรุณาติดต่อเจ้าหน้าที่หรือ Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
+          } else if (res.data.status == 502) {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'กรุณา Login ใหม่อีกครั้ง',
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+            sessionStorage.clear()
+            this.$store.commit('clearall')
+            this.$router.push('/home')
+          } else {
+            Swal.fire({
+              title: 'ผิดพลาด!!!',
+              text: 'Call Bank Deposit : ' + res.data.message,
+              icon: 'error',
+              confirmButtonText: 'ตกลง',
+            })
+          }
+        })
+        .catch((error) => {
+          console.error(error)
+          Swal.fire({
+            title: 'ผิดพลาด!!!',
+            text: 'ระบบขัดข้องกรุณา ติดต่อเจ้าหน้าที่',
+            icon: 'error',
+            confirmButtonText: 'ตกลง',
+          })
+        })
+    },
   },
   async mounted() {
     if (this.$store.isLoggedIn == false) {
@@ -542,6 +605,7 @@ export default {
       this.checker = false
     }
     this.refreshprofile()
+    this.getbankdp()
   },
 }
 </script>
