@@ -131,6 +131,8 @@ export default {
     async copyText(e) {
       let valueText = e.target.value
       console.log('Copy Text =>', valueText)
+
+      await navigator.clipboard.set(valueText)
     },
     getImgUrl(pic) {
       return require('../assets/images/banking/th/smooth-corner/' +

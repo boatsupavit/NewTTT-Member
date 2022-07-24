@@ -27,9 +27,9 @@
                       >
                         <div class="row">
                           <div class="col-md-auto ml-auto">
-                            <i class="bi bi-calendar3"></i>
+                            <i class="bi bi-calendar3 mx-1"></i>
                             {{ Convert_formatdate(list.request_date) }}
-                            <i class="bi bi-clock"></i>
+                            <i class="bi bi-clock mx-1"></i>
                             {{ Convert_formattime(list.request_date) }}
                             <span class="fs-6 fw-lighter m-5">
                               <span class="mx-1" style="float: right">
@@ -39,7 +39,7 @@
                                   width="18"
                                   class="mx-1"
                                 />
-                                {{ list.status }}</span
+                                {{ replaceStatus(list.status) }}</span
                               >
                             </span>
                             <span
@@ -73,9 +73,9 @@
                       >
                         <div class="row">
                           <div class="col-md-auto ml-auto">
-                            <i class="bi bi-calendar3"></i>
+                            <i class="bi bi-calendar3 mx-1"></i>
                             {{ Convert_formatdate(list.request_date) }}
-                            <i class="bi bi-clock"></i>
+                            <i class="bi bi-clock mx-1"></i>
                             {{ Convert_formattime(list.request_date) }}
                             <span class="fs-6 fw-lighter m-5">
                               <span class="mx-1" style="float: right">
@@ -85,7 +85,7 @@
                                   width="18"
                                   class="mx-1"
                                 />
-                                {{ list.status }}</span
+                                {{ replaceStatus(list.status) }}</span
                               >
                             </span>
                             <span
@@ -124,7 +124,30 @@ export default {
     }
   },
   methods: {
+    replaceStatus(status) {
+      if (
+        status == 'failed' ||
+        status == 'fail' ||
+        status == 'processing' ||
+        status == 'check'
+      ) {
+        status = 'pending'
+      } else if (status == 'success') {
+        status = 'approve'
+      }
+      return status
+    },
     getImg(pic) {
+      if (
+        pic == 'failed' ||
+        pic == 'fail' ||
+        pic == 'processing' ||
+        pic == 'check'
+      ) {
+        pic = 'pending'
+      } else if (pic == 'success') {
+        pic = 'approve'
+      }
       return require('../assets/images/' + pic + '.png')
     },
     Convert_formatdate(input) {
