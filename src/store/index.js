@@ -216,6 +216,8 @@ export default createStore({
         state.apiname = apicode + '/whitelist'
       } else if (apicode == 11014) {
         state.apiname = '10000/member/getdeposithistory'
+      } else if (apicode == 11015) {
+        state.apiname = '10000/member/updatedepositdoc'
       } else if (apicode == 45003) {
         state.apiname = apicode + '/getgamelist'
       } else if (apicode == 45004) {
