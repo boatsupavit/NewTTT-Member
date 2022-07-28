@@ -170,6 +170,7 @@ export default {
             },
           )
           .then((respon) => {
+            document.querySelector('button#btnwdclose').click()
             console.log(respon.data)
             if (respon.data.status == 200) {
               Swal.fire({

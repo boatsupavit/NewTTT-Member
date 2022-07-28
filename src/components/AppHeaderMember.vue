@@ -323,6 +323,7 @@
           </h5>
           <button
             type="button"
+            id="btnwdclose"
             class="btn-close btn-close-white"
             data-bs-dismiss="modal"
             aria-label="Close"
