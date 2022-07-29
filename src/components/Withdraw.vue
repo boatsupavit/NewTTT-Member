@@ -130,20 +130,8 @@ export default {
         pet +
         '.png')
     },
-    async resetvalue() {
+    resetvalue() {
       this.withdrawvalue = ''
-      this.$store.commit('setapiname', 11015)
-      this.$store.commit('setAPI')
-      const token = sessionStorage.getItem('token')
-      const headers = { Authorization: 'Bearer ' + token }
-      console.log(headers)
-      await axios.post(
-        this.$store.getters.API,
-        {},
-        {
-          headers,
-        },
-      )
     },
     sum(e) {
       console.log(e.target.value)
