@@ -101,6 +101,7 @@
       </p>
     </div>
   </div>
+  <input type="text" id="copy" hidden />
 </template>
 
 <script>
